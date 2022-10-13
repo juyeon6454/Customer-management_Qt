@@ -66,7 +66,7 @@ ClientManagerForm::~ClientManagerForm()
     file.close( );
 }
 
-//hgnhhthhyh
+//sdfsdf
 
 int ClientManagerForm::makeId( )
 {
