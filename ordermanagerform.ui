@@ -1,0 +1,424 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>OrderManagerForm</class>
+ <widget class="QWidget" name="OrderManagerForm">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>818</width>
+    <height>440</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <layout class="QGridLayout" name="gridLayout">
+   <item row="0" column="0">
+    <widget class="QSplitter" name="splitter">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <widget class="QGroupBox" name="orderInputGroupBox">
+      <property name="title">
+       <string>Input Order</string>
+      </property>
+      <layout class="QGridLayout" name="gridLayout_3">
+       <item row="0" column="0">
+        <layout class="QVBoxLayout" name="verticalLayout">
+         <item>
+          <layout class="QFormLayout" name="formLayout">
+           <item row="0" column="0">
+            <widget class="QLabel" name="orderIdLabel">
+             <property name="text">
+              <string>&amp;ID</string>
+             </property>
+             <property name="buddy">
+              <cstring>orderIdLineEdit</cstring>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="1">
+            <widget class="QLineEdit" name="orderIdLineEdit">
+             <property name="text">
+              <string/>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="0">
+            <widget class="QLabel" name="orderDateLabel">
+             <property name="text">
+              <string>&amp;OrderDate</string>
+             </property>
+             <property name="buddy">
+              <cstring>orderDateLineEdit</cstring>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="1">
+            <widget class="QLineEdit" name="orderDateLineEdit"/>
+           </item>
+           <item row="2" column="0">
+            <widget class="QLabel" name="ClientNameLabel">
+             <property name="text">
+              <string>Client Name</string>
+             </property>
+             <property name="buddy">
+              <cstring>clientNameLineEdit</cstring>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="1">
+            <widget class="QLineEdit" name="clientNameLineEdit">
+             <property name="text">
+              <string/>
+             </property>
+            </widget>
+           </item>
+           <item row="3" column="0">
+            <widget class="QLabel" name="phoneNumberLabel">
+             <property name="text">
+              <string>Phone number</string>
+             </property>
+             <property name="buddy">
+              <cstring>phoneNumberLineEdit</cstring>
+             </property>
+            </widget>
+           </item>
+           <item row="3" column="1">
+            <widget class="QLineEdit" name="phoneNumberLineEdit"/>
+           </item>
+           <item row="4" column="0">
+            <widget class="QLabel" name="addressLabel">
+             <property name="text">
+              <string>Address</string>
+             </property>
+             <property name="buddy">
+              <cstring>addressLineEdit</cstring>
+             </property>
+            </widget>
+           </item>
+           <item row="4" column="1">
+            <widget class="QLineEdit" name="addressLineEdit"/>
+           </item>
+           <item row="5" column="0">
+            <widget class="QLabel" name="productNameLabel">
+             <property name="text">
+              <string>Product Name</string>
+             </property>
+             <property name="buddy">
+              <cstring>productNameLineEdit</cstring>
+             </property>
+            </widget>
+           </item>
+           <item row="5" column="1">
+            <widget class="QLineEdit" name="productNameLineEdit"/>
+           </item>
+           <item row="6" column="0">
+            <widget class="QLabel" name="orderQuantityLabel">
+             <property name="text">
+              <string>&amp;Order Quantity</string>
+             </property>
+             <property name="buddy">
+              <cstring>orderQuantitySpinBox</cstring>
+             </property>
+            </widget>
+           </item>
+           <item row="6" column="1">
+            <widget class="QSpinBox" name="orderQuantitySpinBox"/>
+           </item>
+           <item row="7" column="0">
+            <widget class="QLabel" name="totalPriceLabel">
+             <property name="text">
+              <string>Total Price</string>
+             </property>
+             <property name="buddy">
+              <cstring>totalPriceLineEdit</cstring>
+             </property>
+            </widget>
+           </item>
+           <item row="7" column="1">
+            <widget class="QLineEdit" name="totalPriceLineEdit"/>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout">
+           <item>
+            <widget class="QPushButton" name="oderInputAddPushButton">
+             <property name="text">
+              <string>Add</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="orderInputModifyPushButton">
+             <property name="text">
+              <string>Modify</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <layout class="QVBoxLayout" name="searchCPVerticalLayout">
+           <item>
+            <layout class="QHBoxLayout" name="o_clientSearchHorizontalLayout">
+             <item>
+              <widget class="QComboBox" name="o_clientSearchComboBox">
+               <item>
+                <property name="text">
+                 <string>Client ID</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Client Name</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Phone Number</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Address</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>E-mail</string>
+                </property>
+               </item>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLineEdit" name="o_clientSearchLineEdit"/>
+             </item>
+             <item>
+              <widget class="QPushButton" name="o_clientSearchPushButton">
+               <property name="text">
+                <string>Search</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+           <item>
+            <widget class="QTreeWidget" name="o_clientInfoTreeWidget">
+             <column>
+              <property name="text">
+               <string>Client ID</string>
+              </property>
+             </column>
+             <column>
+              <property name="text">
+               <string>Client Name</string>
+              </property>
+             </column>
+             <column>
+              <property name="text">
+               <string>Phone Number</string>
+              </property>
+             </column>
+             <column>
+              <property name="text">
+               <string>Address</string>
+              </property>
+             </column>
+             <column>
+              <property name="text">
+               <string>E-mail</string>
+              </property>
+             </column>
+            </widget>
+           </item>
+           <item>
+            <layout class="QHBoxLayout" name="o_productSearchHorizontalLayout">
+             <item>
+              <widget class="QComboBox" name="o_productSearchComboBox">
+               <item>
+                <property name="text">
+                 <string>Product ID</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Product Name</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Price</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Stock</string>
+                </property>
+               </item>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLineEdit" name="o_productSearchLineEdit"/>
+             </item>
+             <item>
+              <widget class="QPushButton" name="o_productSearchPushButton">
+               <property name="text">
+                <string>Search</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+           <item>
+            <widget class="QTreeWidget" name="o_productInfoTreeWidget">
+             <column>
+              <property name="text">
+               <string>Product ID</string>
+              </property>
+             </column>
+             <column>
+              <property name="text">
+               <string>Product Name</string>
+              </property>
+             </column>
+             <column>
+              <property name="text">
+               <string>Price</string>
+              </property>
+             </column>
+             <column>
+              <property name="text">
+               <string>Stock</string>
+              </property>
+             </column>
+            </widget>
+           </item>
+          </layout>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QGroupBox" name="orderListGroupBox">
+      <property name="title">
+       <string>Order List</string>
+      </property>
+      <layout class="QGridLayout" name="gridLayout_2">
+       <item row="0" column="0">
+        <layout class="QVBoxLayout" name="orderListVerticalLayout">
+         <item>
+          <layout class="QHBoxLayout" name="orderSeacrhHorizontalLayout">
+           <item>
+            <widget class="QComboBox" name="orderSearchComboBox">
+             <item>
+              <property name="text">
+               <string>ID</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Order Date</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Client Name</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Phone number</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Address</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Product Name</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Order Quantity</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Total Price</string>
+              </property>
+             </item>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLineEdit" name="orderSearchLineEdit"/>
+           </item>
+           <item>
+            <widget class="QPushButton" name="orderSearchPushButton">
+             <property name="text">
+              <string>Search</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <widget class="QTreeWidget" name="orderSearchTreeWidget">
+           <column>
+            <property name="text">
+             <string>ID</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>Order Date</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>Client Name</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>Phone number</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>Address</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>Product Name</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>Order Quantity</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>Total Price</string>
+            </property>
+           </column>
+          </widget>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </widget>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
