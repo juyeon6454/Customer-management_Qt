@@ -23,6 +23,9 @@ public:
     ~ClientManagerForm();
     void loadData();
 
+
+
+
 private slots:
     /* QTreeWidget을 위한 슬롯 */
 
@@ -32,10 +35,15 @@ private slots:
     void on_searchPushButton_clicked();
     void on_modifyPushButton_clicked();
     void on_addPushButton_clicked();
-
     void on_treeWidget_itemClicked(QTreeWidgetItem *item, int column);
+    void c_findIdClient(int);
+
 signals:
-    void clientAdded(QString);
+
+    void c_sendIdClient(int, ClientItem*);
+
+    //void clientAdded(int, QString,QString, QString,QString);
+    //void clientModified(ClientItem); //client-order modifiy signal
 
 private:
     int makeId();
@@ -43,6 +51,7 @@ private:
     QMap<int, ClientItem*> clientList;
     Ui::ClientManagerForm *ui;
     QMenu* menu;
+
 };
 
 #endif // CLIENTMANAGERFORM_H

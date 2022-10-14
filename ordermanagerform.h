@@ -12,6 +12,8 @@ class OrderItem;
 class QMenu;
 class QTreeWidgetItem;
 
+class ClientItem;
+
 namespace Ui {
 class OrderManagerForm;
 }
@@ -41,8 +43,15 @@ private slots:
 
       void on_orderSearchTreeWidget_itemClicked(QTreeWidgetItem *item, int column);
 
+      //void modifiedClient(ClientItem);
+      void on_o_clientSearchPushButton_clicked();
+
+      void o_showIdClient(int, ClientItem*);
+
 signals:
-    void clientAdded(QString);
+      void o_searchIdClient(int);
+      // void clientAdded(int, QString, QString, QString);
+
 
 private:
     int makeId();
@@ -50,6 +59,8 @@ private:
     QMap<int, OrderItem*> orderList;
     Ui::OrderManagerForm *ui;
     QMenu* menu;
+
+
 };
 
 #endif // ORDERMANAGERFORM_H

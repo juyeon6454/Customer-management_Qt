@@ -34,6 +34,7 @@ MainWindow::MainWindow(QWidget *parent)
 
 
     QMdiSubWindow *cw = ui->mdiArea->addSubWindow(clientForm);
+
         ui->mdiArea->addSubWindow(productForm);
         ui->mdiArea->addSubWindow(orderForm);
         ui->mdiArea->setActiveSubWindow(cw);
@@ -42,6 +43,10 @@ MainWindow::MainWindow(QWidget *parent)
         clientForm->loadData();
         productForm->loadData();
         orderForm->loadData();
+
+        connect(orderForm, SIGNAL(o_searchIdClient(int)), clientForm, SLOT(c_findIdClient(int)));
+        connect(clientForm, SIGNAL(c_sendIdClient(int, ClientItem*)), orderForm, SLOT(o_showIdClient(int, ClientItem*)));
+
 }
 
 MainWindow::~MainWindow()

@@ -22,7 +22,7 @@ ProductManagerForm::ProductManagerForm(QWidget *parent) :
     menu->addAction(removeAction);
     ui->treeWidget->setContextMenuPolicy(Qt::CustomContextMenu);
     connect(ui->treeWidget, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(showContextMenu(QPoint)));
-
+    //loadData();
 }
 
 void ProductManagerForm::loadData()

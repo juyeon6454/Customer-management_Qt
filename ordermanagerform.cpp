@@ -1,6 +1,8 @@
 #include "ordermanagerform.h"
+#include "clientitem.h"
 #include "ui_ordermanagerform.h"
 #include "orderitem.h"
+
 
 #include <QFile>
 #include <QMenu>
@@ -23,11 +25,15 @@ OrderManagerForm::OrderManagerForm(QWidget *parent) :
     ui->orderSearchTreeWidget->setContextMenuPolicy(Qt::CustomContextMenu);
     connect(ui->orderSearchTreeWidget, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(showContextMenu(QPoint)));
 
+    ui->o_clientInfoTreeWidget->setContextMenuPolicy(Qt::CustomContextMenu);//
+   // connect(ui->)
+
+    //loadData();
 }
 
 void OrderManagerForm::loadData()
 {
-    QFile file("productlist.txt");
+    QFile file("orderlist.txt");
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
         return;
 
@@ -41,7 +47,7 @@ void OrderManagerForm::loadData()
             ui->orderSearchTreeWidget->addTopLevelItem(o);
             orderList.insert(orderId, o);
 
-            emit clientAdded(row[2]);
+            //emit clientAdded(row[2]);
         }
     }
     file.close( );
@@ -99,28 +105,32 @@ void OrderManagerForm::showContextMenu(const QPoint &pos)
 
 void OrderManagerForm::on_orderSearchPushButton_clicked()
 {
-    ui->orderSearchTreeWidget->clear();
+//    ui->orderSearchTreeWidget->clear();
 //    for(int i = 0; i < ui->treeWidget->columnCount(); i++)
     int i = ui->orderSearchComboBox->currentIndex();
-    auto flag = (i)? Qt::MatchCaseSensitive|Qt::MatchContains
-                   : Qt::MatchCaseSensitive;
-    {
-        auto items = ui->orderSearchTreeWidget->findItems(ui->orderSearchLineEdit->text(), flag, i);
+//    auto flag = (i)? Qt::MatchCaseSensitive|Qt::MatchContains
+//                   : Qt::MatchCaseSensitive;
+//    {
+//        auto items = ui->orderSearchTreeWidget->findItems(ui->orderSearchLineEdit->text(), flag, i);
 
-    Q_FOREACH(auto i, items) {
-            OrderItem* o = static_cast<OrderItem*>(i);
-            int orderId = o->orderId();
-            QString orderDate = o->getOrderDate();
-            QString clientName = o->getClientName();
-            QString phoneNumber = o->getPhoneNumber();
-            QString address = o->getAddress();
-            QString productName = o->getProductName();
-            QString orderQuantity = o->getOrderQuantity();
-            QString totalPrice = o->getTotalPrice();
-            OrderItem* item = new OrderItem(orderId,orderDate, clientName, phoneNumber, address, productName, orderQuantity, totalPrice);
-            ui->orderSearchTreeWidget->addTopLevelItem(item);
-        }
-    }
+//    Q_FOREACH(auto i, items) {
+//            OrderItem* o = static_cast<OrderItem*>(i);
+//            int orderId = o->orderId();
+//            QString orderDate = o->getOrderDate();
+//            QString clientName = o->getClientName();
+//            QString phoneNumber = o->getPhoneNumber();
+//            QString address = o->getAddress();
+//            QString productName = o->getProductName();
+//            QString orderQuantity = o->getOrderQuantity();
+//            QString totalPrice = o->getTotalPrice();
+//            OrderItem* item = new OrderItem(orderId,orderDate, clientName, phoneNumber, address, productName, orderQuantity, totalPrice);
+//            ui->orderSearchTreeWidget->addTopLevelItem(item);
+//        }
+//  }
+    ui->orderSearchTreeWidget->setFocus();
+
+
+
 }
 
 
@@ -139,7 +149,7 @@ void OrderManagerForm::on_oderInputAddPushButton_clicked()
             OrderItem* o = new OrderItem(orderId, orderDate, clientName, phoneNumber, address, productName, orderQuantity, totalPrice);
             orderList.insert(orderId, o);
             ui->orderSearchTreeWidget->addTopLevelItem(o);
-            emit clientAdded(clientName);
+            //emit clientAdded(clientName);
         }
 
 
@@ -185,5 +195,28 @@ void OrderManagerForm::on_orderSearchTreeWidget_itemClicked(QTreeWidgetItem *ite
         ui->orderQuantitySpinBox->setValue(item->text(6).toInt());
         ui->totalPriceLineEdit->setText(item->text(7));
        // ui->orderListGroupBox->setCurrentIndex(0);
+}
+
+void OrderManagerForm::o_showIdClient(int c_id, ClientItem* clientItem)
+{
+    QString clientName, phoneNumber, address;
+    int clientId = clientItem->ClientId();
+    clientName = clientItem->getClientName();
+    phoneNumber = clientItem->getPhoneNumber();
+    address = clientItem->getAddress();
+    if(clientName.length()) {
+        ClientItem* c = new ClientItem(clientId, clientName, phoneNumber, address);
+//        clientList.insert(clientId, c);
+        ui->o_clientInfoTreeWidget->addTopLevelItem(c);
+    }
+    //ui->o_clientInfoTreeWidget->addTopLevelItem(clientItem);
+}
+
+void OrderManagerForm::on_o_clientSearchPushButton_clicked()
+{//combobox
+
+
+   int c_id=ui->o_clientSearchLineEdit->text().toInt();
+   emit o_searchIdClient(c_id);
 }
 

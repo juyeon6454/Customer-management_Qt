@@ -23,6 +23,7 @@ ClientManagerForm::ClientManagerForm(QWidget *parent) :
     ui->treeWidget->setContextMenuPolicy(Qt::CustomContextMenu);
     connect(ui->treeWidget, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(showContextMenu(QPoint)));
 
+
 }
 
 void ClientManagerForm::loadData()
@@ -41,7 +42,7 @@ void ClientManagerForm::loadData()
             ui->treeWidget->addTopLevelItem(c);
             clientList.insert(clientId, c);
 
-            emit clientAdded(row[1]);
+            //emit clientAdded(clientId, row[1], row[2], row[3],row[4]);
         }
     }
     file.close( );
@@ -97,6 +98,7 @@ void ClientManagerForm::showContextMenu(const QPoint &pos)
 void ClientManagerForm::on_searchPushButton_clicked()
 {
     ui->searchTreeWidget->clear();
+
 //    for(int i = 0; i < ui->treeWidget->columnCount(); i++)
     int i = ui->searchComboBox->currentIndex();
     auto flag = (i)? Qt::MatchCaseSensitive|Qt::MatchContains
@@ -135,6 +137,7 @@ void ClientManagerForm::on_modifyPushButton_clicked()
         c->setEmail(email);
         clientList[key] = c;
     }
+ //emit clientModified();
 }
 
 
@@ -150,7 +153,7 @@ void ClientManagerForm::on_addPushButton_clicked()
         ClientItem* c = new ClientItem(clientId, clientName, phoneNumber, address, email);
         clientList.insert(clientId, c);
         ui->treeWidget->addTopLevelItem(c);
-        emit clientAdded(clientName);
+        //emit clientAdded(clientId,clientName,phoneNumber,address,email);
     }
 }
 
@@ -164,6 +167,26 @@ void ClientManagerForm::on_treeWidget_itemClicked(QTreeWidgetItem *item, int col
     ui->addressLineEdit->setText(item->text(3));
     ui->emailLineEdit->setText(item->text(4));
     ui->toolBox->setCurrentIndex(0);
+
+}
+
+void ClientManagerForm::c_findIdClient(int c_id)
+{
+    auto items = ui->treeWidget->findItems(QString::number(c_id), Qt::MatchContains|Qt::MatchCaseSensitive,0);
+
+    foreach(auto i, items) {
+        ClientItem* c = static_cast<ClientItem*>(i);
+        int clientId = c->ClientId();
+        QString clientName = c->getClientName();
+        QString phoneNumber = c->getPhoneNumber();
+        QString address = c->getAddress();
+        QString email = c->getEmail();
+        ClientItem* item = new ClientItem(clientId,clientName, phoneNumber, address, email);
+
+        emit c_sendIdClient(c_id, item) ;
+    }
+
+
 
 }
 
