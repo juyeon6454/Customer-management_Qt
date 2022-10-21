@@ -28,8 +28,8 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>210</width>
-         <height>270</height>
+         <width>262</width>
+         <height>260</height>
         </rect>
        </property>
        <attribute name="label">
@@ -52,6 +52,9 @@
            <widget class="QLineEdit" name="clientIdLineEdit">
             <property name="text">
              <string/>
+            </property>
+            <property name="readOnly">
+             <bool>true</bool>
             </property>
            </widget>
           </item>
@@ -139,6 +142,13 @@
            <widget class="QPushButton" name="modifyPushButton">
             <property name="text">
              <string>Modify</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="clearPushButton">
+            <property name="text">
+             <string>Clear</string>
             </property>
            </widget>
           </item>
@@ -259,6 +269,11 @@
          <column>
           <property name="text">
            <string>Address</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>E-mail</string>
           </property>
          </column>
         </widget>

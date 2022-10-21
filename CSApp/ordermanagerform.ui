@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>818</width>
-    <height>440</height>
+    <width>892</width>
+    <height>444</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -43,12 +43,15 @@
              <property name="text">
               <string/>
              </property>
+             <property name="readOnly">
+              <bool>true</bool>
+             </property>
             </widget>
            </item>
            <item row="1" column="0">
             <widget class="QLabel" name="orderDateLabel">
              <property name="text">
-              <string>&amp;OrderDate</string>
+              <string>&amp;Order Date</string>
              </property>
              <property name="buddy">
               <cstring>orderDateLineEdit</cstring>
@@ -78,7 +81,7 @@
            <item row="3" column="0">
             <widget class="QLabel" name="phoneNumberLabel">
              <property name="text">
-              <string>Phone number</string>
+              <string>Phone Number</string>
              </property>
              <property name="buddy">
               <cstring>phoneNumberLineEdit</cstring>
@@ -138,7 +141,11 @@
             </widget>
            </item>
            <item row="7" column="1">
-            <widget class="QLineEdit" name="totalPriceLineEdit"/>
+            <widget class="QLineEdit" name="totalPriceLineEdit">
+             <property name="readOnly">
+              <bool>true</bool>
+             </property>
+            </widget>
            </item>
           </layout>
          </item>
@@ -306,112 +313,161 @@
       <property name="title">
        <string>Order List</string>
       </property>
-      <layout class="QGridLayout" name="gridLayout_2">
-       <item row="0" column="0">
-        <layout class="QVBoxLayout" name="orderListVerticalLayout">
-         <item>
-          <layout class="QHBoxLayout" name="orderSeacrhHorizontalLayout">
+      <layout class="QVBoxLayout" name="verticalLayout_3">
+       <item>
+        <widget class="QSplitter" name="splitter_2">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <widget class="QTreeWidget" name="orderSearchTreeWidget">
+          <column>
+           <property name="text">
+            <string>ID</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Order Date</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Client Name</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Phone number</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Address</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Product Name</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Order Quantity</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Total Price</string>
+           </property>
+          </column>
+         </widget>
+         <widget class="QWidget" name="layoutWidget">
+          <layout class="QVBoxLayout" name="orderSearchVerticalLayout">
            <item>
-            <widget class="QComboBox" name="orderSearchComboBox">
+            <layout class="QHBoxLayout" name="orderSeacrhHorizontalLayout">
              <item>
-              <property name="text">
-               <string>ID</string>
-              </property>
+              <widget class="QComboBox" name="orderSearchComboBox">
+               <item>
+                <property name="text">
+                 <string>Order ID</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Order Date</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Client Name</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Phone number</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Address</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Product Name</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Order Quantity</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Total Price</string>
+                </property>
+               </item>
+              </widget>
              </item>
              <item>
+              <widget class="QLineEdit" name="orderSearchLineEdit"/>
+             </item>
+             <item>
+              <widget class="QPushButton" name="orderSearchPushButton">
+               <property name="text">
+                <string>Search</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+           <item>
+            <widget class="QTreeWidget" name="orderSearchTreeWidget_2">
+             <column>
+              <property name="text">
+               <string>Order ID</string>
+              </property>
+             </column>
+             <column>
               <property name="text">
                <string>Order Date</string>
               </property>
-             </item>
-             <item>
+             </column>
+             <column>
               <property name="text">
                <string>Client Name</string>
               </property>
-             </item>
-             <item>
+             </column>
+             <column>
               <property name="text">
-               <string>Phone number</string>
+               <string>Phone Number</string>
               </property>
-             </item>
-             <item>
+             </column>
+             <column>
               <property name="text">
                <string>Address</string>
               </property>
-             </item>
-             <item>
+             </column>
+             <column>
               <property name="text">
                <string>Product Name</string>
               </property>
-             </item>
-             <item>
+             </column>
+             <column>
               <property name="text">
                <string>Order Quantity</string>
               </property>
-             </item>
-             <item>
+             </column>
+             <column>
               <property name="text">
                <string>Total Price</string>
               </property>
-             </item>
-            </widget>
-           </item>
-           <item>
-            <widget class="QLineEdit" name="orderSearchLineEdit"/>
-           </item>
-           <item>
-            <widget class="QPushButton" name="orderSearchPushButton">
-             <property name="text">
-              <string>Search</string>
-             </property>
+             </column>
             </widget>
            </item>
           </layout>
-         </item>
-         <item>
-          <widget class="QTreeWidget" name="orderSearchTreeWidget">
-           <column>
-            <property name="text">
-             <string>ID</string>
-            </property>
-           </column>
-           <column>
-            <property name="text">
-             <string>Order Date</string>
-            </property>
-           </column>
-           <column>
-            <property name="text">
-             <string>Client Name</string>
-            </property>
-           </column>
-           <column>
-            <property name="text">
-             <string>Phone number</string>
-            </property>
-           </column>
-           <column>
-            <property name="text">
-             <string>Address</string>
-            </property>
-           </column>
-           <column>
-            <property name="text">
-             <string>Product Name</string>
-            </property>
-           </column>
-           <column>
-            <property name="text">
-             <string>Order Quantity</string>
-            </property>
-           </column>
-           <column>
-            <property name="text">
-             <string>Total Price</string>
-            </property>
-           </column>
-          </widget>
-         </item>
-        </layout>
+         </widget>
+        </widget>
        </item>
       </layout>
      </widget>

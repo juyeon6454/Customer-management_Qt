@@ -23,7 +23,6 @@ ClientManagerForm::ClientManagerForm(QWidget *parent) :
     ui->treeWidget->setContextMenuPolicy(Qt::CustomContextMenu);
     connect(ui->treeWidget, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(showContextMenu(QPoint)));
 
-
 }
 
 void ClientManagerForm::loadData()
@@ -42,7 +41,8 @@ void ClientManagerForm::loadData()
             ui->treeWidget->addTopLevelItem(c);
             clientList.insert(clientId, c);
 
-            //emit clientAdded(clientId, row[1], row[2], row[3],row[4]);
+            emit clientAdded(clientId,row[1]);
+            //emit clientModified(clientId,row[1], row[2], row[3],row[4]);
         }
     }
     file.close( );
@@ -71,7 +71,7 @@ ClientManagerForm::~ClientManagerForm()
 int ClientManagerForm::makeId( )
 {
     if(clientList.size( ) == 0) {
-        return 200;
+        return 100;
     } else {
         auto ClientId = clientList.lastKey();
         return ++ClientId;
@@ -81,12 +81,21 @@ int ClientManagerForm::makeId( )
 void ClientManagerForm::removeItem()
 {
     QTreeWidgetItem* item = ui->treeWidget->currentItem();
+    int rmindex = ui->treeWidget->indexOfTopLevelItem(item);
     if(item != nullptr) {
         clientList.remove(item->text(0).toInt());
         ui->treeWidget->takeTopLevelItem(ui->treeWidget->indexOfTopLevelItem(item));
 //        delete item;
         ui->treeWidget->update();
+
+        emit clientRemoved (item->text(0).toInt(), QString::number(rmindex));
     }
+
+    ui->clientNameLineEdit->clear();
+    ui->phoneNumberLineEdit->clear();
+    ui->addressLineEdit->clear();
+    ui->emailLineEdit->clear();
+
 }
 
 void ClientManagerForm::showContextMenu(const QPoint &pos)
@@ -136,8 +145,20 @@ void ClientManagerForm::on_modifyPushButton_clicked()
         c->setAddress(address);
         c->setEmail(email);
         clientList[key] = c;
+
+        ui->clientNameLineEdit->clear();
+        ui->phoneNumberLineEdit->clear();
+        ui->addressLineEdit->clear();
+        ui->emailLineEdit->clear();
+
+
+
+        emit clientAdded(key, clientName);//server로 client이름 전달
+        //emit clientModified(key, clientName,phoneNumber, address,email);
+        //버튼 눌렀을때 clientModified emit
+
     }
- //emit clientModified();
+
 }
 
 
@@ -153,20 +174,34 @@ void ClientManagerForm::on_addPushButton_clicked()
         ClientItem* c = new ClientItem(clientId, clientName, phoneNumber, address, email);
         clientList.insert(clientId, c);
         ui->treeWidget->addTopLevelItem(c);
-        //emit clientAdded(clientId,clientName,phoneNumber,address,email);
+
+        emit clientAdded(clientId,clientName);
     }
+    ui->clientNameLineEdit->clear();
+    ui->phoneNumberLineEdit->clear();
+    ui->addressLineEdit->clear();
+    ui->emailLineEdit->clear();
+
 }
 
 
 void ClientManagerForm::on_treeWidget_itemClicked(QTreeWidgetItem *item, int column)
 {
     Q_UNUSED(column);
+//    ui->clientIdLineEdit->clear();
+//    ui->clientNameLineEdit->clear();
+//    ui->phoneNumberLineEdit->clear();
+//    ui->addressLineEdit->clear();
+//    ui->emailLineEdit->clear();
+
     ui->clientIdLineEdit->setText(item->text(0));
     ui->clientNameLineEdit->setText(item->text(1));
     ui->phoneNumberLineEdit->setText(item->text(2));
     ui->addressLineEdit->setText(item->text(3));
     ui->emailLineEdit->setText(item->text(4));
     ui->toolBox->setCurrentIndex(0);
+
+
 
 }
 
@@ -183,10 +218,92 @@ void ClientManagerForm::c_findIdClient(int c_id)
         QString email = c->getEmail();
         ClientItem* item = new ClientItem(clientId,clientName, phoneNumber, address, email);
 
-        emit c_sendIdClient(c_id, item) ;
+        emit c_sendIdClient(c_id, item);
     }
 
 
 
+}
+
+void ClientManagerForm::c_findNameClient(QString c_name)
+{
+    auto items = ui->treeWidget->findItems(c_name, Qt::MatchContains|Qt::MatchCaseSensitive, 1);
+
+    foreach(auto i, items) {
+        ClientItem* c = static_cast<ClientItem*>(i);
+        int clientId = c->ClientId();
+        QString clientName = c->getClientName();
+        QString phoneNumber = c->getPhoneNumber();
+        QString address = c->getAddress();
+        QString email = c->getEmail();
+        ClientItem* item = new ClientItem(clientId,clientName, phoneNumber, address, email);
+
+        emit c_sendNameClient(c_name, item);
+    }
+
+}
+
+void ClientManagerForm::c_findNumberClient(QString c_number)
+{
+    auto items = ui->treeWidget->findItems(c_number, Qt::MatchContains|Qt::MatchCaseSensitive, 2);
+
+    foreach(auto i, items) {
+        ClientItem* c = static_cast<ClientItem*>(i);
+        int clientId = c->ClientId();
+        QString clientName = c->getClientName();
+        QString phoneNumber = c->getPhoneNumber();
+        QString address = c->getAddress();
+        QString email = c->getEmail();
+        ClientItem* item = new ClientItem(clientId,clientName, phoneNumber, address, email);
+
+        emit c_sendNumberClient(c_number, item);
+    }
+
+}
+
+void ClientManagerForm::c_findAddressClient(QString c_address)
+{
+    auto items = ui->treeWidget->findItems(c_address, Qt::MatchContains|Qt::MatchCaseSensitive, 3);
+
+    foreach(auto i, items) {
+        ClientItem* c = static_cast<ClientItem*>(i);
+        int clientId = c->ClientId();
+        QString clientName = c->getClientName();
+        QString phoneNumber = c->getPhoneNumber();
+        QString address = c->getAddress();
+        QString email = c->getEmail();
+        ClientItem* item = new ClientItem(clientId,clientName, phoneNumber, address, email);
+
+        emit c_sendAddressClient(c_address, item);
+    }
+
+}
+
+void ClientManagerForm::c_findEmailClient(QString c_email)
+{
+    auto items = ui->treeWidget->findItems(c_email, Qt::MatchContains|Qt::MatchCaseSensitive, 4);
+
+    foreach(auto i, items) {
+        ClientItem* c = static_cast<ClientItem*>(i);
+        int clientId = c->ClientId();
+        QString clientName = c->getClientName();
+        QString phoneNumber = c->getPhoneNumber();
+        QString address = c->getAddress();
+        QString email = c->getEmail();
+        ClientItem* item = new ClientItem(clientId,clientName, phoneNumber, address, email);
+
+        emit c_sendEmailClient(c_email, item);
+    }
+
+}
+
+
+void ClientManagerForm::on_clearPushButton_clicked()
+{
+    ui->clientIdLineEdit->clear();
+    ui->clientNameLineEdit->clear();
+    ui->phoneNumberLineEdit->clear();
+    ui->addressLineEdit->clear();
+    ui->emailLineEdit->clear();
 }
 

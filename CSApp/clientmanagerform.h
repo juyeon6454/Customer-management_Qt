@@ -23,9 +23,6 @@ public:
     ~ClientManagerForm();
     void loadData();
 
-
-
-
 private slots:
     /* QTreeWidget을 위한 슬롯 */
 
@@ -36,15 +33,26 @@ private slots:
     void on_modifyPushButton_clicked();
     void on_addPushButton_clicked();
     void on_treeWidget_itemClicked(QTreeWidgetItem *item, int column);
+
     void c_findIdClient(int);
+    void c_findNameClient(QString);
+    void c_findNumberClient(QString);
+    void c_findAddressClient(QString);
+    void c_findEmailClient(QString);
+
+    void on_clearPushButton_clicked();
 
 signals:
 
     void c_sendIdClient(int, ClientItem*);
+    void c_sendNameClient(QString, ClientItem*);
+    void c_sendNumberClient(QString, ClientItem*);
+    void c_sendAddressClient(QString, ClientItem*);
+    void c_sendEmailClient(QString, ClientItem*);
 
-    //void clientAdded(int, QString,QString, QString,QString);
-    //void clientModified(ClientItem); //client-order modifiy signal
-
+    void clientAdded(int, QString);
+    void clientRemoved(int, QString);
+    //void clientModified(int, ClientItem);
 private:
     int makeId();
 

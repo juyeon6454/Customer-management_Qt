@@ -53,6 +53,9 @@
             <property name="text">
              <string/>
             </property>
+            <property name="readOnly">
+             <bool>true</bool>
+            </property>
            </widget>
           </item>
           <item row="1" column="0">
@@ -126,6 +129,13 @@
            <widget class="QPushButton" name="modifyPushButton">
             <property name="text">
              <string>Modify</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="clearPushButton">
+            <property name="text">
+             <string>Clear</string>
             </property>
            </widget>
           </item>

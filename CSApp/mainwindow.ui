@@ -28,20 +28,20 @@
      <number>0</number>
     </property>
     <item>
-    <widget class="QMdiArea" name="mdiArea">
-     <property name="viewMode">
-      <enum>QMdiArea::TabbedView</enum>
-     </property>
-     <property name="documentMode">
-      <bool>true</bool>
-     </property>
-     <property name="tabsClosable">
-      <bool>false</bool>
-     </property>
-    </widget>
-   </item>
-  </layout>
- </widget>
+     <widget class="QMdiArea" name="mdiArea">
+      <property name="viewMode">
+       <enum>QMdiArea::TabbedView</enum>
+      </property>
+      <property name="documentMode">
+       <bool>true</bool>
+      </property>
+      <property name="tabsClosable">
+       <bool>false</bool>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
@@ -49,7 +49,7 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>26</height>
+     <height>17</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -72,10 +72,17 @@
     <bool>false</bool>
    </attribute>
    <addaction name="actionClientInfo"/>
+   <addaction name="separator"/>
    <addaction name="actionProductInfo"/>
+   <addaction name="separator"/>
    <addaction name="actionOrderInfo"/>
    <addaction name="separator"/>
+   <addaction name="actionChatManager"/>
+   <addaction name="separator"/>
+   <addaction name="actionChat"/>
+   <addaction name="separator"/>
    <addaction name="actionQuit"/>
+   <addaction name="separator"/>
   </widget>
   <action name="actionQuit">
    <property name="text">
@@ -109,6 +116,16 @@
   <action name="actionOrderInfo">
    <property name="text">
     <string>OrderInfo</string>
+   </property>
+  </action>
+  <action name="actionChat">
+   <property name="text">
+    <string>Chat</string>
+   </property>
+  </action>
+  <action name="actionChatManager">
+   <property name="text">
+    <string>ChatManager</string>
    </property>
   </action>
  </widget>

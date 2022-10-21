@@ -40,8 +40,6 @@ void ProductManagerForm::loadData()
             ProductItem* p = new ProductItem(productId, row[1], row[2], row[3]);
             ui->treeWidget->addTopLevelItem(p);
             productList.insert(productId, p);
-
-            emit productAdded(row[1]);
         }
     }
     file.close( );
@@ -68,7 +66,7 @@ ProductManagerForm::~ProductManagerForm()
 int ProductManagerForm::makeId( )
 {
     if(productList.size( ) == 0) {
-        return 100;
+        return 200;
     } else {
         auto productId = productList.lastKey();
         return ++productId;
@@ -84,6 +82,9 @@ void ProductManagerForm::removeItem()
 //        delete item;
         ui->treeWidget->update();
     }
+    ui->productNameLineEdit->clear();
+    ui->priceLineEdit->clear();
+    ui->stockLineEdit->clear();
 }
 
 void ProductManagerForm::showContextMenu(const QPoint &pos)
@@ -103,8 +104,12 @@ void ProductManagerForm::on_addPushButton_clicked()
         ProductItem* p = new ProductItem(productId, productName, price, stock);
         productList.insert(productId, p);
         ui->treeWidget->addTopLevelItem(p);
-        emit productAdded(productName);
-    }
+        emit stockAdded(stock);
+       // emit productAdded(productName);
+    }   
+    ui->productNameLineEdit->clear();
+    ui->priceLineEdit->clear();
+    ui->stockLineEdit->clear();
 }
 
 
@@ -122,7 +127,10 @@ void ProductManagerForm::on_modifyPushButton_clicked()
         p->setPrice(price);
         p->setStock(stock);
         productList[key] = p;
-    }
+    }  
+    ui->productNameLineEdit->clear();
+    ui->priceLineEdit->clear();
+    ui->stockLineEdit->clear();
 }
 
 
@@ -157,5 +165,83 @@ void ProductManagerForm::on_treeWidget_itemClicked(QTreeWidgetItem *item, int co
     ui->priceLineEdit->setText(item->text(2));
     ui->stockLineEdit->setText(item->text(3));
     ui->toolBox->setCurrentIndex(0);
+}
+
+
+void ProductManagerForm::p_findIdProduct(int p_id)
+{
+    auto items = ui->treeWidget->findItems(QString::number(p_id), Qt::MatchContains|Qt::MatchCaseSensitive, 0);
+
+    foreach(auto i, items) {
+        ProductItem* p = static_cast<ProductItem*>(i);
+        int productId = p->productId();
+        QString productName = p->getProductName();
+        QString price = p->getPrice();
+        QString stock = p->getStock();
+        ProductItem* item = new ProductItem(productId, productName, price, stock);
+
+        emit p_sendIdProduct(p_id, item);
+    }
+
+}
+
+void ProductManagerForm::p_findNameProduct(QString p_name)
+{
+    auto items = ui->treeWidget->findItems(p_name, Qt::MatchContains|Qt::MatchCaseSensitive, 1);
+
+    foreach(auto i, items) {
+        ProductItem* p = static_cast<ProductItem*>(i);
+        int productId = p->productId();
+        QString productName = p->getProductName();
+        QString price = p->getPrice();
+        QString stock = p->getStock();
+        ProductItem* item = new ProductItem(productId, productName, price, stock);
+
+        emit p_sendNameProduct(p_name, item);
+    }
+
+}
+
+void ProductManagerForm::p_findPriceProduct(QString p_price)
+{
+    auto items = ui->treeWidget->findItems(p_price, Qt::MatchContains|Qt::MatchCaseSensitive, 2);
+
+    foreach(auto i, items) {
+        ProductItem* p = static_cast<ProductItem*>(i);
+        int productId = p->productId();
+        QString productName = p->getProductName();
+        QString price = p->getPrice();
+        QString stock = p->getStock();
+        ProductItem* item = new ProductItem(productId, productName, price, stock);
+
+        emit p_sendPriceProduct(p_price, item);
+    }
+
+}
+
+void ProductManagerForm::p_findStockProduct(QString p_stock)
+{
+    auto items = ui->treeWidget->findItems(p_stock, Qt::MatchContains|Qt::MatchCaseSensitive, 3);
+
+    foreach(auto i, items) {
+        ProductItem* p = static_cast<ProductItem*>(i);
+        int productId = p->productId();
+        QString productName = p->getProductName();
+        QString price = p->getPrice();
+        QString stock = p->getStock();
+        ProductItem* item = new ProductItem(productId, productName, price, stock);
+
+        emit p_sendStockProduct(p_stock, item);
+    }
+
+}
+
+void ProductManagerForm::on_clearPushButton_clicked()
+{
+    ui->productIdLineEdit->clear();
+    ui->productNameLineEdit->clear();
+    ui->priceLineEdit->clear();
+    ui->stockLineEdit->clear();
+
 }
 
