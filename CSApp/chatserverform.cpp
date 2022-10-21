@@ -190,6 +190,7 @@ void ChatServerForm::receiveData( )
     }
 
     break;
+        //break;
 
 void ChatServerForm::removeClient()
 {
