@@ -178,17 +178,17 @@ void ChatServerForm::receiveData( )
             }
         }
         break;
-    case Chat_CheckOut:
-        foreach(auto item, ui->clientTreeWidget->findItems(name, Qt::MatchFixedString, 1)) {
-        if(item == 0) {
-            qDebug() << "1";
-            QMessageBox msgBox;
-            msgBox.setText("No Client");
-            msgBox.exec();
-            }
+//    case Chat_CheckOut:
+//        foreach(auto item, (ui->clientTreeWidget->findItems(name, Qt::MatchFixedString, 1)).count()) {
+//        if((ui->clientTreeWidget->findItems(name, Qt::MatchFixedString, 1)).count() == 0) {
+//            qDebug() << "1";
+//            QMessageBox msgBox;
+//            msgBox.setText("No Client");
+//            msgBox.exec();
+//            }
 
-        }
-    break;
+//        }
+//    break;
     }
 
 

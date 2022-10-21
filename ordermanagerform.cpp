@@ -6,7 +6,7 @@
 #include <QFile>
 #include <QMenu>
 
-#include <QDate>
+#include <QDateTime>>
 #include <QDateEdit>
 
 
@@ -29,6 +29,9 @@ OrderManagerForm::OrderManagerForm(QWidget *parent) :
     connect(ui->orderSearchTreeWidget, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(showContextMenu(QPoint)));
 
     ui->o_clientInfoTreeWidget->setContextMenuPolicy(Qt::CustomContextMenu);//
+
+//    QDateTime orderDate = QDateTime::currentDateTime();
+//    ui->orderDateLineEdit->setText(*QString::number(orderDate)*);
 }
 
 void OrderManagerForm::loadData()
@@ -132,8 +135,8 @@ void OrderManagerForm::on_oderInputAddPushButton_clicked()
 {
         QString orderDate, clientName, phoneNumber, address, productName, orderQuantity, totalPrice;
         int orderId = makeId( );
-        orderDate= ui->orderDateLineEdit->text();
-        //orderDate=ui->orderDateLineEdit->currentDateTime()->text();
+        //orderDate= ui->orderDateLineEdit->text();
+        orderDate=currentDateTime();
         clientName = ui->clientNameLineEdit->text();
         phoneNumber = ui->phoneNumberLineEdit->text();
         address = ui->addressLineEdit->text();
@@ -158,6 +161,18 @@ void OrderManagerForm::on_oderInputAddPushButton_clicked()
         ui->orderQuantitySpinBox->clear();
         ui->totalPriceLineEdit->clear();
 }
+
+//날짜 자동입력
+QString OrderManagerForm::currentDateTime()
+{
+    QString time_format = "yyyy-MM-dd  HH:mm:ss";
+    QDateTime a = QDateTime::currentDateTime();
+    QString as = a.toString(time_format);
+    qDebug() << as; // print "2014-07-16  17:47:04
+
+    return as;
+}
+
 
 
 void OrderManagerForm::on_orderInputModifyPushButton_clicked()
@@ -442,36 +457,7 @@ void OrderManagerForm::on_o_productInfoTreeWidget_itemClicked(QTreeWidgetItem *i
     ui->totalPriceLineEdit->setText(item->text(2));
 }
 
-QString OrderManagerForm::currentDateTime()
-{//addpushbutton할때 lineedit에 입력되게
-//    time_t now = time(0); //현재 시간을 time_t 타입으로 저장
-//    struct tm tstruct;
-//    char buf[40];
-//    localtime_s(&tstruct, &now);
-//    strftime(buf, sizeof(buf), "%Y%m%d", &tstruct); //YYMMDD 형태의 스트링
-//    QString str = buf;
 
-//    return str.split(2, str.size() - 1);
-//    //return 0;
-
-
-
-//    QString time_format = "yyyy-MM-dd  HH:mm:ss";
-
-//    QDateTime a = QDateTime::currentDateTime();
-
-//    QString as = a.toString(time_format);
-
-//    qDebug() << as; // print "2014-07-16  17:47:04
-
-    QDateTimeEdit* dateTimeEdit = new QDateTimeEdit(0);
-    dateTimeEdit->setDateTime(QDateTime::currentDateTime());
-
-    qDebug() << dateTimeEdit;
-    return 0;
-}
-
-//날짜 자동입력
 
 
 void OrderManagerForm::on_totalPriceLineEdit_textChanged(const QString &arg1)
