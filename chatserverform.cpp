@@ -185,12 +185,15 @@ void ChatServerForm::receiveData( )
             QMessageBox msgBox;
             msgBox.setText("No Client");
             msgBox.exec();
-        }
+            }
 
+        }
+    break;
     }
 
-    break;
-        //break;
+
+}
+
 
 void ChatServerForm::removeClient()
 {
