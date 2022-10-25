@@ -43,7 +43,6 @@ void ClientManagerForm::loadData()
             clientList.insert(clientId, c);
 
             emit clientAdded(clientId,row[1]);
-            //emit clientModified(clientId,row[1], row[2], row[3],row[4]);
         }
     }
     file.close( );
@@ -195,12 +194,6 @@ void ClientManagerForm::on_addPushButton_clicked()
 void ClientManagerForm::on_treeWidget_itemClicked(QTreeWidgetItem *item, int column)
 {
     Q_UNUSED(column);
-//    ui->clientIdLineEdit->clear();
-//    ui->clientNameLineEdit->clear();
-//    ui->phoneNumberLineEdit->clear();
-//    ui->addressLineEdit->clear();
-//    ui->emailLineEdit->clear();
-
     ui->clientIdLineEdit->setText(item->text(0));
     ui->clientNameLineEdit->setText(item->text(1));
     ui->phoneNumberLineEdit->setText(item->text(2));
@@ -227,9 +220,6 @@ void ClientManagerForm::c_findIdClient(int c_id)
 
         emit c_sendIdClient(c_id, item);
     }
-
-
-
 }
 
 void ClientManagerForm::c_findNameClient(QString c_name)

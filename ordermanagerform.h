@@ -33,8 +33,8 @@ private slots:
     /* QTreeWidget을 위한 슬롯 */
 
      void showContextMenu(const QPoint &);
-      void removeItem();
-
+     void removeItem();
+     QString stockReceived(QString);
 
 
       void on_orderSearchPushButton_clicked();
@@ -55,6 +55,7 @@ private slots:
       void o_showPriceProduct(QString, ProductItem*);
       void o_showStockProduct(QString, ProductItem*);
 
+
       void on_o_productSearchPushButton_clicked();
       void on_o_clientInfoTreeWidget_itemClicked(QTreeWidgetItem *item, int column);
       void on_o_productInfoTreeWidget_itemClicked(QTreeWidgetItem *item, int column);
@@ -66,6 +67,8 @@ private slots:
       void on_o_productSearchLineEdit_returnPressed();
 
       void on_orderSearchLineEdit_returnPressed();
+
+      void on_orderQuantitySpinBox_valueChanged(int arg1);
 
 signals:
       void o_searchIdClient(int);
@@ -88,7 +91,7 @@ private:
     QString currentDateTime();
 
     QMap<int, OrderItem*> orderList;
-    //QHash<int, ProductItem*> stockList;
+    QHash<int, ProductItem*> stockList;
     Ui::OrderManagerForm *ui;
     QMenu* menu;
 
