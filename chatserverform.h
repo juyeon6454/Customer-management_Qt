@@ -68,6 +68,7 @@ private slots:
     void on_clientTreeWidget_customContextMenuRequested(const QPoint &pos);
 
     void removeServerClient(int, QString);
+    void modifyServerClient(int, int, QString);
     void on_clearPushButton_clicked();
 };
 

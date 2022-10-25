@@ -119,6 +119,23 @@ void ChatServerForm::receiveData( )
 
         }
 
+        if(ui->clientTreeWidget->findItems(name, Qt::MatchFixedString, 1).count() == 0){
+
+            QByteArray sendArray;
+            QDataStream out(&sendArray, QIODevice::WriteOnly);
+            out << Chat_LogInCheck;
+            out.writeRawData("", 1020);
+            clientConnection->write(sendArray);     // 서버로 전송
+            clientConnection->flush();
+            while(clientConnection->waitForBytesWritten());
+            //qDebug() << "?//" << ui->clientTreeWidget->findItems(name, Qt::MatchFixedString, 1).count();
+            //QMessageBox msgBox;
+            QMessageBox::critical(this, tr("Chatting Server"), \
+                                  tr(" missing customer. Please re-enter.") \
+                                  .arg(chatServer->errorString( )));
+//            msgBox.setText("a missing customer Please re-enter.");
+//            msgBox.exec();
+        }
         break;
     case Chat_In:
         foreach(auto item, ui->clientTreeWidget->findItems(name, Qt::MatchFixedString, 1)) {
@@ -175,20 +192,10 @@ void ChatServerForm::receiveData( )
                 item->setText(0, "X");
                 clientList.removeOne(clientConnection);        // QList<QTcpSocket*> clientList;
                 clientSocketHash.remove(name);
+
             }
         }
         break;
-//    case Chat_CheckOut:
-//        foreach(auto item, (ui->clientTreeWidget->findItems(name, Qt::MatchFixedString, 1)).count()) {
-//        if((ui->clientTreeWidget->findItems(name, Qt::MatchFixedString, 1)).count() == 0) {
-//            qDebug() << "1";
-//            QMessageBox msgBox;
-//            msgBox.setText("No Client");
-//            msgBox.exec();
-//            }
-
-//        }
-//    break;
     }
 
 
@@ -348,5 +355,11 @@ void ChatServerForm::removeServerClient(int c_id, QString rmindex)
 void ChatServerForm::on_clearPushButton_clicked()
 {
     ui->messageTreeWidget->clear();
+}
+
+void ChatServerForm::modifyServerClient(int key, int index, QString clientname)
+{
+    ui->clientTreeWidget->topLevelItem(index)->setText(1,clientname);
+    clientIDHash[clientname] = key;
 }
 

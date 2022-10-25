@@ -4,6 +4,7 @@
 
 #include <QFile>
 #include <QMenu>
+#include <QMessageBox>
 
 ProductManagerForm::ProductManagerForm(QWidget *parent) :
     QWidget(parent),
@@ -100,13 +101,18 @@ void ProductManagerForm::on_addPushButton_clicked()
     productName = ui->productNameLineEdit->text();
     price = ui->priceLineEdit->text();
     stock = ui->stockLineEdit->text();
-    if(productName.length()) {
+    if(productName.length() && price.length() && stock.length()) {
         ProductItem* p = new ProductItem(productId, productName, price, stock);
         productList.insert(productId, p);
         ui->treeWidget->addTopLevelItem(p);
         emit stockAdded(stock);
        // emit productAdded(productName);
     }   
+    else
+    {
+        QMessageBox::critical(this, tr("Product Info"), \
+                              tr("There is information that has not been entered."));
+    }
     ui->productNameLineEdit->clear();
     ui->priceLineEdit->clear();
     ui->stockLineEdit->clear();

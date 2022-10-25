@@ -52,7 +52,7 @@ signals:
 
     void clientAdded(int, QString);
     void clientRemoved(int, QString);
-    //void clientModified(int, ClientItem);
+    void clientModified(int, int, QString);
 private:
     int makeId();
 

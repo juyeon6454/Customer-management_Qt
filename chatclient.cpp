@@ -26,7 +26,8 @@ ChatClient::ChatClient(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    QPixmap pix("C:/Users/kosa/Desktop/a.png");
+    //QPixmap pix("C:/Users/kosa/Desktop/a.png");
+    QPixmap pix("C:/CSApp/build-CSApp-Desktop_Qt_6_3_2_MSVC2019_64bit-Debug/image/a.png");
     ui->label_pic->setPixmap(pix);
     int w = ui->label_pic->width();
     int h = ui->label_pic->height();
@@ -57,7 +58,7 @@ ChatClient::ChatClient(QWidget *parent) :
     connect(ui->fileTransferPushButton, SIGNAL(clicked( )), SLOT(sendFile( )));
     ui->fileTransferPushButton->setDisabled(true);
 
-    connect(ui->logOutPushButton, SIGNAL(clicked( )), qApp, SLOT(quit( )));
+    connect(ui->logOutPushButton, SIGNAL(clicked( )), this, SLOT(close( )));
 
     ///////////////////////////////////////////////\
 
@@ -93,7 +94,7 @@ ChatClient::ChatClient(QWidget *parent) :
             ui->portNumLineEdit->setDisabled(true);
         }else if(ui->chatInPushButton->text() == tr("Chat Out"))  {
             sendProtocol(Chat_Out, ui->nameLineEdit->text().toStdString().data());
-            //ui->chatInPushButton->setText(tr("Chat in"));
+            ui->chatInPushButton->setText(tr("Chat In"));
             ui->messageLineEdit->setDisabled(true);
             ui->sendPushButton->setDisabled(true);
             ui->fileTransferPushButton->setDisabled(true);
@@ -108,8 +109,8 @@ ChatClient::ChatClient(QWidget *parent) :
 ChatClient::~ChatClient()
 {
     clientSocket->close( );
-    QSettings settings("ChatClient", "Chat Client");
-    settings.setValue("ChatClient/ID", ui->nameLineEdit->text());
+//    QSettings settings("ChatClient", "Chat Client");
+//    settings.setValue("ChatClient/ID", ui->nameLineEdit->text());
     delete ui;
 }
 
@@ -119,7 +120,6 @@ void ChatClient::closeEvent(QCloseEvent*)
     clientSocket->disconnectFromHost();
     if(clientSocket->state() != QAbstractSocket::UnconnectedState)
         clientSocket->waitForDisconnected();
-//logout했을때 server창 꺼지면 안 돼
 }
 
 
@@ -171,6 +171,14 @@ void ChatClient::receiveData( )
         ui->sendPushButton->setEnabled(true);
         ui->fileTransferPushButton->setEnabled(true);
         ui->nameLineEdit->setReadOnly(true);
+        break;
+
+    case Chat_LogInCheck:
+        ui->nameLineEdit->clear();
+        ui->chatInPushButton->setDisabled(true);
+        ui->sendPushButton->setDisabled(true);
+        ui->fileTransferPushButton->setDisabled(true);
+        ui->logInPushButton->setEnabled(true);
         break;
 
     };
@@ -275,12 +283,8 @@ void ChatClient::on_logInPushButton_clicked()
                                 ui->portNumLineEdit->text( ).toInt( ));
     clientSocket->waitForConnected();
     sendProtocol(Chat_Login, ui->nameLineEdit->text().toStdString().data());
-
-    sendProtocol(Chat_CheckOut, ui->nameLineEdit->text().toStdString().data());
-        qDebug() << "login";
-    ui->nameLineEdit->setReadOnly(true);
-
-
+    ui->chatInPushButton->setEnabled(true);
+    ui->fileTransferPushButton->setDisabled(true);
 }
 
 void ChatClient::on_logOutPushButton_clicked()
@@ -288,5 +292,4 @@ void ChatClient::on_logOutPushButton_clicked()
     sendProtocol(Chat_LogOut, ui->nameLineEdit->text().toStdString().data());
     ui->nameLineEdit->setReadOnly(false);
     //server창 꺼지지 않게
-
 }

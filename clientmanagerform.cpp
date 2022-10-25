@@ -4,6 +4,7 @@
 
 #include <QFile>
 #include <QMenu>
+#include <QMessageBox>
 
 ClientManagerForm::ClientManagerForm(QWidget *parent) :
     QWidget(parent),
@@ -133,6 +134,7 @@ void ClientManagerForm::on_modifyPushButton_clicked()
 {
     QTreeWidgetItem* item = ui->treeWidget->currentItem();
     if(item != nullptr) {
+        int index = ui->treeWidget->indexOfTopLevelItem(item);
         int key = item->text(0).toInt();
         ClientItem* c = clientList[key];
         QString clientName, phoneNumber, address, email;
@@ -151,11 +153,8 @@ void ClientManagerForm::on_modifyPushButton_clicked()
         ui->addressLineEdit->clear();
         ui->emailLineEdit->clear();
 
-
-
-        emit clientAdded(key, clientName);//server로 client이름 전달
-        //emit clientModified(key, clientName,phoneNumber, address,email);
-        //버튼 눌렀을때 clientModified emit
+        emit clientModified (key, index, clientName);
+        //emit clientModified(key, index, clientName);//server로 client이름전달
 
     }
 
@@ -170,12 +169,20 @@ void ClientManagerForm::on_addPushButton_clicked()
     phoneNumber = ui->phoneNumberLineEdit->text();
     address = ui->addressLineEdit->text();
     email = ui->emailLineEdit->text();
-    if(clientName.length()) {
+    if(clientName.length()&&phoneNumber.length()&&address.length()&&email.length()) {
         ClientItem* c = new ClientItem(clientId, clientName, phoneNumber, address, email);
         clientList.insert(clientId, c);
         ui->treeWidget->addTopLevelItem(c);
 
         emit clientAdded(clientId,clientName);
+    }
+    else
+    {
+//        QMessageBox msgBox;
+//        msgBox.setText("There is information that has not been entered.");
+//        msgBox.exec();
+        QMessageBox::critical(this, tr("Client Info"), \
+                              tr("There is information that has not been entered."));
     }
     ui->clientNameLineEdit->clear();
     ui->phoneNumberLineEdit->clear();

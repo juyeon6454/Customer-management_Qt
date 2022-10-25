@@ -8,6 +8,7 @@
 
 #include <QDateTime>>
 #include <QDateEdit>
+#include <QMessageBox>
 
 
 OrderManagerForm::OrderManagerForm(QWidget *parent) :
@@ -135,7 +136,6 @@ void OrderManagerForm::on_oderInputAddPushButton_clicked()
 {
         QString orderDate, clientName, phoneNumber, address, productName, orderQuantity, totalPrice;
         int orderId = makeId( );
-        //orderDate= ui->orderDateLineEdit->text();
         orderDate=currentDateTime();
         clientName = ui->clientNameLineEdit->text();
         phoneNumber = ui->phoneNumberLineEdit->text();
@@ -144,13 +144,16 @@ void OrderManagerForm::on_oderInputAddPushButton_clicked()
         orderQuantity = ui->orderQuantitySpinBox->text();
         //orderQuantity = ui->orderQuantitySpinBox->setRange(1, ProductItem->stock);
         totalPrice = QString::number(ui->totalPriceLineEdit->text().toInt() * ui->orderQuantitySpinBox->text().toInt());
-//        qDebug() <<"hi";
-//        totalPrice = total();
-        if(clientName.length()) {
+        if(clientName.length()&&phoneNumber.length()&&address.length()&&productName.length()&&orderQuantity.length()) {
             OrderItem* o = new OrderItem(orderId, orderDate, clientName, phoneNumber, address, productName, orderQuantity, totalPrice);
             orderList.insert(orderId, o);
             ui->orderSearchTreeWidget->addTopLevelItem(o);
-            //emit clientAdded(clientName);
+
+        }
+        else
+        {
+            QMessageBox::critical(this, tr("Order Info"), \
+                                  tr("There is information that has not been entered."));
         }
         ui->orderDateLineEdit->clear();
         ui->clientNameLineEdit->clear();
@@ -168,7 +171,7 @@ QString OrderManagerForm::currentDateTime()
     QString time_format = "yyyy-MM-dd  HH:mm:ss";
     QDateTime a = QDateTime::currentDateTime();
     QString as = a.toString(time_format);
-    qDebug() << as; // print "2014-07-16  17:47:04
+    qDebug() << as;
 
     return as;
 }
