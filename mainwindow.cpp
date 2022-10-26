@@ -73,22 +73,14 @@ MainWindow::MainWindow(QWidget *parent)
 
     //connect(clientForm, SIGNAL(clientModified(int, ClientItem*)), orderForm, SLOT(modifyClient(int, OrderItem*)));
     //client 정보를 수정했을 때 order, product 수정 및 삭제
-    //connect(orderForm, SIGNAL(stockAdde))
+
     connect(orderForm, SIGNAL(stockSearched(int)), productForm, SLOT(stockFinded(int)));
     connect(productForm, SIGNAL(stockSended(int)), orderForm, SLOT(stockShowed(int)));
-
-
-
-
-    //product의 재고량 order spinbox 제한
+    //재고량 spinbox 값 제한할 때
 
     clientForm->loadData();
     productForm->loadData();
     orderForm->loadData();
-
-    //orderForm->stockReceived(QString);
-    //저장된 데이터 받아오기
-
 }
 
 MainWindow::~MainWindow()

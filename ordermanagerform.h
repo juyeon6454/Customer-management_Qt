@@ -28,6 +28,7 @@ public:
     explicit OrderManagerForm(QWidget *parent = nullptr);
     ~OrderManagerForm();
     void loadData();
+    int stockRange();
 
 private slots:
     /* QTreeWidget을 위한 슬롯 */
@@ -60,8 +61,6 @@ private slots:
       void on_o_clientInfoTreeWidget_itemClicked(QTreeWidgetItem *item, int column);
       void on_o_productInfoTreeWidget_itemClicked(QTreeWidgetItem *item, int column);
 
-      void on_totalPriceLineEdit_textChanged(const QString &arg1);
-
       void on_o_clientSearchLineEdit_returnPressed();
 
       void on_o_productSearchLineEdit_returnPressed();
@@ -71,6 +70,8 @@ private slots:
       void on_orderQuantitySpinBox_valueChanged(int);
 
       void stockShowed(int);
+
+      void on_orderClearPushButton_clicked();
 
 signals:
       void o_searchIdClient(int);

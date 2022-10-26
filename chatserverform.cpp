@@ -31,7 +31,7 @@ ChatServerForm::ChatServerForm(QWidget *parent) :
         QMessageBox::critical(this, tr("Chatting Server"), \
                               tr("Unable to start the server: %1.") \
                               .arg(chatServer->errorString( )));
-        close( );
+        //??close( );
         return;
     }
 

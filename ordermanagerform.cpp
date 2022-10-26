@@ -31,8 +31,6 @@ OrderManagerForm::OrderManagerForm(QWidget *parent) :
 
     ui->o_clientInfoTreeWidget->setContextMenuPolicy(Qt::CustomContextMenu);//
 
-//    QDateTime orderDate = QDateTime::currentDateTime();
-//    ui->orderDateLineEdit->setText(*QString::number(orderDate)*);
 }
 
 void OrderManagerForm::loadData()
@@ -142,10 +140,9 @@ void OrderManagerForm::on_oderInputAddPushButton_clicked()
         address = ui->addressLineEdit->text();
         productName = ui->productNameLineEdit->text();
         orderQuantity = ui->orderQuantitySpinBox->text();
-        int s = ui->o_productInfoTreeWidget->currentItem()->text(3).toInt();
+        int s = ui->o_productInfoTreeWidget->currentItem()->text(4).toInt();
         ui->orderQuantitySpinBox->setRange(1, s);
-        //ui->orderQuantitySpinBox->setRange(1, orderQuantity.toInt());
-       // orderQuantity = ui->orderQuantitySpinBox->setRange(1, stockReceived(QString stock));
+        //totalPrice = on_orderQuantitySpinBox_valueChanged(orderQuantity.toInt());
         totalPrice = QString::number(ui->totalPriceLineEdit->text().toInt() * ui->orderQuantitySpinBox->text().toInt());
         if(clientName.length()&&phoneNumber.length()&&address.length()&&productName.length()) {
             OrderItem* o = new OrderItem(orderId, orderDate, clientName, phoneNumber, address, productName, orderQuantity, totalPrice);
@@ -165,7 +162,6 @@ void OrderManagerForm::on_oderInputAddPushButton_clicked()
         ui->productNameLineEdit->clear();
         ui->orderQuantitySpinBox->clear();
         ui->totalPriceLineEdit->clear();
-
 }
 
 //날짜 자동입력
@@ -182,12 +178,10 @@ QString OrderManagerForm::currentDateTime()
 void OrderManagerForm::stockShowed(int stock)
 {
     Q_UNUSED(stock);
-//  ui->orderQuantitySpinBox->setRange(1, stock);
-    //ui->orderQuantitySpinBox->setMaximum(stock);
+    ui->orderQuantitySpinBox->setRange(1, stock);
     int s = ui->o_productInfoTreeWidget->currentItem()->text(3).toInt();
     ui->orderQuantitySpinBox->setRange(1, s);
 }
-
 
 void OrderManagerForm::on_orderInputModifyPushButton_clicked()
 {
@@ -473,11 +467,6 @@ void OrderManagerForm::on_o_productInfoTreeWidget_itemClicked(QTreeWidgetItem *i
 }
 
 
-void OrderManagerForm::on_totalPriceLineEdit_textChanged(const QString &arg1)
-{//spinbox 하나 올라갈때마다 가격 달라짐
-//    QString totalPrice;
-//    totalPrice = QString::number(ui->totalPriceLineEdit->text().toInt() * ui->orderQuantitySpinBox->text().toInt());
-}
 
 
 void OrderManagerForm::on_o_clientSearchLineEdit_returnPressed()
@@ -581,9 +570,22 @@ void OrderManagerForm::on_orderSearchLineEdit_returnPressed()
 
 void OrderManagerForm::on_orderQuantitySpinBox_valueChanged(int stock)
 {
-//    int x = ui->orderQuantitySpinBox->text().toInt();
-//    int totalPrice = x * //     totalprice = ui->totalPriceLineEdit->text().toInt() * ui->orderQuantitySpinBox->text().toInt();
-
-//     x = ui->totalPriceLineEdit->text().toInt() * ui->orderQuantitySpinBox->text().toInt();
+    int x = ui->orderQuantitySpinBox->text().toInt();
+    int y = ui->o_productInfoTreeWidget->currentItem()->text(2).toInt();
+    int totalPrice = x*y;
+    totalPrice = ui->totalPriceLineEdit->text().toInt();
     emit stockSearched(stock);
 }
+
+void OrderManagerForm::on_orderClearPushButton_clicked()
+{
+    ui->orderDateLineEdit->clear();
+    ui->orderIdLineEdit->clear();
+    ui->addressLineEdit->clear();
+    ui->clientNameLineEdit->clear();
+    ui->phoneNumberLineEdit->clear();
+    ui->totalPriceLineEdit->clear();
+    ui->productNameLineEdit->clear();
+    ui->orderQuantitySpinBox->setValue(0);
+}
+

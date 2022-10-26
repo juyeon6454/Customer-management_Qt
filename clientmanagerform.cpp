@@ -177,9 +177,6 @@ void ClientManagerForm::on_addPushButton_clicked()
     }
     else
     {
-//        QMessageBox msgBox;
-//        msgBox.setText("There is information that has not been entered.");
-//        msgBox.exec();
         QMessageBox::critical(this, tr("Client Info"), \
                               tr("There is information that has not been entered."));
     }
