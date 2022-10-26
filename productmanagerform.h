@@ -40,13 +40,16 @@ private slots:
     void p_findStockProduct(QString);
     void on_clearPushButton_clicked();
 
+
+   void stockFinded(int);
+
 signals:
     void p_sendIdProduct(int, ProductItem*);
     void p_sendNameProduct(QString, ProductItem*);
     void p_sendPriceProduct(QString, ProductItem*);
     void p_sendStockProduct(QString, ProductItem*);
 
-    void stockAdded(QString);
+    void stockSended(int);
     //void productAdded(QString);
 
 private:

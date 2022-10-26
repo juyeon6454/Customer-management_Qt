@@ -100,12 +100,13 @@ void ProductManagerForm::on_addPushButton_clicked()
     int productId = makeId( );
     productName = ui->productNameLineEdit->text();
     price = ui->priceLineEdit->text();
-    stock = ui->stockLineEdit->text();
+    stock=ui->stockLineEdit->text();
+
+
     if(productName.length() && price.length() && stock.length()) {
         ProductItem* p = new ProductItem(productId, productName, price, stock);
         productList.insert(productId, p);
         ui->treeWidget->addTopLevelItem(p);
-        emit stockAdded(stock);
        // emit productAdded(productName);
     }   
     else
@@ -250,4 +251,24 @@ void ProductManagerForm::on_clearPushButton_clicked()
     ui->stockLineEdit->clear();
 
 }
+
+
+void ProductManagerForm::stockFinded(int stock)
+{
+    auto items = ui->treeWidget->findItems(QString::number(stock), Qt::MatchContains|Qt::MatchCaseSensitive, 0);
+
+
+    foreach(auto i, items) {
+        ProductItem* p = static_cast<ProductItem*>(i);
+        int productId = p->productId();
+        QString productName = p->getProductName();
+        QString price = p->getPrice();
+        QString stock = p->getStock();
+        ProductItem* item = new ProductItem(productId, productName, price, stock);
+
+        emit stockSended(stock.toInt());
+    }
+
+}
+
 

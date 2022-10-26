@@ -34,7 +34,7 @@ private slots:
 
      void showContextMenu(const QPoint &);
      void removeItem();
-     QString stockReceived(QString);
+     //void stockReceived(QString);
 
 
       void on_orderSearchPushButton_clicked();
@@ -68,7 +68,9 @@ private slots:
 
       void on_orderSearchLineEdit_returnPressed();
 
-      void on_orderQuantitySpinBox_valueChanged(int arg1);
+      void on_orderQuantitySpinBox_valueChanged(int);
+
+      void stockShowed(int);
 
 signals:
       void o_searchIdClient(int);
@@ -82,6 +84,7 @@ signals:
       void o_searchPriceProduct(QString);
       void o_searchStockProduct(QString);
 
+      void stockSearched(int);
       //void clientModified()
 
 
@@ -94,10 +97,6 @@ private:
     QHash<int, ProductItem*> stockList;
     Ui::OrderManagerForm *ui;
     QMenu* menu;
-
-
-
-
 };
 
 #endif // ORDERMANAGERFORM_H
