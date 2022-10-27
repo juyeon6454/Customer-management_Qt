@@ -18,20 +18,20 @@
 
 ChatServerForm::ChatServerForm(QWidget *parent) :
     QWidget(parent),
-    ui(new Ui::ChatServerForm), totalSize(0), byteReceived(0)
+    ui(new Ui::ChatServerForm), totalSize(0), byteReceived(0)               //초기화
 {
-    ui->setupUi(this);
+    ui->setupUi(this);                                                      //ui 파일이 만들어짐 (this) 현재 class에 ui 파일 올림
     QList<int> sizes;
     sizes << 120 << 500;
-    ui->splitter->setSizes(sizes);
+    ui->splitter->setSizes(sizes);                                          //splitter size 조절
 
-    chatServer = new QTcpServer(this);
-    connect(chatServer, SIGNAL(newConnection( )), SLOT(clientConnect( )));
+    chatServer = new QTcpServer(this);                                      //charServer 서버 만들어줌
+    connect(chatServer, SIGNAL(newConnection( )), SLOT(clientConnect( )));  //
     if (!chatServer->listen(QHostAddress::Any, PORT_NUMBER)) {
         QMessageBox::critical(this, tr("Chatting Server"), \
                               tr("Unable to start the server: %1.") \
                               .arg(chatServer->errorString( )));
-        //??close( );
+        close( );
         return;
     }
 

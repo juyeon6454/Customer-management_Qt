@@ -15,15 +15,15 @@ namespace Ui {
 class ChatClient;
 }
 
-typedef enum {
+typedef enum {              // 프로토콜 타입 구조체
     Chat_Login,             // 로그인(서버 접속)   --> 초대를 위한 정보 저장
     Chat_In,                // 채팅방 입장
     Chat_Talk,              // 채팅
-    Chat_Out,             // 채팅방 퇴장         --> 초대 가능
+    Chat_Out,               // 채팅방 퇴장         --> 초대 가능
     Chat_LogOut,            // 로그 아웃(서버 단절) --> 초대 불가능
     Chat_Invite,            // 초대
     Chat_KickOut,           // 강퇴
-    Chat_LogInCheck,
+    Chat_LogInCheck,        // 가입 고객인지 체크
 } Chat_Status;
 
 class ChatClient : public QWidget
@@ -31,15 +31,15 @@ class ChatClient : public QWidget
     Q_OBJECT
 
 public:
-    const int PORT_NUMBER = 8000;
+    const int PORT_NUMBER = 8000;                       //포트넘버 8000으로 고정
 
-    explicit ChatClient(QWidget *parent = nullptr);
+    explicit ChatClient(QWidget *parent = nullptr);     //자유로운 형변환을 막아줌
     ~ChatClient();
 
 
 private slots:
-    void receiveData( );			// 서버에서 데이터가 올 때
-    void sendData( );               // 서버로 데이터를 보낼 때
+    void receiveData( );                                // 서버에서 데이터가 올 때
+    void sendData( );                                   // 서버로 데이터를 보낼 때
     void disconnect( );
     void sendProtocol(Chat_Status, char*, int = 1020);
     void sendFile();

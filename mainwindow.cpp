@@ -18,6 +18,7 @@ MainWindow::MainWindow(QWidget *parent)
     clientForm->setWindowTitle(tr("Client Info"));
     connect(clientForm, SIGNAL(destroyed()),
             clientForm, SLOT(deleteLater()));
+
 //    ui->tabWidget->addTab(clientForm, "&Client Info");
 //    ProductManagerForm *productForm = new ProductManagerForm(this);
 //    productForm->setWindowTitle(tr("Product Info"));

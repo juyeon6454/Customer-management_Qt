@@ -51,7 +51,7 @@ private:
     QFile* file;
     QProgressDialog* progressDialog;
     qint64 totalSize;
-    qint64 byteReceived;
+    qint64 byteReceived;                //받은 byte크기
     QByteArray inBlock;
     LogThread* logThread;
 

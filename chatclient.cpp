@@ -24,9 +24,8 @@
 ChatClient::ChatClient(QWidget *parent) :
     QWidget(parent), isSent(false),ui(new Ui::ChatClient)
 {
-    ui->setupUi(this);
+    ui->setupUi(this);                                  //
 
-    //QPixmap pix("C:/Users/kosa/Desktop/a.png");
     QPixmap pix("C:/CSApp/build-CSApp-Desktop_Qt_6_3_2_MSVC2019_64bit-Debug/image/a.png");
     ui->label_pic->setPixmap(pix);
     int w = ui->label_pic->width();
