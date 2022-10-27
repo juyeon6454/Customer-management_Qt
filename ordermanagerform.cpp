@@ -93,14 +93,7 @@ void OrderManagerForm::removeItem()
         ui->orderSearchTreeWidget->update();
     }
 
-    ui->orderDateLineEdit->clear();
-    ui->clientNameLineEdit->clear();
-    ui->phoneNumberLineEdit->clear();
-    ui->phoneNumberLineEdit->clear();
-    ui->addressLineEdit->clear();
-    ui->productNameLineEdit->clear();
-    ui->orderQuantitySpinBox->clear();
-    ui->totalPriceLineEdit->clear();
+    o_clearLineEdit();
 }
 
 void OrderManagerForm::showContextMenu(const QPoint &pos)
@@ -165,14 +158,7 @@ void OrderManagerForm::on_oderInputAddPushButton_clicked()
             QMessageBox::critical(this, tr("Order Info"), \
                                   tr("There is information that has not been entered."));
         }
-        ui->orderDateLineEdit->clear();
-        ui->clientNameLineEdit->clear();
-        ui->phoneNumberLineEdit->clear();
-        ui->phoneNumberLineEdit->clear();
-        ui->addressLineEdit->clear();
-        ui->productNameLineEdit->clear();
-        ui->orderQuantitySpinBox->clear();
-        ui->totalPriceLineEdit->clear();
+        o_clearLineEdit();
 }
 
 QString OrderManagerForm::currentDateTime()
@@ -209,7 +195,12 @@ void OrderManagerForm::on_orderInputModifyPushButton_clicked()
         address = ui->addressLineEdit->text();
         productName = ui->productNameLineEdit->text();
         orderQuantity = ui->orderQuantitySpinBox->text();
-        totalPrice = QString::number(ui->o_productInfoTreeWidget->currentItem()->text(2).toInt() * ui->orderQuantitySpinBox->text().toInt());
+        ui->totalPriceLineEdit->clear();
+       //totalPrice = ui->totalPriceLineEdit->text();
+        int x = ui->orderQuantitySpinBox->text().toInt();
+        int y = ui->o_productInfoTreeWidget->currentItem()->text(2).toInt();
+        totalPrice = QString::number(x*y);
+        ui->totalPriceLineEdit->setText(totalPrice);
         o->setOrderDate(orderDate);
         o->setClientName(clientName);
         o->setPhoneNumber(phoneNumber);
@@ -219,14 +210,6 @@ void OrderManagerForm::on_orderInputModifyPushButton_clicked()
         o->setTotalPrice(totalPrice);
         orderList[key] = o;
     }
-//    ui->orderDateLineEdit->clear();
-//    ui->clientNameLineEdit->clear();
-//    ui->phoneNumberLineEdit->clear();
-//    ui->phoneNumberLineEdit->clear();
-//    ui->addressLineEdit->clear();
-//    ui->productNameLineEdit->clear();
-//    ui->orderQuantitySpinBox->clear();
-//    ui->totalPriceLineEdit->clear();
 }
 
 void OrderManagerForm::on_orderSearchTreeWidget_itemClicked(QTreeWidgetItem *item, int column)
@@ -585,21 +568,25 @@ void OrderManagerForm::on_orderQuantitySpinBox_valueChanged(int stock)
 {
 
     if (ui->o_productInfoTreeWidget->currentItem() == nullptr){
-           void on_o_clientInfoTreeWidget_itemClicked();
+        void on_o_clientInfoTreeWidget_itemClicked();
     }
     else
     {
         int x = ui->orderQuantitySpinBox->text().toInt();
         int y = ui->o_productInfoTreeWidget->currentItem()->text(2).toInt();
-          qDebug() << "spin box change" << x;
-      int totalPrice = x*y;
-      ui->totalPriceLineEdit->setText(QString::number(totalPrice));
+        int totalPrice = x*y;
+        ui->totalPriceLineEdit->setText(QString::number(totalPrice));
     }
     emit stockSearched(stock);
 
 }
 
 void OrderManagerForm::on_orderClearPushButton_clicked()
+{
+    o_clearLineEdit();
+}
+
+void OrderManagerForm::o_clearLineEdit()
 {
     ui->orderDateLineEdit->clear();
     ui->orderIdLineEdit->clear();

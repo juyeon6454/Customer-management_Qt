@@ -22,6 +22,7 @@ public:
     explicit ClientManagerForm(QWidget *parent = nullptr);
     ~ClientManagerForm();
     void loadData();
+    void clearLineEdit();
 
 private slots:
     /* QTreeWidget을 위한 슬롯 */

@@ -83,9 +83,7 @@ void ProductManagerForm::removeItem()
 //        delete item;
         ui->treeWidget->update();
     }
-    ui->productNameLineEdit->clear();
-    ui->priceLineEdit->clear();
-    ui->stockLineEdit->clear();
+    clearLineEdit();
 }
 
 void ProductManagerForm::showContextMenu(const QPoint &pos)
@@ -114,9 +112,7 @@ void ProductManagerForm::on_addPushButton_clicked()
         QMessageBox::critical(this, tr("Product Info"), \
                               tr("There is information that has not been entered."));
     }
-    ui->productNameLineEdit->clear();
-    ui->priceLineEdit->clear();
-    ui->stockLineEdit->clear();
+    clearLineEdit();
 }
 
 
@@ -135,9 +131,6 @@ void ProductManagerForm::on_modifyPushButton_clicked()
         p->setStock(stock);
         productList[key] = p;
     }  
-    ui->productNameLineEdit->clear();
-    ui->priceLineEdit->clear();
-    ui->stockLineEdit->clear();
 }
 
 
@@ -167,10 +160,7 @@ void ProductManagerForm::on_searchPushButton_clicked()
 void ProductManagerForm::on_treeWidget_itemClicked(QTreeWidgetItem *item, int column)
 {
     Q_UNUSED(column);
-    ui->productIdLineEdit->setText(item->text(0));
-    ui->productNameLineEdit->setText(item->text(1));
-    ui->priceLineEdit->setText(item->text(2));
-    ui->stockLineEdit->setText(item->text(3));
+    clearLineEdit();
     ui->toolBox->setCurrentIndex(0);
 }
 
@@ -243,14 +233,6 @@ void ProductManagerForm::p_findStockProduct(QString p_stock)
 
 }
 
-void ProductManagerForm::on_clearPushButton_clicked()
-{
-    ui->productIdLineEdit->clear();
-    ui->productNameLineEdit->clear();
-    ui->priceLineEdit->clear();
-    ui->stockLineEdit->clear();
-
-}
 
 
 void ProductManagerForm::stockFinded(int stock)
@@ -272,3 +254,19 @@ void ProductManagerForm::stockFinded(int stock)
 }
 
 
+void ProductManagerForm::on_clearPushButton_clicked()
+{
+    ui->productIdLineEdit->clear();
+    ui->productNameLineEdit->clear();
+    ui->priceLineEdit->clear();
+    ui->stockLineEdit->clear();
+
+}
+
+void ProductManagerForm::clearLineEdit()
+{
+    ui->productIdLineEdit->clear();
+    ui->productNameLineEdit->clear();
+    ui->priceLineEdit->clear();
+    ui->stockLineEdit->clear();
+}

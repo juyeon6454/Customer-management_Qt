@@ -162,7 +162,7 @@ public:
         toolBox->addItem(inputPage, QString::fromUtf8("Input"));
         searchPage = new QWidget();
         searchPage->setObjectName(QString::fromUtf8("searchPage"));
-        searchPage->setGeometry(QRect(0, 0, 210, 270));
+        searchPage->setGeometry(QRect(0, 0, 259, 270));
         verticalLayout_2 = new QVBoxLayout(searchPage);
         verticalLayout_2->setObjectName(QString::fromUtf8("verticalLayout_2"));
         idHorizontalLayout = new QHBoxLayout();

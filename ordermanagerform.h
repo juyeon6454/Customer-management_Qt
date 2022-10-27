@@ -29,6 +29,7 @@ public:
     ~OrderManagerForm();
     void loadData();
     int stockRange();
+    void o_clearLineEdit();
 
 private slots:
     /* QTreeWidget을 위한 슬롯 */

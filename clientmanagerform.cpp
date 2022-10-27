@@ -91,10 +91,7 @@ void ClientManagerForm::removeItem()
         emit clientRemoved (item->text(0).toInt(), QString::number(rmindex));
     }
 
-    ui->clientNameLineEdit->clear();
-    ui->phoneNumberLineEdit->clear();
-    ui->addressLineEdit->clear();
-    ui->emailLineEdit->clear();
+    clearLineEdit();
 
 }
 
@@ -147,6 +144,7 @@ void ClientManagerForm::on_modifyPushButton_clicked()
         c->setEmail(email);
         clientList[key] = c;
 
+        ui->clientIdLineEdit->clear();
         ui->clientNameLineEdit->clear();
         ui->phoneNumberLineEdit->clear();
         ui->addressLineEdit->clear();
@@ -180,10 +178,7 @@ void ClientManagerForm::on_addPushButton_clicked()
         QMessageBox::critical(this, tr("Client Info"), \
                               tr("There is information that has not been entered."));
     }
-    ui->clientNameLineEdit->clear();
-    ui->phoneNumberLineEdit->clear();
-    ui->addressLineEdit->clear();
-    ui->emailLineEdit->clear();
+    clearLineEdit();
 
 }
 
@@ -294,10 +289,20 @@ void ClientManagerForm::c_findEmailClient(QString c_email)
 
 void ClientManagerForm::on_clearPushButton_clicked()
 {
+//    ui->clientIdLineEdit->clear();
+//    ui->clientNameLineEdit->clear();
+//    ui->phoneNumberLineEdit->clear();
+//    ui->addressLineEdit->clear();
+//    ui->emailLineEdit->clear();
+    clearLineEdit();
+}
+
+
+void ClientManagerForm::clearLineEdit()
+{
     ui->clientIdLineEdit->clear();
     ui->clientNameLineEdit->clear();
     ui->phoneNumberLineEdit->clear();
     ui->addressLineEdit->clear();
     ui->emailLineEdit->clear();
 }
-
