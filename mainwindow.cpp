@@ -71,12 +71,13 @@ MainWindow::MainWindow(QWidget *parent)
     connect(clientForm, SIGNAL(clientModified(int, int, QString)), serverForm, SLOT(modifyServerClient(int, int, QString)));
     //server clientList로 client 정보 연결
 
-    //connect(clientForm, SIGNAL(clientModified(int, ClientItem*)), orderForm, SLOT(modifyClient(int, OrderItem*)));
+    //connect(clientForm, SIGNAL(clientModified(i nt, ClientItem*)), orderForm, SLOT(modifyClient(int, OrderItem*)));
     //client 정보를 수정했을 때 order, product 수정 및 삭제
 
     connect(orderForm, SIGNAL(stockSearched(int)), productForm, SLOT(stockFinded(int)));
     connect(productForm, SIGNAL(stockSended(int)), orderForm, SLOT(stockShowed(int)));
     //재고량 spinbox 값 제한할 때
+
 
     clientForm->loadData();
     productForm->loadData();

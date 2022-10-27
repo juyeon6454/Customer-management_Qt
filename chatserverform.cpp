@@ -256,6 +256,7 @@ void ChatServerForm::kickOut()
 
 void ChatServerForm::inviteClient()
 {
+
     if(ui->clientTreeWidget->topLevelItemCount()) {
         QString name = ui->clientTreeWidget->currentItem()->text(1);
 

@@ -73,6 +73,7 @@ private slots:
 
       void on_orderClearPushButton_clicked();
 
+
 signals:
       void o_searchIdClient(int);
       void o_searchNameClient(QString);
@@ -86,6 +87,7 @@ signals:
       void o_searchStockProduct(QString);
 
       void stockSearched(int);
+
       //void clientModified()
 
 
