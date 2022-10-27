@@ -46,6 +46,13 @@ public:
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName(QString::fromUtf8("MainWindow"));
         MainWindow->resize(800, 600);
+        MainWindow->setMaximumSize(QSize(16777215, 16777215));
+        MainWindow->setBaseSize(QSize(0, 0));
+        QFont font;
+        font.setFamilies({QString::fromUtf8("\353\247\221\354\235\200 \352\263\240\353\224\225")});
+        MainWindow->setFont(font);
+        MainWindow->setToolButtonStyle(Qt::ToolButtonIconOnly);
+        MainWindow->setTabShape(QTabWidget::Triangular);
         actionQuit = new QAction(MainWindow);
         actionQuit->setObjectName(QString::fromUtf8("actionQuit"));
         actionQuit->setEnabled(true);
@@ -74,6 +81,9 @@ public:
         QIcon icon4;
         icon4.addFile(QString::fromUtf8(":/images/chat.png"), QSize(), QIcon::Normal, QIcon::Off);
         actionChat->setIcon(icon4);
+        actionChat->setVisible(true);
+        actionChat->setMenuRole(QAction::TextHeuristicRole);
+        actionChat->setPriority(QAction::NormalPriority);
         actionChatManager = new QAction(MainWindow);
         actionChatManager->setObjectName(QString::fromUtf8("actionChatManager"));
         QIcon icon5;
@@ -108,18 +118,15 @@ public:
         toolBar->setMaximumSize(QSize(50, 16777215));
         toolBar->setMovable(false);
         toolBar->setAllowedAreas(Qt::NoToolBarArea);
-        toolBar->setIconSize(QSize(30, 30));
+        toolBar->setIconSize(QSize(40, 40));
         MainWindow->addToolBar(Qt::LeftToolBarArea, toolBar);
 
         menubar->addAction(menuFile->menuAction());
         menuFile->addAction(actionQuit);
         menuFile->addAction(actionNew);
         toolBar->addAction(actionClientInfo);
-        toolBar->addSeparator();
         toolBar->addAction(actionProductInfo);
-        toolBar->addSeparator();
         toolBar->addAction(actionOrderInfo);
-        toolBar->addSeparator();
         toolBar->addAction(actionChatManager);
         toolBar->addSeparator();
         toolBar->addAction(actionChat);

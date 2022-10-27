@@ -6,6 +6,7 @@
         <file>images/product.png</file>
         <file>images/quit.png</file>
         <file>images/chatmanager.png</file>
+        <file>images/seprator.png</file>
     </qresource>
     <qresource prefix="/images"/>
 </RCC>

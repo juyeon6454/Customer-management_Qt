@@ -13,7 +13,7 @@ ClientManagerForm::ClientManagerForm(QWidget *parent) :
     ui->setupUi(this);
 
     QList<int> sizes;
-    sizes << 540 << 400;
+    sizes << 300 << 400;
     ui->splitter->setSizes(sizes);
 
     QAction* removeAction = new QAction(tr("&Remove"));
