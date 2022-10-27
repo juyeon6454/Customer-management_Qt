@@ -26,12 +26,13 @@ ChatServerForm::ChatServerForm(QWidget *parent) :
     ui->splitter->setSizes(sizes);                                          //splitter size 조절
 
     chatServer = new QTcpServer(this);                                      //charServer 서버 만들어줌
-    connect(chatServer, SIGNAL(newConnection( )), SLOT(clientConnect( )));  //
-    if (!chatServer->listen(QHostAddress::Any, PORT_NUMBER)) {
+    connect(chatServer, SIGNAL(newConnection( )), SLOT(clientConnect( )));  //클라이언트 연결
+    if (!chatServer->listen(QHostAddress::Any, PORT_NUMBER)) {              //포트 번호 8000으로 바인딩 된 소켓은 인터페이스 모두에서 수신 대기
         QMessageBox::critical(this, tr("Chatting Server"), \
                               tr("Unable to start the server: %1.") \
                               .arg(chatServer->errorString( )));
-        close( );
+
+       // close( );
         return;
     }
 

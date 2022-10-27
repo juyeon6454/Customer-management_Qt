@@ -1,0 +1,11 @@
+<RCC>
+    <qresource prefix="/">
+        <file>images/order.png</file>
+        <file>images/chat.png</file>
+        <file>images/client.png</file>
+        <file>images/product.png</file>
+        <file>images/quit.png</file>
+        <file>images/chatmanager.png</file>
+    </qresource>
+    <qresource prefix="/images"/>
+</RCC>
