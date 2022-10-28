@@ -228,6 +228,7 @@ void ChatServerForm::addClient(int id, QString name)
 
 void ChatServerForm::on_clientTreeWidget_customContextMenuRequested(const QPoint &pos)
 {
+
     foreach(QAction *action, menu->actions()) {
         if(action->objectName() == "Invite")
             action->setEnabled(ui->clientTreeWidget->currentItem()->text(0) != "O");

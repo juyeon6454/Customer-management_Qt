@@ -103,7 +103,9 @@ ChatClient::ChatClient(QWidget *parent) :
         }
     } );
     setWindowTitle(tr("Chat Client"));
+    ui->chatInPushButton->setDisabled(true);    //로그인 하기 전 채팅방 입장을 막기 위해 버튼을 막음
 }
+
 
 ChatClient::~ChatClient()
 {
