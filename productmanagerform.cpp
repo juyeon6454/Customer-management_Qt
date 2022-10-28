@@ -23,7 +23,6 @@ ProductManagerForm::ProductManagerForm(QWidget *parent) :
     menu->addAction(removeAction);
     ui->treeWidget->setContextMenuPolicy(Qt::CustomContextMenu);
     connect(ui->treeWidget, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(showContextMenu(QPoint)));
-    //loadData();
 }
 
 void ProductManagerForm::loadData()
@@ -80,10 +79,10 @@ void ProductManagerForm::removeItem()
     if(item != nullptr) {
         productList.remove(item->text(0).toInt());
         ui->treeWidget->takeTopLevelItem(ui->treeWidget->indexOfTopLevelItem(item));
-//        delete item;
+
         ui->treeWidget->update();
     }
-    clearLineEdit();
+    p_clearLineEdit();
 }
 
 void ProductManagerForm::showContextMenu(const QPoint &pos)
@@ -112,7 +111,7 @@ void ProductManagerForm::on_addPushButton_clicked()
         QMessageBox::critical(this, tr("Product Info"), \
                               tr("There is information that has not been entered."));
     }
-    clearLineEdit();
+    p_clearLineEdit();
 }
 
 
@@ -137,7 +136,7 @@ void ProductManagerForm::on_modifyPushButton_clicked()
 void ProductManagerForm::on_searchPushButton_clicked()
 {
     ui->searchTreeWidget->clear();
-//    for(int i = 0; i < ui->treeWidget->columnCount(); i++)
+
     int i = ui->searchComboBox->currentIndex();
     auto flag = (i)? Qt::MatchCaseSensitive|Qt::MatchContains
                    : Qt::MatchCaseSensitive;
@@ -160,7 +159,10 @@ void ProductManagerForm::on_searchPushButton_clicked()
 void ProductManagerForm::on_treeWidget_itemClicked(QTreeWidgetItem *item, int column)
 {
     Q_UNUSED(column);
-    clearLineEdit();
+    ui->productIdLineEdit->setText(item->text(0));
+    ui->productNameLineEdit->setText(item->text(1));
+    ui->priceLineEdit->setText(item->text(2));
+    ui->stockLineEdit->setText(item->text(3));
     ui->toolBox->setCurrentIndex(0);
 }
 
@@ -256,14 +258,11 @@ void ProductManagerForm::stockFinded(int stock)
 
 void ProductManagerForm::on_clearPushButton_clicked()
 {
-    ui->productIdLineEdit->clear();
-    ui->productNameLineEdit->clear();
-    ui->priceLineEdit->clear();
-    ui->stockLineEdit->clear();
+    p_clearLineEdit();
 
 }
 
-void ProductManagerForm::clearLineEdit()
+void ProductManagerForm::p_clearLineEdit()
 {
     ui->productIdLineEdit->clear();
     ui->productNameLineEdit->clear();

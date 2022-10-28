@@ -94,20 +94,32 @@
      <height>16777215</height>
     </size>
    </property>
+   <property name="mouseTracking">
+    <bool>false</bool>
+   </property>
    <property name="windowTitle">
     <string>toolBar</string>
    </property>
-   <property name="movable">
+   <property name="whatsThis">
+    <string/>
+   </property>
+   <property name="autoFillBackground">
     <bool>false</bool>
    </property>
-   <property name="allowedAreas">
-    <set>Qt::NoToolBarArea</set>
+   <property name="movable">
+    <bool>false</bool>
    </property>
    <property name="iconSize">
     <size>
      <width>40</width>
      <height>40</height>
     </size>
+   </property>
+   <property name="toolButtonStyle">
+    <enum>Qt::ToolButtonIconOnly</enum>
+   </property>
+   <property name="floatable">
+    <bool>true</bool>
    </property>
    <attribute name="toolBarArea">
     <enum>LeftToolBarArea</enum>
@@ -179,6 +191,9 @@
    </property>
   </action>
   <action name="actionChat">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
    <property name="icon">
     <iconset resource="icon.qrc">
      <normaloff>:/images/chat.png</normaloff>:/images/chat.png</iconset>

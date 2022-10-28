@@ -60,9 +60,21 @@ public:
         clientListVerticalLayout->addWidget(clientListLabel);
 
         clientTreeWidget = new QTreeWidget(layoutWidget);
+        QTreeWidgetItem *__qtreewidgetitem = new QTreeWidgetItem();
+        __qtreewidgetitem->setTextAlignment(0, Qt::AlignLeading|Qt::AlignVCenter);
+        clientTreeWidget->setHeaderItem(__qtreewidgetitem);
         clientTreeWidget->setObjectName(QString::fromUtf8("clientTreeWidget"));
+        QSizePolicy sizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+        sizePolicy.setHorizontalStretch(0);
+        sizePolicy.setVerticalStretch(0);
+        sizePolicy.setHeightForWidth(clientTreeWidget->sizePolicy().hasHeightForWidth());
+        clientTreeWidget->setSizePolicy(sizePolicy);
         clientTreeWidget->setSelectionBehavior(QAbstractItemView::SelectItems);
         clientTreeWidget->setRootIsDecorated(false);
+        clientTreeWidget->setUniformRowHeights(false);
+        clientTreeWidget->setAnimated(false);
+        clientTreeWidget->setAllColumnsShowFocus(false);
+        clientTreeWidget->setWordWrap(false);
         clientTreeWidget->setHeaderHidden(true);
 
         clientListVerticalLayout->addWidget(clientTreeWidget);
@@ -115,6 +127,7 @@ public:
         ChatServerForm->setWindowTitle(QCoreApplication::translate("ChatServerForm", "Form", nullptr));
         clientListLabel->setText(QCoreApplication::translate("ChatServerForm", "Client List", nullptr));
         QTreeWidgetItem *___qtreewidgetitem = clientTreeWidget->headerItem();
+        ___qtreewidgetitem->setText(2, QCoreApplication::translate("ChatServerForm", "Status_2", nullptr));
         ___qtreewidgetitem->setText(1, QCoreApplication::translate("ChatServerForm", "Name", nullptr));
         ___qtreewidgetitem->setText(0, QCoreApplication::translate("ChatServerForm", "Status", nullptr));
         QTreeWidgetItem *___qtreewidgetitem1 = messageTreeWidget->headerItem();

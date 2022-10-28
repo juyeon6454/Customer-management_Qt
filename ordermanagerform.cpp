@@ -30,7 +30,6 @@ OrderManagerForm::OrderManagerForm(QWidget *parent) :
     connect(ui->orderSearchTreeWidget, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(showContextMenu(QPoint)));
 
     ui->o_clientInfoTreeWidget->setContextMenuPolicy(Qt::CustomContextMenu);//
-
 }
 
 void OrderManagerForm::loadData()
@@ -48,7 +47,6 @@ void OrderManagerForm::loadData()
             OrderItem* o = new OrderItem(orderId, row[1], row[2], row[3],row[4],row[5],row[6],row[7]);
             ui->orderSearchTreeWidget->addTopLevelItem(o);
             orderList.insert(orderId, o);
-            //emit clientAdded(row[2]);
         }
     }
     file.close( );
@@ -89,7 +87,6 @@ void OrderManagerForm::removeItem()
     if(item != nullptr) {
         orderList.remove(item->text(0).toInt());
         ui->orderSearchTreeWidget->takeTopLevelItem(ui->orderSearchTreeWidget->indexOfTopLevelItem(item));
-//        delete item;
         ui->orderSearchTreeWidget->update();
     }
 
@@ -106,7 +103,7 @@ void OrderManagerForm::showContextMenu(const QPoint &pos)
 void OrderManagerForm::on_orderSearchPushButton_clicked()
 {
     ui->orderSearchTreeWidget_2->clear();
-    //for(int i = 0; i < ui->treeWidget->columnCount(); i++)
+
     int i = ui->orderSearchComboBox->currentIndex();
     auto flag = (i)? Qt::MatchCaseSensitive|Qt::MatchContains
                    : Qt::MatchCaseSensitive;
@@ -140,11 +137,10 @@ void OrderManagerForm::on_oderInputAddPushButton_clicked()
         phoneNumber = ui->phoneNumberLineEdit->text();
         address = ui->addressLineEdit->text();
         productName = ui->productNameLineEdit->text();
+
         orderQuantity = ui->orderQuantitySpinBox->text();
         int s = ui->o_productInfoTreeWidget->currentItem()->text(3).toInt();
         ui->orderQuantitySpinBox->setRange(1,s);
-        //ui->orderQuantitySpinBox->setMaximum(s); //// 쓰지마셈 걍;;
-
 
         totalPrice = ui->totalPriceLineEdit->text();
 
@@ -195,12 +191,13 @@ void OrderManagerForm::on_orderInputModifyPushButton_clicked()
         address = ui->addressLineEdit->text();
         productName = ui->productNameLineEdit->text();
         orderQuantity = ui->orderQuantitySpinBox->text();
+
         ui->totalPriceLineEdit->clear();
-       //totalPrice = ui->totalPriceLineEdit->text();
         int x = ui->orderQuantitySpinBox->text().toInt();
         int y = ui->o_productInfoTreeWidget->currentItem()->text(2).toInt();
         totalPrice = QString::number(x*y);
         ui->totalPriceLineEdit->setText(totalPrice);
+
         o->setOrderDate(orderDate);
         o->setClientName(clientName);
         o->setPhoneNumber(phoneNumber);
@@ -214,7 +211,6 @@ void OrderManagerForm::on_orderInputModifyPushButton_clicked()
 
 void OrderManagerForm::on_orderSearchTreeWidget_itemClicked(QTreeWidgetItem *item, int column)
 {
-    //return ;
         Q_UNUSED(column);
         ui->orderIdLineEdit->setText(item->text(0));
         ui->orderDateLineEdit->setText(item->text(1));
@@ -224,7 +220,6 @@ void OrderManagerForm::on_orderSearchTreeWidget_itemClicked(QTreeWidgetItem *ite
         ui->productNameLineEdit->setText(item->text(5));
         ui->orderQuantitySpinBox->setValue(item->text(6).toInt());
         ui->totalPriceLineEdit->setText(item->text(7));
-       // ui->orderListGroupBox->setCurrentIndex(0);
 }
 
 void OrderManagerForm::o_showIdClient(int c_id, ClientItem* clientItem)
@@ -237,10 +232,8 @@ void OrderManagerForm::o_showIdClient(int c_id, ClientItem* clientItem)
     email = clientItem->getEmail();
     if(QString::number(clientId).length()) {
         ClientItem* c = new ClientItem(clientId, clientName, phoneNumber, address, email);
-//        clientList.insert(clientId, c);
         ui->o_clientInfoTreeWidget->addTopLevelItem(c);
     }
-    //ui->o_clientInfoTreeWidget->addTopLevelItem(clientItem);
 }
 
 
@@ -254,10 +247,8 @@ void OrderManagerForm::o_showNameClient(QString c_name, ClientItem* clientItem)
     email = clientItem->getEmail();
     if(clientName.length()) {
         ClientItem* c = new ClientItem(clientId, clientName, phoneNumber, address,email);
-        //clientList.insert(c_name, c);
         ui->o_clientInfoTreeWidget->addTopLevelItem(c);
     }
-    //ui->o_clientInfoTreeWidget->addTopLevelItem(clientItem);
 }
 
 
@@ -271,10 +262,8 @@ void OrderManagerForm::o_showNumberClient(QString c_number, ClientItem* clientIt
     email = clientItem->getEmail();
     if(phoneNumber.length()) {
         ClientItem* c = new ClientItem(clientId, clientName, phoneNumber, address, email);
-        //clientList.insert(c_number, c);
         ui->o_clientInfoTreeWidget->addTopLevelItem(c);
     }
-    //ui->o_clientInfoTreeWidget->addTopLevelItem(clientItem);
 }
 
 void OrderManagerForm::o_showAddressClient(QString c_address, ClientItem* clientItem)
@@ -287,10 +276,8 @@ void OrderManagerForm::o_showAddressClient(QString c_address, ClientItem* client
     email = clientItem->getEmail();
     if(address.length()) {
         ClientItem* c = new ClientItem(clientId, clientName, phoneNumber, address, email);
-        //clientList.insert(c_address, c);
         ui->o_clientInfoTreeWidget->addTopLevelItem(c);
     }
-    //ui->o_clientInfoTreeWidget->addTopLevelItem(clientItem);
 }
 
 void OrderManagerForm::o_showEmailClient(QString c_email, ClientItem* clientItem)
@@ -303,10 +290,8 @@ void OrderManagerForm::o_showEmailClient(QString c_email, ClientItem* clientItem
     email = clientItem->getEmail();
     if(email.length()) {
         ClientItem* c = new ClientItem(clientId, clientName, phoneNumber, address,email);
-        //clientList.insert(clientId, c);
         ui->o_clientInfoTreeWidget->addTopLevelItem(c);
     }
-    //ui->o_clientInfoTreeWidget->addTopLevelItem(clientItem);
 }
 
 void OrderManagerForm::on_o_clientSearchPushButton_clicked()
@@ -355,10 +340,8 @@ void OrderManagerForm::o_showIdProduct(int p_id, ProductItem* productItem)
     stock = productItem->getStock();
     if(QString::number(productId).length()) {
         ProductItem* p = new ProductItem(productId, productName, price, stock);
-//        clientList.insert(productId, c);
         ui->o_productInfoTreeWidget->addTopLevelItem(p);
     }
-    //ui->o_clientInfoTreeWidget->addTopLevelItem(ProductItem);
 }
 
 
@@ -371,11 +354,10 @@ void OrderManagerForm::o_showNameProduct(QString p_name, ProductItem* productIte
     stock = productItem->getStock();
     if(productName.length()) {
         ProductItem* p = new ProductItem(productId, productName, price, stock);
-//        clientList.insert(productId, c);
         ui->o_productInfoTreeWidget->addTopLevelItem(p);
     }
-    //ui->o_clientInfoTreeWidget->addTopLevelItem(ProductItem);
 }
+
 void OrderManagerForm::o_showPriceProduct(QString p_price, ProductItem* productItem)
 {
     QString productName, price, stock;
@@ -385,11 +367,10 @@ void OrderManagerForm::o_showPriceProduct(QString p_price, ProductItem* productI
     stock = productItem->getStock();
     if(price.length()) {
         ProductItem* p = new ProductItem(productId, productName, price, stock);
-//        clientList.insert(productId, c);
         ui->o_productInfoTreeWidget->addTopLevelItem(p);
     }
-    //ui->o_clientInfoTreeWidget->addTopLevelItem(ProductItem);
 }
+
 void OrderManagerForm::o_showStockProduct(QString p_stock, ProductItem* productItem)
 {
     QString productName, price, stock;
@@ -400,19 +381,15 @@ void OrderManagerForm::o_showStockProduct(QString p_stock, ProductItem* productI
 
     if(stock.length()) {
         ProductItem* p = new ProductItem(productId, productName, price, stock);
-//        clientList.insert(productId, c);
-          //stockList.insert(productId, p->stock);
         ui->o_productInfoTreeWidget->addTopLevelItem(p);
     }
-    //ui->o_clientInfoTreeWidget->addTopLevelItem(ProductItem);
 }
-
 
 
 void OrderManagerForm::on_o_productSearchPushButton_clicked()
 {
 
-     ui->o_productInfoTreeWidget->clear();
+    ui->o_productInfoTreeWidget->clear();
 
     int index = ui->o_productSearchComboBox->currentIndex();
     qDebug() << index;
@@ -448,8 +425,6 @@ void OrderManagerForm::on_o_clientInfoTreeWidget_itemClicked(QTreeWidgetItem *it
     ui->clientNameLineEdit->setText(item->text(1));
     ui->phoneNumberLineEdit->setText(item->text(2));
     ui->addressLineEdit->setText(item->text(3));
-    //ui->toolBox->setCurrentIndex(0);
-
 }
 
 
@@ -458,11 +433,8 @@ void OrderManagerForm::on_o_productInfoTreeWidget_itemClicked(QTreeWidgetItem *i
     Q_UNUSED(column);
     ui->orderQuantitySpinBox->setValue(0);
     ui->productNameLineEdit->setText(item->text(1));
-    //ui->orderQuantitySpinBox->setText(item->);
     ui->totalPriceLineEdit->setText(item->text(2));
 }
-
-
 
 
 void OrderManagerForm::on_o_clientSearchLineEdit_returnPressed()
@@ -539,7 +511,7 @@ void OrderManagerForm::on_o_productSearchLineEdit_returnPressed()
 void OrderManagerForm::on_orderSearchLineEdit_returnPressed()
 {
     ui->orderSearchTreeWidget_2->clear();
-    //for(int i = 0; i < ui->treeWidget->columnCount(); i++)
+
     int i = ui->orderSearchComboBox->currentIndex();
     auto flag = (i)? Qt::MatchCaseSensitive|Qt::MatchContains
                    : Qt::MatchCaseSensitive;

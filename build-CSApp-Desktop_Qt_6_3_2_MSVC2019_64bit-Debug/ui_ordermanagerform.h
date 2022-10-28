@@ -92,6 +92,7 @@ public:
         splitter->setOrientation(Qt::Horizontal);
         orderInputGroupBox = new QGroupBox(splitter);
         orderInputGroupBox->setObjectName(QString::fromUtf8("orderInputGroupBox"));
+        orderInputGroupBox->setFlat(false);
         gridLayout_3 = new QGridLayout(orderInputGroupBox);
         gridLayout_3->setObjectName(QString::fromUtf8("gridLayout_3"));
         verticalLayout = new QVBoxLayout();
@@ -274,6 +275,8 @@ public:
         splitter->addWidget(orderInputGroupBox);
         orderListGroupBox = new QGroupBox(splitter);
         orderListGroupBox->setObjectName(QString::fromUtf8("orderListGroupBox"));
+        orderListGroupBox->setFlat(false);
+        orderListGroupBox->setCheckable(false);
         verticalLayout_3 = new QVBoxLayout(orderListGroupBox);
         verticalLayout_3->setObjectName(QString::fromUtf8("verticalLayout_3"));
         splitter_2 = new QSplitter(orderListGroupBox);

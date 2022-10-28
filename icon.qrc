@@ -7,6 +7,9 @@
         <file>images/chatmanager.png</file>
         <file>images/seprator.png</file>
         <file>images/product.png</file>
+        <file>images/chatting.png</file>
+        <file>images/login.png</file>
+        <file>images/logout.png</file>
     </qresource>
     <qresource prefix="/images"/>
 </RCC>

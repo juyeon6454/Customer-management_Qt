@@ -42,7 +42,6 @@ void ProductItem::setStock(QString& stock)
     setText(3, stock);
 }
 
-
 int ProductItem::productId() const
 {
     return text(0).toInt();

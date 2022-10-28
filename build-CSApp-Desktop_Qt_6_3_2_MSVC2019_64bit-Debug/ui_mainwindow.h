@@ -78,6 +78,7 @@ public:
         actionOrderInfo->setIcon(icon3);
         actionChat = new QAction(MainWindow);
         actionChat->setObjectName(QString::fromUtf8("actionChat"));
+        actionChat->setCheckable(true);
         QIcon icon4;
         icon4.addFile(QString::fromUtf8(":/images/chat.png"), QSize(), QIcon::Normal, QIcon::Off);
         actionChat->setIcon(icon4);
@@ -116,9 +117,12 @@ public:
         toolBar = new QToolBar(MainWindow);
         toolBar->setObjectName(QString::fromUtf8("toolBar"));
         toolBar->setMaximumSize(QSize(50, 16777215));
+        toolBar->setMouseTracking(false);
+        toolBar->setAutoFillBackground(false);
         toolBar->setMovable(false);
-        toolBar->setAllowedAreas(Qt::NoToolBarArea);
         toolBar->setIconSize(QSize(40, 40));
+        toolBar->setToolButtonStyle(Qt::ToolButtonIconOnly);
+        toolBar->setFloatable(true);
         MainWindow->addToolBar(Qt::LeftToolBarArea, toolBar);
 
         menubar->addAction(menuFile->menuAction());
@@ -161,6 +165,9 @@ public:
         actionChatManager->setText(QCoreApplication::translate("MainWindow", "ChatManager", nullptr));
         menuFile->setTitle(QCoreApplication::translate("MainWindow", "File", nullptr));
         toolBar->setWindowTitle(QCoreApplication::translate("MainWindow", "toolBar", nullptr));
+#if QT_CONFIG(whatsthis)
+        toolBar->setWhatsThis(QString());
+#endif // QT_CONFIG(whatsthis)
     } // retranslateUi
 
 };

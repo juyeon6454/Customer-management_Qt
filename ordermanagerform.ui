@@ -23,6 +23,9 @@
       <property name="title">
        <string>Input Order</string>
       </property>
+      <property name="flat">
+       <bool>false</bool>
+      </property>
       <layout class="QGridLayout" name="gridLayout_3">
        <item row="0" column="0">
         <layout class="QVBoxLayout" name="verticalLayout">
@@ -323,6 +326,12 @@
      <widget class="QGroupBox" name="orderListGroupBox">
       <property name="title">
        <string>Order List</string>
+      </property>
+      <property name="flat">
+       <bool>false</bool>
+      </property>
+      <property name="checkable">
+       <bool>false</bool>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_3">
        <item>

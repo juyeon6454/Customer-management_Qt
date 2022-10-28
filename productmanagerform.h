@@ -22,7 +22,7 @@ public:
     explicit ProductManagerForm(QWidget *parent = nullptr);
     ~ProductManagerForm();
     void loadData();
-    void clearLineEdit();
+    void p_clearLineEdit();
 
 
 private slots:

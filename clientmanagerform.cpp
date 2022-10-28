@@ -85,13 +85,12 @@ void ClientManagerForm::removeItem()
     if(item != nullptr) {
         clientList.remove(item->text(0).toInt());
         ui->treeWidget->takeTopLevelItem(ui->treeWidget->indexOfTopLevelItem(item));
-//        delete item;
         ui->treeWidget->update();
 
         emit clientRemoved (item->text(0).toInt(), QString::number(rmindex));
     }
 
-    clearLineEdit();
+    c_clearLineEdit();
 
 }
 
@@ -105,7 +104,6 @@ void ClientManagerForm::on_searchPushButton_clicked()
 {
     ui->searchTreeWidget->clear();
 
-//    for(int i = 0; i < ui->treeWidget->columnCount(); i++)
     int i = ui->searchComboBox->currentIndex();
     auto flag = (i)? Qt::MatchCaseSensitive|Qt::MatchContains
                    : Qt::MatchCaseSensitive;
@@ -144,14 +142,7 @@ void ClientManagerForm::on_modifyPushButton_clicked()
         c->setEmail(email);
         clientList[key] = c;
 
-        ui->clientIdLineEdit->clear();
-        ui->clientNameLineEdit->clear();
-        ui->phoneNumberLineEdit->clear();
-        ui->addressLineEdit->clear();
-        ui->emailLineEdit->clear();
-
         emit clientModified (key, index, clientName);
-        //emit clientModified(key, index, clientName);//server로 client이름전달
 
     }
 
@@ -178,7 +169,7 @@ void ClientManagerForm::on_addPushButton_clicked()
         QMessageBox::critical(this, tr("Client Info"), \
                               tr("There is information that has not been entered."));
     }
-    clearLineEdit();
+    c_clearLineEdit();
 
 }
 
@@ -192,8 +183,6 @@ void ClientManagerForm::on_treeWidget_itemClicked(QTreeWidgetItem *item, int col
     ui->addressLineEdit->setText(item->text(3));
     ui->emailLineEdit->setText(item->text(4));
     ui->toolBox->setCurrentIndex(0);
-
-
 
 }
 
@@ -289,16 +278,11 @@ void ClientManagerForm::c_findEmailClient(QString c_email)
 
 void ClientManagerForm::on_clearPushButton_clicked()
 {
-//    ui->clientIdLineEdit->clear();
-//    ui->clientNameLineEdit->clear();
-//    ui->phoneNumberLineEdit->clear();
-//    ui->addressLineEdit->clear();
-//    ui->emailLineEdit->clear();
-    clearLineEdit();
+    c_clearLineEdit();
 }
 
 
-void ClientManagerForm::clearLineEdit()
+void ClientManagerForm::c_clearLineEdit()
 {
     ui->clientIdLineEdit->clear();
     ui->clientNameLineEdit->clear();

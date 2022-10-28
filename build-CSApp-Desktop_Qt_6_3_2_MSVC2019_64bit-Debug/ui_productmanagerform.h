@@ -72,7 +72,7 @@ public:
         toolBox->setObjectName(QString::fromUtf8("toolBox"));
         inputPage = new QWidget();
         inputPage->setObjectName(QString::fromUtf8("inputPage"));
-        inputPage->setGeometry(QRect(0, 0, 377, 306));
+        inputPage->setGeometry(QRect(0, 0, 464, 306));
         verticalLayout = new QVBoxLayout(inputPage);
         verticalLayout->setObjectName(QString::fromUtf8("verticalLayout"));
         productFormLayout = new QFormLayout();
@@ -148,7 +148,7 @@ public:
         toolBox->addItem(inputPage, QString::fromUtf8("Input"));
         searchPage = new QWidget();
         searchPage->setObjectName(QString::fromUtf8("searchPage"));
-        searchPage->setGeometry(QRect(0, 0, 377, 306));
+        searchPage->setGeometry(QRect(0, 0, 464, 306));
         verticalLayout_2 = new QVBoxLayout(searchPage);
         verticalLayout_2->setObjectName(QString::fromUtf8("verticalLayout_2"));
         idHorizontalLayout = new QHBoxLayout();
