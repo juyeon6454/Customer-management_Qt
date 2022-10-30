@@ -40,39 +40,30 @@ public:
 private slots:
     void receiveData( );                                // 서버에서 데이터가 올 때
     void sendData( );                                   // 서버로 데이터를 보낼 때
-    void disconnect( );
-    void sendProtocol(Chat_Status, char*, int = 1020);
-    void sendFile();
-    void goOnSend(qint64);
+    void disconnect( );                                 // 서버 연결이 끊 길 때 상태변경
+    void sendProtocol(Chat_Status, char*, int = 1020);  // 프로토콜을 생성해서 서버로 전송
+    void sendFile();                                    // 파일을 보낼 때
+    void goOnSend(qint64);                              // 파일 전송시 여러번 나눠서 전송
 
 
-    void on_logInPushButton_clicked();
-    void on_logOutPushButton_clicked();
-//    void on_chatInPushButton_clicked();
+    void on_logInPushButton_clicked();                  // 로그인 버튼 눌렀을 때
+    void on_logOutPushButton_clicked();                 // 로그아웃 버튼 눌렀을 대
 
 private:
-    void closeEvent(QCloseEvent*) override;
+    void closeEvent(QCloseEvent*) override;   //close 할 때 logout 타입과 name 데이터를 보냄
 
-    QLineEdit *name;                // ID(이름)을 입력하는 창
-    QTextEdit *message;             // 서버에서 오는 메세지 표시용
-    QLineEdit* serverAddress;
-    QLineEdit* serverPort;
-    QLineEdit *inputLine;           // 서버로 보내는 메시지 입력용
-    QPushButton *connectButton;     // 서버 로그인 등 접속 처리
-    QPushButton *sentButton;        // 메시지 전송
-    QPushButton* fileButton;        // 파일 전송
-    QTcpSocket *clientSocket;		// 클라이언트용 소켓
-    QTcpSocket *fileClient;
-    QProgressDialog* progressDialog;    // 파일 진행 확인
-    QFile* file;
+    QTcpSocket *clientSocket;                 // 클라이언트용 소켓
+    QTcpSocket *fileClient;                   // 파일 전송 소켓
+    QProgressDialog* progressDialog;          // 파일 진행 확인
+    QFile* file;                              // 파일 생성
     qint64 loadSize;
     qint64 byteToWrite;
-    qint64 totalSize;
-    QByteArray outBlock;
+    qint64 totalSize;                         /*파일 사이즈*/
+    QByteArray outBlock;                      //데이터
     bool isSent;
     Ui::ChatClient *ui;
 
-    int flag = 0;
+    int flag = 0;                             //강퇴된 멤버에게 메세지가 보이지 않도록
 };
 
 #endif // CHATCLIENT_H

@@ -10,6 +10,7 @@
         <file>images/chatting.png</file>
         <file>images/login.png</file>
         <file>images/logout.png</file>
+        <file>images/a.png</file>
     </qresource>
     <qresource prefix="/images"/>
 </RCC>

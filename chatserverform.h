@@ -17,16 +17,6 @@ namespace Ui {
 class ChatServerForm;
 }
 
-//typedef enum {
-//    Chat_Login,             // 로그인(서버 접속)   --> 초대를 위한 정보 저장
-//    Chat_In,                // 채팅방 입장
-//    Chat_Talk,              // 채팅
-//    Chat_Out,               // 채팅방 퇴장         --> 초대 가능
-//    Chat_LogOut,            // 로그 아웃(서버 단절) --> 초대 불가능
-//    Chat_Invite,            // 초대
-//    Chat_KickOut,           // 강퇴
-//} Chat_Status;
-
 class ChatServerForm : public QWidget
 {
     Q_OBJECT
@@ -36,40 +26,40 @@ public:
     ~ChatServerForm();
 
 private:
-    const int BLOCK_SIZE = 1024;
-    const int PORT_NUMBER = 8000;
+    const int BLOCK_SIZE = 1024;        //block_size를 1024로 지정 (데이터 크기)
+    const int PORT_NUMBER = 8000;       //포트 넘버를 8000으로 지정
 
-    Ui::ChatServerForm *ui;
-    QTcpServer *chatServer;
-    QTcpServer *fileServer;
-    QList<QTcpSocket*> clientList;
+    Ui::ChatServerForm *ui;                             //serverform ui
+    QTcpServer *chatServer;                             //채팅을 위한 소켓
+    QTcpServer *fileServer;                             //파일 전송을 위한 소켓
+    QList<QTcpSocket*> clientList;                      //서버에 입장한 clientlist
     QList<int> clientIDList;
     QHash<quint16, QString> clientNameHash;
-    QHash<QString, QTcpSocket*> clientSocketHash;
-    QHash<QString, int> clientIDHash;
-    QMenu* menu;
-    QFile* file;
-    QProgressDialog* progressDialog;
-    qint64 totalSize;
-    qint64 byteReceived;                //받은 byte크기
-    QByteArray inBlock;
-    LogThread* logThread;
+    QHash<QString, QTcpSocket*> clientSocketHash;       //이름으로 소켓을 찾음
+    QHash<QString, int> clientIDHash;                   //id로 소켓을 찾음
+    QMenu* menu;                                        //메뉴 생성
+    QFile* file;                                        //파일 전송
+    QProgressDialog* progressDialog;                    //파일 전송을 프로그레스 다이얼로그로 나타냄
+    qint64 totalSize;                                   //다이얼로그 바를 totalSize로 결정
+    qint64 byteReceived;                                //받은 byte크기
+    QByteArray inBlock;                                 //데이터
+    LogThread* logThread;                               //로그를 스레드 사용
 
 private slots:
-    void acceptConnection();                /* 파일 서버 */
-    void readClient();
+    void acceptConnection();                /* 파일 서버 (파일 전송을 위한 소켓 생성) */
+    void readClient();                      //파일 전송
 
-    void clientConnect( );                  /* 채팅 서버 */
-    void receiveData( );
-    void removeClient( );
-    void addClient(int, QString);
-    void inviteClient();
-    void kickOut();
-    void on_clientTreeWidget_customContextMenuRequested(const QPoint &pos);
+    void clientConnect( );                  /* 채팅 서버 (채팅을 위한 소켓 생성)*/
+    void receiveData( );                    //데이터를 받아 해당 타입에 연결
+    void removeClient( );                   //server가 종료되었을 때 로그아웃 상태
+    void addClient(int, QString);           //고객리스트 가져옴
+    void inviteClient();                    //초대
+    void kickOut();                         //강퇴
+    void on_clientTreeWidget_customContextMenuRequested(const QPoint &pos); //우클릭시 액션 메뉴
 
-    void removeServerClient(int, QString);
-    void modifyServerClient(int, int, QString);
-    void on_clearPushButton_clicked();
+    void removeServerClient(int, QString);          //client 등록 정보가 사라지면 server list에서도 삭제
+    void modifyServerClient(int, int, QString);     //client 등록 정보가 수정되면 server list에서도 수정
+    void on_clearPushButton_clicked();              //treewidget에 보여지는 정보 지워줌
 };
 
 #endif // CHATSERVERFORM_H

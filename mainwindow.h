@@ -23,21 +23,17 @@ public:
 
 private slots:
     void on_actionClientInfo_triggered();
-
     void on_actionProductInfo_triggered();
-
     void on_actionOrderInfo_triggered();
-
     void on_actionChatManager_triggered();
-
-    void on_actionChat_triggered();
+    void on_actionChat_triggered();         /*tool bar를 눌렀을 때 각 Form으로 이동*/
 
 private:
     Ui::MainWindow *ui;
-    ClientManagerForm *clientForm;
-    ProductManagerForm *productForm;
-    OrderManagerForm *orderForm;
-    ChatServerForm *serverForm;
-    ChatClient *chatForm;
+    ClientManagerForm *clientForm;       //clientForm
+    ProductManagerForm *productForm;     //productForm
+    OrderManagerForm *orderForm;         //orderForm
+    ChatServerForm *serverForm;          //serverForm
+    ChatClient *chatForm;                //chatForm
 };
 #endif // MAINWINDOW_H

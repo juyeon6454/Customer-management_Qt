@@ -19,7 +19,7 @@ QString ProductItem::getProductName() const
 }
 void ProductItem::setProductName(QString& productName)
 {
-    setText(1, productName);
+    setText(1, productName);                            /*QString형 ProductItem 첫 번째 자리*/
 }
 
 QString ProductItem::getPrice() const
@@ -29,7 +29,7 @@ QString ProductItem::getPrice() const
 
 void ProductItem::setPrice(QString& price)
 {
-    setText(2, price);    // c_str() --> const char*
+    setText(2, price);                                  /*QString형 ProductItem 두 번째 자리*/
 }
 
 QString ProductItem::getStock() const
@@ -39,7 +39,7 @@ QString ProductItem::getStock() const
 
 void ProductItem::setStock(QString& stock)
 {
-    setText(3, stock);
+    setText(3, stock);                                   /*QString형 ProductItem 세 번째 자리*/
 }
 
 int ProductItem::productId() const
@@ -47,7 +47,7 @@ int ProductItem::productId() const
     return text(0).toInt();
 }
 
-// Define copy assignment operator.
+
 bool ProductItem::operator==(const ProductItem &other) const {
     return (this->text(1) == other.text(1));
 }
