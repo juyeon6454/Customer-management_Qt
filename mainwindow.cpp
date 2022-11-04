@@ -5,6 +5,13 @@
 #include "ordermanagerform.h"
 #include "chatclient.h"
 #include "chatserverform.h"
+#include <QApplication>
+#include <QTableView>
+#include <QSqlQueryModel>
+#include <QSqlDatabase>
+#include <QSqlQuery>
+#include <QSqlError>
+#include <QDebug>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -69,6 +76,22 @@ MainWindow::MainWindow(QWidget *parent)
     connect(productForm, SIGNAL(stockSended(int)), orderForm, SLOT(stockShowed(int)));
     /*재고량 spinbox 값 제한할 때 product에서 order로 재고량 전달*/
 
+
+    if (!createConnection( )) return;
+
+    QSqlQueryModel queryModel;
+    queryModel.setQuery("select client_id, client_name, phonenumber, address, email from clientlist");
+    queryModel.setHeaderData(0, Qt::Horizontal, QObject::tr("client_id"));
+    queryModel.setHeaderData(1, Qt::Horizontal, QObject::tr("client_name"));
+    queryModel.setHeaderData(2, Qt::Horizontal, QObject::tr("phonenumber"));
+    queryModel.setHeaderData(3, Qt::Horizontal, QObject::tr("address"));
+    queryModel.setHeaderData(4, Qt::Horizontal, QObject::tr("email"));
+
+    QTableView *tableview = new QTableView;
+    tableview->setModel(&queryModel);
+    tableview->setWindowTitle(QObject::tr("clientlist"));
+    //tableview->show( );
+
     clientForm->loadData();
     productForm->loadData();
     orderForm->loadData();      /*저장된 정보들.txt을 불러옴*/
@@ -112,4 +135,19 @@ void MainWindow::on_actionChatManager_triggered()
     if(serverForm != nullptr) {
         serverForm->setFocus();                     //toolbar에 chatmanager를 눌렀을 때 serverForm으로 이동
     }
+}
+
+bool MainWindow::createConnection( )
+{
+    QSqlDatabase db = QSqlDatabase::addDatabase("QODBC");
+    db.setDatabaseName("Oracle11gx64");
+    db.setUserName("miniproject_3");
+    db.setPassword("1234");
+    if (!db.open()) {
+        qDebug() << db.lastError().text();
+    } else {
+        qDebug("success");
+    }
+
+    return true;
 }

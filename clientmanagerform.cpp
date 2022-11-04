@@ -5,6 +5,7 @@
 #include <QFile>
 #include <QMenu>
 #include <QMessageBox>
+#include <QSqlQueryModel>
 
 ClientManagerForm::ClientManagerForm(QWidget *parent) :
     QWidget(parent),
@@ -170,6 +171,11 @@ void ClientManagerForm::on_addPushButton_clicked()                              
         QMessageBox::critical(this, tr("Client Info"),                                   //메세지 박스로 다시 입력하게 함
                               tr("There is information that has not been entered."));
     }
+
+    QSqlQueryModel queryModel;
+    queryModel.setQuery(QString("call UPDATE_CLIENT(%1, '%2', '%3', '%4', '%5')")\
+                        .arg(clientId).arg(clientName).arg(phoneNumber).arg(address).arg(email));
+
     c_clearLineEdit();      //사용한 lineEdit 기록을 지움
 
 }
