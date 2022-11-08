@@ -21,6 +21,7 @@
 #include <QtWidgets/QSpacerItem>
 #include <QtWidgets/QSplitter>
 #include <QtWidgets/QToolBox>
+#include <QtWidgets/QTreeView>
 #include <QtWidgets/QTreeWidget>
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
@@ -60,7 +61,7 @@ public:
     QTreeWidget *searchTreeWidget;
     QWidget *layoutWidget;
     QVBoxLayout *clientListVerticalLayout;
-    QTreeWidget *treeWidget;
+    QTreeView *treeView;
 
     void setupUi(QWidget *ClientManagerForm)
     {
@@ -202,11 +203,11 @@ public:
         clientListVerticalLayout = new QVBoxLayout(layoutWidget);
         clientListVerticalLayout->setObjectName(QString::fromUtf8("clientListVerticalLayout"));
         clientListVerticalLayout->setContentsMargins(0, 0, 0, 0);
-        treeWidget = new QTreeWidget(layoutWidget);
-        treeWidget->setObjectName(QString::fromUtf8("treeWidget"));
-        treeWidget->setRootIsDecorated(false);
+        treeView = new QTreeView(layoutWidget);
+        treeView->setObjectName(QString::fromUtf8("treeView"));
+        treeView->setRootIsDecorated(false);
 
-        clientListVerticalLayout->addWidget(treeWidget);
+        clientListVerticalLayout->addWidget(treeView);
 
         splitter->addWidget(layoutWidget);
 
@@ -256,12 +257,6 @@ public:
         ___qtreewidgetitem->setText(1, QCoreApplication::translate("ClientManagerForm", "Name", nullptr));
         ___qtreewidgetitem->setText(0, QCoreApplication::translate("ClientManagerForm", "ID", nullptr));
         toolBox->setItemText(toolBox->indexOf(searchPage), QCoreApplication::translate("ClientManagerForm", "Search", nullptr));
-        QTreeWidgetItem *___qtreewidgetitem1 = treeWidget->headerItem();
-        ___qtreewidgetitem1->setText(4, QCoreApplication::translate("ClientManagerForm", "E-mail", nullptr));
-        ___qtreewidgetitem1->setText(3, QCoreApplication::translate("ClientManagerForm", "Address", nullptr));
-        ___qtreewidgetitem1->setText(2, QCoreApplication::translate("ClientManagerForm", "Phone Number", nullptr));
-        ___qtreewidgetitem1->setText(1, QCoreApplication::translate("ClientManagerForm", "Name", nullptr));
-        ___qtreewidgetitem1->setText(0, QCoreApplication::translate("ClientManagerForm", "ID", nullptr));
     } // retranslateUi
 
 };

@@ -247,35 +247,10 @@
      <widget class="QWidget" name="layoutWidget">
       <layout class="QVBoxLayout" name="clientListVerticalLayout">
        <item>
-        <widget class="QTreeWidget" name="treeWidget">
+        <widget class="QTreeView" name="treeView">
          <property name="rootIsDecorated">
           <bool>false</bool>
          </property>
-         <column>
-          <property name="text">
-           <string>ID</string>
-          </property>
-         </column>
-         <column>
-          <property name="text">
-           <string>Name</string>
-          </property>
-         </column>
-         <column>
-          <property name="text">
-           <string>Phone Number</string>
-          </property>
-         </column>
-         <column>
-          <property name="text">
-           <string>Address</string>
-          </property>
-         </column>
-         <column>
-          <property name="text">
-           <string>E-mail</string>
-          </property>
-         </column>
         </widget>
        </item>
       </layout>

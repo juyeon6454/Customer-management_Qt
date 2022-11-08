@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include <QHash>
+#include <QSqlQueryModel>
 
 #include "clientitem.h"
 
@@ -59,6 +60,8 @@ private:
     QMap<int, ClientItem*> clientList;
     Ui::ClientManagerForm *ui;
     QMenu* menu;
+
+    QSqlQueryModel * queryModel ;
 
 };
 

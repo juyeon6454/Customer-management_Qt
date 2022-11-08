@@ -19,6 +19,8 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
+   if (!createConnection( )) return;
+
     clientForm = new ClientManagerForm(this);          //client Info 생성
     clientForm->setWindowTitle(tr("Client Info"));
     connect(clientForm, SIGNAL(destroyed()),           //삭제 시그널을 보내도 나중에 삭제하도록
@@ -44,6 +46,8 @@ MainWindow::MainWindow(QWidget *parent)
     ui->mdiArea->addSubWindow(orderForm);
     ui->mdiArea->addSubWindow(serverForm);
     ui->mdiArea->setActiveSubWindow(cw);                        //가장 먼저 보이는 창 clientForm
+
+
 
     connect(orderForm, SIGNAL(o_searchIdClient(int)), clientForm, SLOT(c_findIdClient(int)));
     connect(clientForm, SIGNAL(c_sendIdClient(int, ClientItem*)), orderForm, SLOT(o_showIdClient(int, ClientItem*)));
@@ -77,20 +81,20 @@ MainWindow::MainWindow(QWidget *parent)
     /*재고량 spinbox 값 제한할 때 product에서 order로 재고량 전달*/
 
 
-    if (!createConnection( )) return;
+//    if (!createConnection( )) return;
 
-    QSqlQueryModel queryModel;
-    queryModel.setQuery("select client_id, client_name, phonenumber, address, email from clientlist");
-    queryModel.setHeaderData(0, Qt::Horizontal, QObject::tr("client_id"));
-    queryModel.setHeaderData(1, Qt::Horizontal, QObject::tr("client_name"));
-    queryModel.setHeaderData(2, Qt::Horizontal, QObject::tr("phonenumber"));
-    queryModel.setHeaderData(3, Qt::Horizontal, QObject::tr("address"));
-    queryModel.setHeaderData(4, Qt::Horizontal, QObject::tr("email"));
+//    QSqlQueryModel queryModel;
+//    queryModel.setQuery("select client_id, client_name, phonenumber, address, email from clientlist");
+//    queryModel.setHeaderData(0, Qt::Horizontal, QObject::tr("client_id"));
+//    queryModel.setHeaderData(1, Qt::Horizontal, QObject::tr("client_name"));
+//    queryModel.setHeaderData(2, Qt::Horizontal, QObject::tr("phonenumber"));
+//    queryModel.setHeaderData(3, Qt::Horizontal, QObject::tr("address"));
+//    queryModel.setHeaderData(4, Qt::Horizontal, QObject::tr("email"));
 
-    QTableView *tableview = new QTableView;
-    tableview->setModel(&queryModel);
-    tableview->setWindowTitle(QObject::tr("clientlist"));
-    //tableview->show( );
+//    QTableView *tableview = new QTableView;
+//    tableview->setModel(&queryModel);
+//    tableview->setWindowTitle(QObject::tr("clientlist"));
+//    //tableview->show( );
 
     clientForm->loadData();
     productForm->loadData();
