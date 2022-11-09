@@ -247,7 +247,14 @@
      <widget class="QWidget" name="layoutWidget">
       <layout class="QVBoxLayout" name="clientListVerticalLayout">
        <item>
-        <widget class="QTreeView" name="treeView"/>
+        <widget class="QTreeView" name="treeView">
+         <property name="alternatingRowColors">
+          <bool>true</bool>
+         </property>
+         <property name="textElideMode">
+          <enum>Qt::ElideRight</enum>
+         </property>
+        </widget>
        </item>
       </layout>
      </widget>

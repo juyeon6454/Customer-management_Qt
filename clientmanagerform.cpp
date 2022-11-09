@@ -5,12 +5,12 @@
 #include <QFile>
 #include <QMenu>
 #include <QMessageBox>
-#include <QSqlQueryModel>
 #include <QSqlQuery>
+#include <QSqlTableModel>
 #include <QTreeView>
 #include <QSqlDatabase>
-#include <QSqlError>
-#include <QSqlTableModel>
+#include <QSqlRecord>
+
 
 ClientManagerForm::ClientManagerForm(QWidget *parent) :
     QWidget(parent),
@@ -42,7 +42,6 @@ void ClientManagerForm::loadData()                              //저장된 파�
     if (db.open( )) {
         QSqlQuery query(db);
         query.exec("CREATE TABLE IF NOT EXISTS client(id INTEGER Primary Key, name VARCHAR(30) NOT NULL, phoneNumber VARCHAR(20) NOT NULL, address VARCHAR(50), email VARCHAR(50));");
-        qDebug() << "table";
         clientModel = new QSqlTableModel(this, db);
         clientModel->setTable("client");
         clientModel->select();
@@ -53,6 +52,9 @@ void ClientManagerForm::loadData()                              //저장된 파�
         clientModel->setHeaderData(4, Qt::Horizontal, tr("Email"));
 
         ui->treeView->setModel(clientModel);
+       // ui->treeView->resizeColumnToContents(Qt::AlignCenter);
+       //ui->treeView->resizeColumnToContents(0);
+        //ui->treeView->column("address", anchor="center");
     }
 
     for(int i = 0; i < clientModel->rowCount(); i++) {
@@ -77,7 +79,7 @@ ClientManagerForm::~ClientManagerForm()
 }
 
 
-int ClientManagerForm::makeId( )                  //아이디 자동부여
+int ClientManagerForm::makeId( )                     //아이디 자동부여
 {
     if(clientModel->rowCount() == 0) {               //model에 아무것도 없으면
         return 100;                                  //100부터 반환
@@ -99,7 +101,7 @@ void ClientManagerForm::removeItem()
 //        emit clientRemoved (item->text(0).toInt(), QString::number(rmindex));       //treewidget에서 빼줌
 //    }
 
-    c_clearLineEdit();    //lineEdit에 남은 기록을 지움
+    c_clearLineEdit();                                                                //lineEdit에 남은 기록을 지움
 
 }
 
@@ -110,29 +112,49 @@ void ClientManagerForm::showContextMenu(const QPoint &pos)      //마우스 우�
     menu->exec(globalPos);
 }
 
-void ClientManagerForm::on_searchPushButton_clicked()           //고객 조회 버튼 클릭했을 때
+
+void ClientManagerForm::on_addPushButton_clicked()                                       //고객정보 입력 버튼을 누를 때
 {
-    ui->searchTreeWidget->clear();                              //lineEdit에 남아있을 정보를 지움
 
-    int i = ui->searchComboBox->currentIndex();                 //콤보박스 아이템을 인덱스로 받음
-    auto flag = (i)? Qt::MatchCaseSensitive|Qt::MatchContains
-                   : Qt::MatchCaseSensitive;
-    QModelIndexList indexes = clientModel->match(clientModel->index(0, i), Qt::EditRole, ui->searchLineEdit->text(), -1, Qt::MatchFlags(flag));
+    QString clientName, phoneNumber, address, email;
+    int clientId = makeId( );
+    ui->clientIdLineEdit->setText(QString::number(clientId));
+    clientName = ui->clientNameLineEdit->text();
+    phoneNumber = ui->phoneNumberLineEdit->text();
+    address = ui->addressLineEdit->text();
+    email = ui->emailLineEdit->text();
 
-    foreach(auto ix, indexes) {
-        int id = clientModel->data(ix.siblingAtColumn(0)).toInt(); //c->id();
-        QString name = clientModel->data(ix.siblingAtColumn(1)).toString();
-        QString number = clientModel->data(ix.siblingAtColumn(2)).toString();
-        QString address = clientModel->data(ix.siblingAtColumn(3)).toString();
-        QString email = clientModel->data(ix.siblingAtColumn(4)).toString();
-        QStringList strings;
-        strings << QString::number(id) << name << number << address <<email;
-        new QTreeWidgetItem(ui->searchTreeWidget, strings);
-        for(int i = 0; i < ui->searchTreeWidget->columnCount(); i++)
-            ui->searchTreeWidget->resizeColumnToContents(i);
+    QSqlDatabase db = QSqlDatabase::database("clientConnection");
+    if(db.isOpen() && clientName.length()) {
+        QSqlQuery query(clientModel->database());
+        query.prepare("INSERT INTO client VALUES (?, ?, ?, ?, ?)");
+        query.bindValue(0, clientId);
+        query.bindValue(1, clientName);
+        query.bindValue(2, phoneNumber);
+        query.bindValue(3, address);
+        query.bindValue(4, email);
+        query.exec();
     }
-}
 
+//        if(clientName.length()) {
+//            QSqlQuery query;
+
+//        query.exec(QString("CREATE TABLE CLIENT(%1, '%2', '%3', '%4', '%5')")\
+//                      .arg(clientId).arg(clientName).arg(phoneNumber).arg(address).arg(email));
+//        clientModel->select();
+//    }
+
+
+    else
+    {
+        QMessageBox::critical(this, tr("Client Info"),                                   //메세지 박스로 다시 입력하게 함
+                              tr("There is information that has not been entered."));
+    }
+    clientModel->select();
+    emit clientAdded(clientId, clientName);                                              //server로 clientlist 보내기 위한 signal
+    c_clearLineEdit();                                                                   //사용한 lineEdit 기록을 지움
+
+}
 
 void ClientManagerForm::on_modifyPushButton_clicked()                //수정 버튼 눌렀을 때
 {
@@ -169,40 +191,29 @@ void ClientManagerForm::on_modifyPushButton_clicked()                //수정 �
 
 }
 
-
-void ClientManagerForm::on_addPushButton_clicked()                                       //고객정보 입력 버튼을 누를 때
+void ClientManagerForm::on_searchPushButton_clicked()           //고객 조회 버튼 클릭했을 때
 {
+    ui->searchTreeWidget->clear();                              //lineEdit에 남아있을 정보를 지움
 
-    QString clientName, phoneNumber, address, email;
-    int clientId = makeId( );
-    ui->clientIdLineEdit->setText(QString::number(clientId));
-    clientName = ui->clientNameLineEdit->text();
-    phoneNumber = ui->phoneNumberLineEdit->text();
-    address = ui->addressLineEdit->text();
-    email = ui->emailLineEdit->text();
+    int i = ui->searchComboBox->currentIndex();                 //콤보박스 아이템을 인덱스로 받음
+    auto flag = (i)? Qt::MatchCaseSensitive|Qt::MatchContains
+                   : Qt::MatchCaseSensitive;
+    QModelIndexList indexes = clientModel->match(clientModel->index(0, i), Qt::EditRole, ui->searchLineEdit->text(), -1, Qt::MatchFlags(flag));
 
-    QSqlDatabase db = QSqlDatabase::database("clientConnection");
-    if(db.isOpen() && clientName.length()) {
-        QSqlQuery query(db);
-        query.prepare("INSERT INTO client VALUES (?, ?, ?, ?, ?)");
-        query.bindValue(0, clientId);
-        query.bindValue(1, clientName);
-        query.bindValue(2, phoneNumber);
-        query.bindValue(3, address);
-        query.bindValue(4, email);
-        query.exec();
-        clientModel->select();
-        //ui->treeView->allColumnsShowFocus();
-        }
-    else
-    {
-        QMessageBox::critical(this, tr("Client Info"),                                   //메세지 박스로 다시 입력하게 함
-                              tr("There is information that has not been entered."));
+    foreach(auto ix, indexes) {
+        int id = clientModel->data(ix.siblingAtColumn(0)).toInt(); //c->id();
+        QString name = clientModel->data(ix.siblingAtColumn(1)).toString();
+        QString number = clientModel->data(ix.siblingAtColumn(2)).toString();
+        QString address = clientModel->data(ix.siblingAtColumn(3)).toString();
+        QString email = clientModel->data(ix.siblingAtColumn(4)).toString();
+        QStringList strings;
+        strings << QString::number(id) << name << number << address <<email;
+        new QTreeWidgetItem(ui->searchTreeWidget, strings);
+        for(int i = 0; i < ui->searchTreeWidget->columnCount(); i++)
+            ui->searchTreeWidget->resizeColumnToContents(i);
     }
-    emit clientAdded(clientId, clientName);
-    c_clearLineEdit();      //사용한 lineEdit 기록을 지움
-
 }
+
 
 
 void ClientManagerForm::on_treeWidget_itemClicked(QTreeWidgetItem *item, int column)
