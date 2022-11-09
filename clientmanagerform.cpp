@@ -16,19 +16,18 @@ ClientManagerForm::ClientManagerForm(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::ClientManagerForm)
 {
-    ui->setupUi(this);      // ui 파일이 만들어짐 (this) 현재 class에 ui 파일 올림
+    ui->setupUi(this);                                                    // ui 파일이 만들어짐 (this) 현재 class에 ui 파일 올림
 
-    //if (!createConnection( )) return;
     QList<int> sizes;
     sizes << 300 << 400;
-    ui->splitter->setSizes(sizes);        /*splitter 사이즈 조절*/
+    ui->splitter->setSizes(sizes);                                        /*splitter 사이즈 조절*/
 
-    QAction* removeAction = new QAction(tr("&Remove"));                  //삭제 액션 생성
-    connect(removeAction, SIGNAL(triggered()), SLOT(removeItem()));      //액션 신호를 보낼 때 아이템 삭제
+    QAction* removeAction = new QAction(tr("&Remove"));                   //삭제 액션 생성
+    connect(removeAction, SIGNAL(triggered()), SLOT(removeItem()));       //액션 신호를 보낼 때 아이템 삭제
 
-    menu = new QMenu;                                               //메뉴 생성
-    menu->addAction(removeAction);                                  //메뉴에 remove 액션 추가
-    ui->treeView->setContextMenuPolicy(Qt::CustomContextMenu);    //(우클릭 메뉴)
+    menu = new QMenu;                                                    //메뉴 생성
+    menu->addAction(removeAction);                                       //메뉴에 remove 액션 추가
+    ui->treeView->setContextMenuPolicy(Qt::CustomContextMenu);           //(우클릭 메뉴)
     connect(ui->treeView, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(showContextMenu(QPoint)));
     connect(ui->searchLineEdit, SIGNAL(returnPressed()),
             this, SLOT(on_searchPushButton_clicked()));
@@ -38,7 +37,6 @@ ClientManagerForm::ClientManagerForm(QWidget *parent) :
 
 void ClientManagerForm::loadData()                              //저장된 파일 로드
 {
-    //SqlDatabase db = QSqlDatabase::database();
     QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE", "clientConnection");
     db.setDatabaseName("clientlist.db");
     if (db.open( )) {
@@ -55,17 +53,14 @@ void ClientManagerForm::loadData()                              //저장된 파�
         clientModel->setHeaderData(4, Qt::Horizontal, tr("Email"));
 
         ui->treeView->setModel(clientModel);
-        //ui->tableView->resizeColumnsToContents();
-       // ui->treeView->
     }
 
     for(int i = 0; i < clientModel->rowCount(); i++) {
-        int id = clientModel->data(clientModel->index(i, 0)).toInt();
-        QString name = clientModel->data(clientModel->index(i, 1)).toString();
+        int clientId = clientModel->data(clientModel->index(i, 0)).toInt();
+        QString clientName = clientModel->data(clientModel->index(i, 1)).toString();
         //clientList.insert(id, clientModel->index(i, 0));
-       emit clientAdded(id, name);
+       emit clientAdded(clientId, clientName);
     }
-    //ui->treeView->setModel(queryModel);
 
 }
 
