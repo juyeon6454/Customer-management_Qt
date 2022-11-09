@@ -46,8 +46,9 @@ private slots:
     void c_findEmailClient(QString);    /*시그널을 받아서 고객 정보를 찾아주는 slots*/
 
     void on_clearPushButton_clicked();  //clear 버튼을 누를 때
-
     void on_treeView_clicked(const QModelIndex &index);
+
+    void acceptClientInfo(int);
 
 signals:
 
@@ -60,6 +61,8 @@ signals:
     void clientAdded(int, QString);             //server에 고객정보 추가
     void clientRemoved(int, QString);           //server에 제거된 고객 정보 연동
     void clientModified(int, int, QString);     //server에 수정된 고객 정보 연동
+    void sendClientInfo(QString, QString, QString,QString);
+
 private:
     int makeId();                               //아이디 자동부여
 

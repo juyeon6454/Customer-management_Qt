@@ -1,10 +1,12 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+
 #include "clientmanagerform.h"
 #include "productmanagerform.h"
 #include "ordermanagerform.h"
 #include "chatclient.h"
 #include "chatserverform.h"
+
 #include <QApplication>
 #include <QTreeView>
 #include <QSqlQueryModel>
@@ -18,9 +20,7 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
 
-    //QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");
     ui->setupUi(this);
-//   if (!createConnection( )) return;
 
     clientForm = new ClientManagerForm(this);          //client Info 생성
     clientForm->setWindowTitle(tr("Client Info"));

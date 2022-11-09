@@ -98,7 +98,7 @@ void ClientManagerForm::removeItem()
         clientModel->select();
         //ui->treeView->resizeColumnsToContents();
     }
-//        emit clientRemoved (item->text(0).toInt(), QString::number(rmindex));       //treewidget에서 빼줌
+      // emit clientRemoved (item->text(0).toInt(), QString::number(rmindex));       //treewidget에서 빼줌
 //    }
 
     c_clearLineEdit();                                                                //lineEdit에 남은 기록을 지움
@@ -125,7 +125,7 @@ void ClientManagerForm::on_addPushButton_clicked()                              
     email = ui->emailLineEdit->text();
 
     QSqlDatabase db = QSqlDatabase::database("clientConnection");
-    if(db.isOpen() && clientName.length()) {
+    if(db.isOpen() && clientName.length() && phoneNumber.length() && address.length()) {
         QSqlQuery query(clientModel->database());
         query.prepare("INSERT INTO client VALUES (?, ?, ?, ?, ?)");
         query.bindValue(0, clientId);
@@ -134,8 +134,8 @@ void ClientManagerForm::on_addPushButton_clicked()                              
         query.bindValue(3, address);
         query.bindValue(4, email);
         query.exec();
-    }
 
+    }
 //        if(clientName.length()) {
 //            QSqlQuery query;
 
@@ -143,8 +143,6 @@ void ClientManagerForm::on_addPushButton_clicked()                              
 //                      .arg(clientId).arg(clientName).arg(phoneNumber).arg(address).arg(email));
 //        clientModel->select();
 //    }
-
-
     else
     {
         QMessageBox::critical(this, tr("Client Info"),                                   //메세지 박스로 다시 입력하게 함
@@ -161,15 +159,15 @@ void ClientManagerForm::on_modifyPushButton_clicked()                //수정 �
     QModelIndex index = ui->treeView->currentIndex();
     if(index.isValid()) {
 //        int id = clientModel->data(index.siblingAtColumn(0)).toInt();
-        QString name, number, address, email;
-        name = ui->clientNameLineEdit->text();
-        number = ui->phoneNumberLineEdit->text();
+        QString clientName, phonenumber, address, email;
+        clientName = ui->clientNameLineEdit->text();
+        phonenumber = ui->phoneNumberLineEdit->text();
         address = ui->addressLineEdit->text();
         email = ui->emailLineEdit->text();
 #if 1
 //        clientModel->setData(index.siblingAtColumn(0), id);
-        clientModel->setData(index.siblingAtColumn(1), name);
-        clientModel->setData(index.siblingAtColumn(2), number);
+        clientModel->setData(index.siblingAtColumn(1), clientName);
+        clientModel->setData(index.siblingAtColumn(2), phonenumber);
         clientModel->setData(index.siblingAtColumn(3), address);
         clientModel->setData(index.siblingAtColumn(4), email);
         clientModel->submit();
@@ -186,7 +184,7 @@ void ClientManagerForm::on_modifyPushButton_clicked()                //수정 �
         clientModel->select();
         //ui->treeView->resizeColumnsToContents();
     }
-       // emit clientModified (key, index, clientName);               //고객 정보 수정시 sever client리스트도 같이 수정
+        //emit clientModified (key, index, clientName);               //고객 정보 수정시 sever client리스트도 같이 수정
 
 
 }
@@ -318,12 +316,10 @@ void ClientManagerForm::c_findEmailClient(QString c_email)
 
 }
 
-
 void ClientManagerForm::on_clearPushButton_clicked()
 {
     c_clearLineEdit();              //clear 버튼을 눌렀을 때 lineEdit 기록이 지워지도록
 }
-
 
 void ClientManagerForm::c_clearLineEdit()
 {
@@ -377,3 +373,17 @@ void ClientManagerForm::on_treeView_clicked(const QModelIndex &index)
 
 }
 
+void ClientManagerForm::acceptClientInfo(int key)
+{
+    QModelIndexList indexes = clientModel->match(clientModel->index(0, 0), Qt::EditRole, key, -1, Qt::MatchFlags(Qt::MatchCaseSensitive));
+
+    foreach(auto index, indexes) {
+//    QModelIndex index = clientList[key];
+
+        QString name = clientModel->data(index.siblingAtColumn(1)).toString();
+        QString phoneNumber = clientModel->data(index.siblingAtColumn(2)).toString();
+        QString address = clientModel->data(index.siblingAtColumn(3)).toString();
+        QString email = clientModel->data(index.siblingAtColumn(3)).toString();
+        emit sendClientInfo(name, phoneNumber, address, email);
+    }
+}
