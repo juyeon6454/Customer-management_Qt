@@ -247,11 +247,7 @@
      <widget class="QWidget" name="layoutWidget">
       <layout class="QVBoxLayout" name="clientListVerticalLayout">
        <item>
-        <widget class="QTreeView" name="treeView">
-         <property name="rootIsDecorated">
-          <bool>false</bool>
-         </property>
-        </widget>
+        <widget class="QTreeView" name="treeView"/>
        </item>
       </layout>
      </widget>

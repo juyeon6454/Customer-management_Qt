@@ -10,6 +10,9 @@
 class ClientItem;
 class QMenu;
 class QTreeWidgetItem;
+class QSqlDatabase;
+class QSqlTableModel;
+
 
 namespace Ui {
 class ClientManagerForm;
@@ -25,6 +28,7 @@ public:
     void loadData();                                                    //data 저장한 txt 파일을 load
     void c_clearLineEdit();                                             //lineEdit 기록을 남기지 않고 지움
 
+    // bool createConnection();
 private slots:
     /* QTreeWidget을 위한 슬롯 */
     void showContextMenu(const QPoint &);
@@ -42,6 +46,8 @@ private slots:
     void c_findEmailClient(QString);    /*시그널을 받아서 고객 정보를 찾아주는 slots*/
 
     void on_clearPushButton_clicked();  //clear 버튼을 누를 때
+
+    void on_treeView_clicked(const QModelIndex &index);
 
 signals:
 
@@ -61,7 +67,9 @@ private:
     Ui::ClientManagerForm *ui;
     QMenu* menu;
 
-    QSqlQueryModel * queryModel ;
+   // QSqlQueryModel * queryModel ;
+
+    QSqlTableModel* clientModel;
 
 };
 

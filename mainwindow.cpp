@@ -6,7 +6,7 @@
 #include "chatclient.h"
 #include "chatserverform.h"
 #include <QApplication>
-#include <QTableView>
+#include <QTreeView>
 #include <QSqlQueryModel>
 #include <QSqlDatabase>
 #include <QSqlQuery>
@@ -17,9 +17,10 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
-    ui->setupUi(this);
 
-   if (!createConnection( )) return;
+    //QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");
+    ui->setupUi(this);
+//   if (!createConnection( )) return;
 
     clientForm = new ClientManagerForm(this);          //client Info 생성
     clientForm->setWindowTitle(tr("Client Info"));
@@ -141,17 +142,3 @@ void MainWindow::on_actionChatManager_triggered()
     }
 }
 
-bool MainWindow::createConnection( )
-{
-    QSqlDatabase db = QSqlDatabase::addDatabase("QODBC");
-    db.setDatabaseName("Oracle11gx64");
-    db.setUserName("miniproject_3");
-    db.setPassword("1234");
-    if (!db.open()) {
-        qDebug() << db.lastError().text();
-    } else {
-        qDebug("success");
-    }
-
-    return true;
-}
