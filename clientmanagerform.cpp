@@ -92,14 +92,18 @@ int ClientManagerForm::makeId( )                     //아이디 자동부여
 void ClientManagerForm::removeItem()
 {
     QModelIndex index = ui->treeView->currentIndex();
+    int delid = index.sibling(index.row(), 0).data().toInt();
+
+    int row = index.row();
     if(index.isValid()) {
         //clientList.remove(clientModel->data(index.siblingAtColumn(0)).toInt());
         clientModel->removeRow(index.row());
         clientModel->select();
         //ui->treeView->resizeColumnsToContents();
     }
-      // emit clientRemoved (item->text(0).toInt(), QString::number(rmindex));       //treewidget에서 빼줌
-//    }
+    emit clientRemoved (delid, QString::number(row));       //treewidget에서 빼줌
+       //emit clientRemoved (item->text(0).toInt(), QString::number(rmindex));       //treewidget에서 빼줌
+//
 
     c_clearLineEdit();                                                                //lineEdit에 남은 기록을 지움
 
@@ -157,13 +161,16 @@ void ClientManagerForm::on_addPushButton_clicked()                              
 void ClientManagerForm::on_modifyPushButton_clicked()                //수정 버튼 눌렀을 때
 {
     QModelIndex index = ui->treeView->currentIndex();
+    int molid = index.sibling(index.row(), 0).data().toInt();
+    //QString moName = index.sibling(index.row(), 1).data().toString();
+    QString clientName, phonenumber, address, email;
+    clientName = ui->clientNameLineEdit->text();
+    phonenumber = ui->phoneNumberLineEdit->text();
+    address = ui->addressLineEdit->text();
+    email = ui->emailLineEdit->text();
+    int row = index.row();
     if(index.isValid()) {
 //        int id = clientModel->data(index.siblingAtColumn(0)).toInt();
-        QString clientName, phonenumber, address, email;
-        clientName = ui->clientNameLineEdit->text();
-        phonenumber = ui->phoneNumberLineEdit->text();
-        address = ui->addressLineEdit->text();
-        email = ui->emailLineEdit->text();
 #if 1
 //        clientModel->setData(index.siblingAtColumn(0), id);
         clientModel->setData(index.siblingAtColumn(1), clientName);
@@ -184,7 +191,7 @@ void ClientManagerForm::on_modifyPushButton_clicked()                //수정 �
         clientModel->select();
         //ui->treeView->resizeColumnsToContents();
     }
-        //emit clientModified (key, index, clientName);               //고객 정보 수정시 sever client리스트도 같이 수정
+       emit clientModified (molid, row, clientName);               //고객 정보 수정시 sever client리스트도 같이 수정
 
 
 }

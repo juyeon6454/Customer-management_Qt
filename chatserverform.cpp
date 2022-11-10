@@ -355,9 +355,9 @@ void ChatServerForm::on_clearPushButton_clicked()       //clear버튼을 누르�
     ui->messageTreeWidget->clear();
 }
 
-void ChatServerForm::modifyServerClient(int key, int index, QString clientname)     //client 정보를 수정하면 serverwidget에서도 수정
+void ChatServerForm::modifyServerClient(int key, int row, QString clientname)     //client 정보를 수정하면 serverwidget에서도 수정
 {
-    ui->clientTreeWidget->topLevelItem(index)->setText(1,clientname);
+    ui->clientTreeWidget->topLevelItem(row)->setText(1,clientname);
     clientIDHash[clientname] = key;
 }
 
