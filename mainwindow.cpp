@@ -48,19 +48,24 @@ MainWindow::MainWindow(QWidget *parent)
     ui->mdiArea->addSubWindow(serverForm);
     ui->mdiArea->setActiveSubWindow(cw);                        //가장 먼저 보이는 창 clientForm
 
-
-
-    connect(orderForm, SIGNAL(o_searchIdClient(int)), clientForm, SLOT(c_findIdClient(int)));
-    connect(clientForm, SIGNAL(c_sendIdClient(int, ClientItem*)), orderForm, SLOT(o_showIdClient(int, ClientItem*)));
-    connect(orderForm, SIGNAL(o_searchNameClient(QString)), clientForm, SLOT(c_findNameClient(QString)));
-    connect(clientForm, SIGNAL(c_sendNameClient(QString, ClientItem*)), orderForm, SLOT(o_showNameClient(QString, ClientItem*)));
-    connect(orderForm, SIGNAL(o_searchNumberClient(QString)), clientForm, SLOT(c_findNumberClient(QString)));
-    connect(clientForm, SIGNAL(c_sendNumberClient(QString, ClientItem*)), orderForm, SLOT(o_showNumberClient(QString, ClientItem*)));
-    connect(orderForm, SIGNAL(o_searchAddressClient(QString)), clientForm, SLOT(c_findAddressClient(QString)));
-    connect(clientForm, SIGNAL(c_sendAddressClient(QString, ClientItem*)), orderForm, SLOT(o_showAddressClient(QString, ClientItem*)));
-    connect(orderForm, SIGNAL(o_searchEmailClient(QString)), clientForm, SLOT(c_findEmailClient(QString)));
-    connect(clientForm, SIGNAL(c_sendEmailClient(QString, ClientItem*)), orderForm, SLOT(o_showEmailClient(QString, ClientItem*)));
+    connect(orderForm, SIGNAL(searchClient(int, QString)), clientForm, SLOT(findClient(int,QString)));
+    connect(orderForm, SIGNAL(searchClient(int, int)), clientForm, SLOT(findClient(int, int)));
+    connect(clientForm, SIGNAL(sendClient(int, QString, QString, QString,QString)),orderForm, SLOT(showClient(int,QString, QString, QString,QString)));
+//    connect(orderForm, SIGNAL(o_searchIdClient(int)), clientForm, SLOT(c_findIdClient(int)));
+//    connect(clientForm, SIGNAL(c_sendIdClient(int, ClientItem*)), orderForm, SLOT(o_showIdClient(int, ClientItem*)));
+//    connect(orderForm, SIGNAL(o_searchNameClient(QString)), clientForm, SLOT(c_findNameClient(QString)));
+//    connect(clientForm, SIGNAL(c_sendNameClient(QString, ClientItem*)), orderForm, SLOT(o_showNameClient(QString, ClientItem*)));
+//    connect(orderForm, SIGNAL(o_searchNumberClient(QString)), clientForm, SLOT(c_findNumberClient(QString)));
+//    connect(clientForm, SIGNAL(c_sendNumberClient(QString, ClientItem*)), orderForm, SLOT(o_showNumberClient(QString, ClientItem*)));
+//    connect(orderForm, SIGNAL(o_searchAddressClient(QString)), clientForm, SLOT(c_findAddressClient(QString)));
+//    connect(clientForm, SIGNAL(c_sendAddressClient(QString, ClientItem*)), orderForm, SLOT(o_showAddressClient(QString, ClientItem*)));
+//    connect(orderForm, SIGNAL(o_searchEmailClient(QString)), clientForm, SLOT(c_findEmailClient(QString)));
+//    connect(clientForm, SIGNAL(c_sendEmailClient(QString, ClientItem*)), orderForm, SLOT(o_showEmailClient(QString, ClientItem*)));
     /*order에서 client 정보를 요청하면 client 정보를 찾아서 order 고객정보조회 lienedit로 받아감*/
+
+
+//    connect(productForm, SIGNAL(sendProductInfo(QString, int, int)), orderForm, SLOT(getProductInfo(QString, int, int)));
+//    connect(orderForm, SIGNAL(getProductInfo(int)), productForm, SLOT(acceptProductInfo(int)));
 
     connect(orderForm, SIGNAL(o_searchIdProduct(int)), productForm, SLOT(p_findIdProduct(int)));
     connect(productForm, SIGNAL(p_sendIdProduct(int, ProductItem*)), orderForm, SLOT(o_showIdProduct(int, ProductItem*)));

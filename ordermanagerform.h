@@ -36,11 +36,13 @@ private slots:
      void showContextMenu(const QPoint &);
      void removeItem();                             /* QAction을 위한 슬롯 */
 
-      void o_showIdClient(int, ClientItem*);
+/*      void o_showIdClient(int, ClientItem*);
       void o_showNameClient(QString, ClientItem*);
       void o_showNumberClient(QString, ClientItem*);
       void o_showAddressClient(QString, ClientItem*);
-      void o_showEmailClient(QString, ClientItem*); /*받아온 고객 정보를 보여주는 slots*/
+      void o_showEmailClient(QString, ClientItem*);/* /*받아온 고객 정보를 보여주는 slots*/
+
+      void showClient(int, QString, QString, QString, QString);
 
       void o_showIdProduct(int, ProductItem*);
       void o_showNameProduct(QString, ProductItem*);
@@ -68,11 +70,14 @@ private slots:
 
 
 signals:
-      void o_searchIdClient(int);
+/*      void o_searchIdClient(int);
       void o_searchNameClient(QString);
       void o_searchNumberClient(QString);
       void o_searchAddressClient(QString);
-      void o_searchEmailClient(QString);        /*콤보박스를 통해 검색한 내용으로 고객 정보를 찾아달라는 signal*/
+      void o_searchEmailClient(QString); */       /*콤보박스를 통해 검색한 내용으로 고객 정보를 찾아달라는 signal*/
+
+      void searchClient(int, QString);
+      void searchClient(int, int);
 
       void o_searchIdProduct(int);
       void o_searchNameProduct(QString);
@@ -81,6 +86,7 @@ signals:
 
       void stockSearched(int);                  //재고량 검색 signal
 
+      void getClientInfo(int);
 private:
     int makeId();                       //id 자동부여
 

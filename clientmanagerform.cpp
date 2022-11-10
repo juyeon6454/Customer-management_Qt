@@ -1,6 +1,5 @@
 #include "clientmanagerform.h"
 #include "ui_clientmanagerform.h"
-//#include "clientitem.h"
 
 #include <QFile>
 #include <QMenu>
@@ -32,7 +31,6 @@ ClientManagerForm::ClientManagerForm(QWidget *parent) :
     connect(ui->searchLineEdit, SIGNAL(returnPressed()),
             this, SLOT(on_searchPushButton_clicked()));
 
-
 }
 
 void ClientManagerForm::loadData()                              //저장된 파일 로드
@@ -52,9 +50,6 @@ void ClientManagerForm::loadData()                              //저장된 파�
         clientModel->setHeaderData(4, Qt::Horizontal, tr("Email"));
 
         ui->treeView->setModel(clientModel);
-       // ui->treeView->resizeColumnToContents(Qt::AlignCenter);
-       //ui->treeView->resizeColumnToContents(0);
-        //ui->treeView->column("address", anchor="center");
     }
 
     for(int i = 0; i < clientModel->rowCount(); i++) {
@@ -102,9 +97,6 @@ void ClientManagerForm::removeItem()
         //ui->treeView->resizeColumnsToContents();
     }
     emit clientRemoved (delid, QString::number(row));       //treewidget에서 빼줌
-       //emit clientRemoved (item->text(0).toInt(), QString::number(rmindex));       //treewidget에서 빼줌
-//
-
     c_clearLineEdit();                                                                //lineEdit에 남은 기록을 지움
 
 }
@@ -220,109 +212,6 @@ void ClientManagerForm::on_searchPushButton_clicked()           //고객 조회 
 }
 
 
-
-void ClientManagerForm::on_treeWidget_itemClicked(QTreeWidgetItem *item, int column)
-{
-    Q_UNUSED(column);
-
-    ui->clientIdLineEdit->setText(item->text(0));
-    ui->clientNameLineEdit->setText(item->text(1));
-    ui->phoneNumberLineEdit->setText(item->text(2));
-    ui->addressLineEdit->setText(item->text(3));
-    ui->emailLineEdit->setText(item->text(4));
-    ui->toolBox->setCurrentIndex(0);                 /*treeWidget 아이템 클릭시 각 해당칸에 정보 나타남*/
-
-}
-
-void ClientManagerForm::c_findIdClient(int c_id)
-{
-//    auto items = ui->treeWidget->findItems(QString::number(c_id), Qt::MatchContains|Qt::MatchCaseSensitive,0);
-
-//    foreach(auto i, items) {
-//        ClientItem* c = static_cast<ClientItem*>(i);
-//        int clientId = c->ClientId();
-//        QString clientName = c->getClientName();
-//        QString phoneNumber = c->getPhoneNumber();
-//        QString address = c->getAddress();
-//        QString email = c->getEmail();
-//        ClientItem* item = new ClientItem(clientId,clientName, phoneNumber, address, email);
-
-//        emit c_sendIdClient(c_id, item);    //order에서 정보를 찾아달라는 signal을 보내면 client 정보를 찾아서 찾았다는 signal을 보내준다 (id값)
-//    }
-}
-
-void ClientManagerForm::c_findNameClient(QString c_name)
-{
-//    auto items = ui->treeWidget->findItems(c_name, Qt::MatchContains|Qt::MatchCaseSensitive, 1);
-
-//    foreach(auto i, items) {
-//        ClientItem* c = static_cast<ClientItem*>(i);
-//        int clientId = c->ClientId();
-//        QString clientName = c->getClientName();
-//        QString phoneNumber = c->getPhoneNumber();
-//        QString address = c->getAddress();
-//        QString email = c->getEmail();
-//        ClientItem* item = new ClientItem(clientId,clientName, phoneNumber, address, email);
-
-//        emit c_sendNameClient(c_name, item);  //order에서 정보를 찾아달라는 signal을 보내면 client 정보를 찾아서 찾았다는 signal을 보내준다 (name 값)
-//    }
-
-}
-
-void ClientManagerForm::c_findNumberClient(QString c_number)
-{
-//    auto items = ui->treeWidget->findItems(c_number, Qt::MatchContains|Qt::MatchCaseSensitive, 2);
-
-//    foreach(auto i, items) {
-//        ClientItem* c = static_cast<ClientItem*>(i);
-//        int clientId = c->ClientId();
-//        QString clientName = c->getClientName();
-//        QString phoneNumber = c->getPhoneNumber();
-//        QString address = c->getAddress();
-//        QString email = c->getEmail();
-//        ClientItem* item = new ClientItem(clientId,clientName, phoneNumber, address, email);
-
-//        emit c_sendNumberClient(c_number, item); //order에서 정보를 찾아달라는 signal을 보내면 client 정보를 찾아서 찾았다는 signal을 보내준다 (phonenumber 값)
-//    }
-
-}
-
-void ClientManagerForm::c_findAddressClient(QString c_address)
-{
-//    auto items = ui->treeWidget->findItems(c_address, Qt::MatchContains|Qt::MatchCaseSensitive, 3);
-
-//    foreach(auto i, items) {
-//        ClientItem* c = static_cast<ClientItem*>(i);
-//        int clientId = c->ClientId();
-//        QString clientName = c->getClientName();
-//        QString phoneNumber = c->getPhoneNumber();
-//        QString address = c->getAddress();
-//        QString email = c->getEmail();
-//        ClientItem* item = new ClientItem(clientId,clientName, phoneNumber, address, email);
-
-//        emit c_sendAddressClient(c_address, item); //order에서 정보를 찾아달라는 signal을 보내면 client 정보를 찾아서 찾았다는 signal을 보내준다 (address 값)
-//    }
-
-}
-
-void ClientManagerForm::c_findEmailClient(QString c_email)
-{
-//    auto items = ui->treeWidget->findItems(c_email, Qt::MatchContains|Qt::MatchCaseSensitive, 4);
-
-//    foreach(auto i, items) {
-//        ClientItem* c = static_cast<ClientItem*>(i);
-//        int clientId = c->ClientId();
-//        QString clientName = c->getClientName();
-//        QString phoneNumber = c->getPhoneNumber();
-//        QString address = c->getAddress();
-//        QString email = c->getEmail();
-//        ClientItem* item = new ClientItem(clientId,clientName, phoneNumber, address, email);
-
-//        emit c_sendEmailClient(c_email, item); //order에서 정보를 찾아달라는 signal을 보내면 client 정보를 찾아서 찾았다는 signal을 보내준다 (email 값)
-//    }
-
-}
-
 void ClientManagerForm::on_clearPushButton_clicked()
 {
     c_clearLineEdit();              //clear 버튼을 눌렀을 때 lineEdit 기록이 지워지도록
@@ -337,32 +226,6 @@ void ClientManagerForm::c_clearLineEdit()
     ui->emailLineEdit->clear();     //clear 버튼을 눌렀을 때 lineEdit 기록이 지워지도록 하는 함수 구현
 }
 
-//bool ClientManagerForm::createConnection( )
-//{
-////    QSqlDatabase db = QSqlDatabase::addDatabase("QODBC");
-////    db.setDatabaseName("Oracle11gx64");
-////    db.setUserName("miniproject_3");
-////    db.setPassword("1234");
-////    if (!db.open()) {
-////        qDebug() << db.lastError().text();
-////    } else {
-////        qDebug("success");
-////    }
-
-////    return true;
-
-//    //QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");
-
-//     QSqlDatabase db = QSqlDatabase::database();
-//    db.setDatabaseName("clientlist.db");
-//    if (db.open( )) {
-//        QSqlQuery query;
-//        query.exec("CREATE TABLE IF NOT EXISTS client(id INTEGER Primary Key, name VARCHAR(30) NOT NULL, phoneNumber VARCHAR(20) NOT NULL, address VARCHAR(50), email VARCHAR(50);");
-//    }
-
-//    return true;
-//}
-
 
 void ClientManagerForm::on_treeView_clicked(const QModelIndex &index)
 {
@@ -376,21 +239,85 @@ void ClientManagerForm::on_treeView_clicked(const QModelIndex &index)
     ui->clientNameLineEdit->setText(clientName);
     ui->phoneNumberLineEdit->setText(phoneNumber);
     ui->addressLineEdit->setText(address);
+    ui->emailLineEdit->setText(email);
     ui->toolBox->setCurrentIndex(0);
 
 }
 
-void ClientManagerForm::acceptClientInfo(int key)
+void ClientManagerForm::findClient(int index, int c_id)
 {
-    QModelIndexList indexes = clientModel->match(clientModel->index(0, 0), Qt::EditRole, key, -1, Qt::MatchFlags(Qt::MatchCaseSensitive));
+    auto flag = (index)? Qt::MatchCaseSensitive|Qt::MatchContains
+                        : Qt::MatchCaseSensitive;
+    QModelIndexList indexes = clientModel->match(clientModel->index(0, 0), Qt::EditRole, c_id, -1,  Qt::MatchFlags(flag));
 
     foreach(auto index, indexes) {
-//    QModelIndex index = clientList[key];
-
-        QString name = clientModel->data(index.siblingAtColumn(1)).toString();
+        int c_id = clientModel->data(index.siblingAtColumn(0)).toInt();
+        QString clientName = clientModel->data(index.siblingAtColumn(1)).toString();
         QString phoneNumber = clientModel->data(index.siblingAtColumn(2)).toString();
         QString address = clientModel->data(index.siblingAtColumn(3)).toString();
         QString email = clientModel->data(index.siblingAtColumn(3)).toString();
-        emit sendClientInfo(name, phoneNumber, address, email);
+        emit sendClient(c_id, clientName, phoneNumber, address, email);
+        }
+}
+
+void ClientManagerForm::findClient(int index, QString text)
+{
+    //int i = ui->treeView->currentIndex();
+    auto flag = (index)? Qt::MatchCaseSensitive|Qt::MatchContains
+                       : Qt::MatchCaseSensitive;
+    if(index == 1)
+    {
+    QModelIndexList indexes = clientModel->match(clientModel->index(0, 1), Qt::EditRole, text, -1, Qt::MatchFlags(flag));
+
+        foreach(auto index, indexes) {
+            int c_id = clientModel->data(index.siblingAtColumn(0)).toInt();
+            QString clientName = clientModel->data(index.siblingAtColumn(1)).toString();
+            QString phoneNumber = clientModel->data(index.siblingAtColumn(2)).toString();
+            QString address = clientModel->data(index.siblingAtColumn(3)).toString();
+            QString email = clientModel->data(index.siblingAtColumn(3)).toString();
+            emit sendClient(c_id, clientName, phoneNumber, address, email);
+            }
+    }
+
+    else if(index == 2)
+    {
+
+    QModelIndexList indexes = clientModel->match(clientModel->index(0, 2), Qt::EditRole, text, -1,Qt::MatchFlags(flag));
+
+        foreach(auto index, indexes) {
+            int c_id = clientModel->data(index.siblingAtColumn(0)).toInt();
+            QString clientName = clientModel->data(index.siblingAtColumn(1)).toString();
+            QString phoneNumber = clientModel->data(index.siblingAtColumn(2)).toString();
+            QString address = clientModel->data(index.siblingAtColumn(3)).toString();
+            QString email = clientModel->data(index.siblingAtColumn(3)).toString();
+            emit sendClient(c_id, clientName, phoneNumber, address, email);
+        }
+    }
+    else if(index == 3)
+    {
+    QModelIndexList indexes = clientModel->match(clientModel->index(0, 3), Qt::EditRole, text, -1, Qt::MatchFlags(flag));
+
+        foreach(auto index, indexes) {
+            int c_id = clientModel->data(index.siblingAtColumn(0)).toInt();
+            QString clientName = clientModel->data(index.siblingAtColumn(1)).toString();
+            QString phoneNumber = clientModel->data(index.siblingAtColumn(2)).toString();
+            QString address = clientModel->data(index.siblingAtColumn(3)).toString();
+            QString email = clientModel->data(index.siblingAtColumn(3)).toString();
+            emit sendClient(c_id, clientName, phoneNumber, address, email);
+        }
+    }
+
+    else if(index == 4)
+    {
+    QModelIndexList indexes = clientModel->match(clientModel->index(0, 4), Qt::EditRole, text, -1, Qt::MatchFlags(flag));
+
+        foreach(auto index, indexes) {
+            int c_id = clientModel->data(index.siblingAtColumn(0)).toInt();
+            QString clientName = clientModel->data(index.siblingAtColumn(1)).toString();
+            QString phoneNumber = clientModel->data(index.siblingAtColumn(2)).toString();
+            QString address = clientModel->data(index.siblingAtColumn(3)).toString();
+            QString email = clientModel->data(index.siblingAtColumn(3)).toString();
+            emit sendClient(c_id, clientName, phoneNumber, address, email);
+        }
     }
 }

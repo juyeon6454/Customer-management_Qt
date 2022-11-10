@@ -222,77 +222,24 @@ void OrderManagerForm::on_orderSearchTreeWidget_itemClicked(QTreeWidgetItem *ite
         ui->totalPriceLineEdit->setText(item->text(7));                     /*treeWidget 아이템 클릭시 각 해당칸에 정보 나타남*/
 }
 
-void OrderManagerForm::o_showIdClient(int c_id, ClientItem* clientItem)
+void OrderManagerForm::showClient(int c_id, QString clientName, QString phoneNumber, QString address, QString email)
 {
-    QString clientName, phoneNumber, address, email;
-    int clientId = clientItem->ClientId();
-    clientName = clientItem->getClientName();
-    phoneNumber = clientItem->getPhoneNumber();
-    address = clientItem->getAddress();
-    email = clientItem->getEmail();
-    if(QString::number(clientId).length()) {
-        ClientItem* c = new ClientItem(clientId, clientName, phoneNumber, address, email); /*id로 해당 고객의 정보를 전부 가져와 보여줌*/
-        ui->o_clientInfoTreeWidget->addTopLevelItem(c);
+    ui->o_clientInfoTreeWidget->clear();
+    QTreeWidgetItem *clientItem = new QTreeWidgetItem(ui->o_clientInfoTreeWidget);
+
+    if(QString::number(c_id).length()) {
+    clientItem->setText(0, QString::number(c_id));
+    clientItem->setText(1, clientName);
+    clientItem->setText(2, phoneNumber);
+    clientItem->setText(3, address);
+    clientItem->setText(4, email);
     }
+//    if(QString::number(c_id).length()) {
+//        ClientItem* c = new ClientItem(c_id, clientName, phoneNumber, address, email); /*id로 해당 고객의 정보를 전부 가져와 보여줌*/
+//        ui->o_clientInfoTreeWidget->addTopLevelItem(c);
+//    }
 }
 
-
-void OrderManagerForm::o_showNameClient(QString c_name, ClientItem* clientItem)
-{
-    QString clientName, phoneNumber, address, email;
-    int clientId = clientItem->ClientId();
-    clientName = clientItem->getClientName();
-    phoneNumber = clientItem->getPhoneNumber();
-    address = clientItem->getAddress();
-    email = clientItem->getEmail();
-    if(clientName.length()) {
-        ClientItem* c = new ClientItem(clientId, clientName, phoneNumber, address,email);   /*이름으로 해당 고객의 정보를 전부 가져와 보여줌*/
-        ui->o_clientInfoTreeWidget->addTopLevelItem(c);
-    }
-}
-
-
-void OrderManagerForm::o_showNumberClient(QString c_number, ClientItem* clientItem)
-{
-    QString clientName, phoneNumber, address, email;
-    int clientId = clientItem->ClientId();
-    clientName = clientItem->getClientName();
-    phoneNumber = clientItem->getPhoneNumber();
-    address = clientItem->getAddress();
-    email = clientItem->getEmail();
-    if(phoneNumber.length()) {
-        ClientItem* c = new ClientItem(clientId, clientName, phoneNumber, address, email); /*핸드폰번호로 해당 고객의 정보를 전부 가져와 보여줌*/
-        ui->o_clientInfoTreeWidget->addTopLevelItem(c);
-    }
-}
-
-void OrderManagerForm::o_showAddressClient(QString c_address, ClientItem* clientItem)
-{
-    QString clientName, phoneNumber, address, email;
-    int clientId = clientItem->ClientId();
-    clientName = clientItem->getClientName();
-    phoneNumber = clientItem->getPhoneNumber();
-    address = clientItem->getAddress();
-    email = clientItem->getEmail();
-    if(address.length()) {
-        ClientItem* c = new ClientItem(clientId, clientName, phoneNumber, address, email);  /*주소로 해당 고객의 정보를 전부 가져와 보여줌*/
-        ui->o_clientInfoTreeWidget->addTopLevelItem(c);
-    }
-}
-
-void OrderManagerForm::o_showEmailClient(QString c_email, ClientItem* clientItem)
-{
-    QString clientName, phoneNumber, address,email;
-    int clientId = clientItem->ClientId();
-    clientName = clientItem->getClientName();
-    phoneNumber = clientItem->getPhoneNumber();
-    address = clientItem->getAddress();
-    email = clientItem->getEmail();
-    if(email.length()) {
-        ClientItem* c = new ClientItem(clientId, clientName, phoneNumber, address,email);  /*이메일로 해당 고객의 정보를 전부 가져와 보여줌*/
-        ui->o_clientInfoTreeWidget->addTopLevelItem(c);
-    }
-}
 
 void OrderManagerForm::on_o_clientSearchPushButton_clicked() //고객정보 조회 버튼을 누를 때
 {
@@ -302,30 +249,12 @@ void OrderManagerForm::on_o_clientSearchPushButton_clicked() //고객정보 조�
    if(index == 0)
    {
     int c_id = ui->o_clientSearchLineEdit->text().toInt();
-    emit o_searchIdClient(c_id);                            //id로 검색 할 때 signal로 id값을 보내줌
+    emit searchClient(index, c_id);                            //id로 검색 할 때 signal로 id값을 보내줌
    }
-   else if(index == 1)
+   else
    {
-      QString c_name = ui->o_clientSearchLineEdit->text();
-      emit o_searchNameClient(c_name);                      //이름으로 검색 할 때 signal로 이름 값을 보내줌
-   }
-
-   else if(index == 2)
-   {
-      QString c_number = ui->o_clientSearchLineEdit->text();
-      emit o_searchNumberClient(c_number);                  //핸드폰번호로 검색 할 때 signal로 핸드폰번호 값을 보내줌
-   }
-
-   else if(index == 3)
-   {
-      QString c_address = ui->o_clientSearchLineEdit->text();
-      emit o_searchAddressClient(c_address);                //주소로 검색 할 때 signal로 주소 값을 보내줌
-   }
-
-   else if(index == 4)
-   {
-      QString c_email = ui->o_clientSearchLineEdit->text();
-      emit o_searchEmailClient(c_email);                    //email로 검색 할 때 signal로 email 값을 보내줌
+      QString text = ui->o_clientSearchLineEdit->text();
+      emit searchClient(index, text);                      //이름으로 검색 할 때 signal로 이름 값을 보내줌
    }
 }
 
@@ -437,74 +366,74 @@ void OrderManagerForm::on_o_productInfoTreeWidget_itemClicked(QTreeWidgetItem *i
 void OrderManagerForm::on_o_clientSearchLineEdit_returnPressed()    //enter를 눌렀을 때도 고객 조회가 되도록 구현
 {
 
-    ui->o_clientInfoTreeWidget->clear();
+//    ui->o_clientInfoTreeWidget->clear();
 
-    int index = ui->o_clientSearchComboBox->currentIndex();  //어떤 콤보박스 카테고리가 선택되었는지 인덱스로 받아옴
-    if(index == 0)
-    {
-     int c_id = ui->o_clientSearchLineEdit->text().toInt();
-     emit o_searchIdClient(c_id);                            //id로 검색 할 때 signal로 id값을 보내줌
-    }
-    else if(index == 1)
-    {
-       QString c_name = ui->o_clientSearchLineEdit->text();
-       emit o_searchNameClient(c_name);                      //이름으로 검색 할 때 signal로 이름 값을 보내줌
-    }
+//    int index = ui->o_clientSearchComboBox->currentIndex();  //어떤 콤보박스 카테고리가 선택되었는지 인덱스로 받아옴
+//    if(index == 0)
+//    {
+//     int c_id = ui->o_clientSearchLineEdit->text().toInt();
+//     emit o_searchIdClient(c_id);                            //id로 검색 할 때 signal로 id값을 보내줌
+//    }
+//    else if(index == 1)
+//    {
+//       QString c_name = ui->o_clientSearchLineEdit->text();
+//       emit o_searchNameClient(c_name);                      //이름으로 검색 할 때 signal로 이름 값을 보내줌
+//    }
 
-    else if(index == 2)
-    {
-       QString c_number = ui->o_clientSearchLineEdit->text();
-       emit o_searchNumberClient(c_number);                  //핸드폰번호로 검색 할 때 signal로 핸드폰번호 값을 보내줌
-    }
+//    else if(index == 2)
+//    {
+//       QString c_number = ui->o_clientSearchLineEdit->text();
+//       emit o_searchNumberClient(c_number);                  //핸드폰번호로 검색 할 때 signal로 핸드폰번호 값을 보내줌
+//    }
 
-    else if(index == 3)
-    {
-       QString c_address = ui->o_clientSearchLineEdit->text();
-       emit o_searchAddressClient(c_address);                //주소로 검색 할 때 signal로 주소 값을 보내줌
-    }
+//    else if(index == 3)
+//    {
+//       QString c_address = ui->o_clientSearchLineEdit->text();
+//       emit o_searchAddressClient(c_address);                //주소로 검색 할 때 signal로 주소 값을 보내줌
+//    }
 
-    else if(index == 4)
-    {
-       QString c_email = ui->o_clientSearchLineEdit->text();
-       emit o_searchEmailClient(c_email);                    //email로 검색 할 때 signal로 email 값을 보내줌
-    }
+//    else if(index == 4)
+//    {
+//       QString c_email = ui->o_clientSearchLineEdit->text();
+//       emit o_searchEmailClient(c_email);                    //email로 검색 할 때 signal로 email 값을 보내줌
+//    }
 }
 
 
 void OrderManagerForm::on_o_productSearchLineEdit_returnPressed()   //enter를 눌렀을 때도 상품 조회가 되도록 구현
 {
 
-    ui->o_clientInfoTreeWidget->clear();
+//    ui->o_clientInfoTreeWidget->clear();
 
-    int index = ui->o_clientSearchComboBox->currentIndex();  //어떤 콤보박스 카테고리가 선택되었는지 인덱스로 받아옴
-    if(index == 0)
-    {
-     int c_id = ui->o_clientSearchLineEdit->text().toInt();
-     emit o_searchIdClient(c_id);                            //id로 검색 할 때 signal로 id값을 보내줌
-    }
-    else if(index == 1)
-    {
-       QString c_name = ui->o_clientSearchLineEdit->text();
-       emit o_searchNameClient(c_name);                      //이름으로 검색 할 때 signal로 이름 값을 보내줌
-    }
+//    int index = ui->o_clientSearchComboBox->currentIndex();  //어떤 콤보박스 카테고리가 선택되었는지 인덱스로 받아옴
+//    if(index == 0)
+//    {
+//     int c_id = ui->o_clientSearchLineEdit->text().toInt();
+//     emit o_searchIdClient(c_id);                            //id로 검색 할 때 signal로 id값을 보내줌
+//    }
+//    else if(index == 1)
+//    {
+//       QString c_name = ui->o_clientSearchLineEdit->text();
+//       emit o_searchNameClient(c_name);                      //이름으로 검색 할 때 signal로 이름 값을 보내줌
+//    }
 
-    else if(index == 2)
-    {
-       QString c_number = ui->o_clientSearchLineEdit->text();
-       emit o_searchNumberClient(c_number);                  //핸드폰번호로 검색 할 때 signal로 핸드폰번호 값을 보내줌
-    }
+//    else if(index == 2)
+//    {
+//       QString c_number = ui->o_clientSearchLineEdit->text();
+//       emit o_searchNumberClient(c_number);                  //핸드폰번호로 검색 할 때 signal로 핸드폰번호 값을 보내줌
+//    }
 
-    else if(index == 3)
-    {
-       QString c_address = ui->o_clientSearchLineEdit->text();
-       emit o_searchAddressClient(c_address);                //주소로 검색 할 때 signal로 주소 값을 보내줌
-    }
+//    else if(index == 3)
+//    {
+//       QString c_address = ui->o_clientSearchLineEdit->text();
+//       emit o_searchAddressClient(c_address);                //주소로 검색 할 때 signal로 주소 값을 보내줌
+//    }
 
-    else if(index == 4)
-    {
-       QString c_email = ui->o_clientSearchLineEdit->text();
-       emit o_searchEmailClient(c_email);                    //email로 검색 할 때 signal로 email 값을 보내줌
-    }
+//    else if(index == 4)
+//    {
+//       QString c_email = ui->o_clientSearchLineEdit->text();
+//       emit o_searchEmailClient(c_email);                    //email로 검색 할 때 signal로 email 값을 보내줌
+//    }
 }
 
 
