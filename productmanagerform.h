@@ -1,14 +1,17 @@
-#ifndef PRODUCTMANAGERFORMH
+#ifndef PRODUCTMANAGERFORMH_H
 #define PRODUCTMANAGERFORM_H
 
+//#include "productitem.h"
 #include <QWidget>
 #include <QHash>
+#include <QSqlQueryModel>
 
-#include "productitem.h"
 
-class ProductItem;
+//class ProductItem;
 class QMenu;
 class QTreeWidgetItem;
+class QSqlDatabase;
+class QSqlTableModel;
 
 namespace Ui {
 class ProductManagerForm;
@@ -27,38 +30,36 @@ public:
 
 private slots:
     /* QTreeWidget을 위한 슬롯 */
-    void showContextMenu(const QPoint &);
-    void removeItem();                      //action을 위한 slots
 
     void on_addPushButton_clicked();                                    //입력 버튼 누를 때
     void on_modifyPushButton_clicked();                                 //수정 버튼 누를 때
     void on_searchPushButton_clicked();                                 //조회 버튼 누를 때
-    void on_treeWidget_itemClicked(QTreeWidgetItem *item, int column);  //treewidget 아이템을 클릭할 때
-
-    void p_findIdProduct(int);          //id로 정보 찾기
-    void p_findNameProduct(QString);    //name으로 정보 찾기
-    void p_findPriceProduct(QString);   //price로 정보 찾기
-    void p_findStockProduct(QString);   //stock으로 정보 찾기
     void on_clearPushButton_clicked();  //clear 버튼 눌렀을 때
+    void on_treeView_clicked(const QModelIndex &index);
 
+    void showContextMenu(const QPoint &);
+    void removeItem();                      //action을 위한 slots
 
-   void stockFinded(int);       //order에서 signal이 오면 stock 값을 찾음
+    void findProduct(int, QString);
+    void findProduct(int, int);
+    void stockFinded(int);       //order에서 signal이 오면 stock 값을 찾음
+
 
 signals:
-    void p_sendIdProduct(int, ProductItem*);            //ip값을 order로 보냄
-    void p_sendNameProduct(QString, ProductItem*);      //name값을 order로 보냄
-    void p_sendPriceProduct(QString, ProductItem*);     //price값을 order로 보냄
-    void p_sendStockProduct(QString, ProductItem*);     //stock값을  order로 보냄
+    /*받아서 찾은 고객 정보를 보내는 slots*/
+    void productAdded(int, QString);             //server에 고객정보 추가
+    void productRemoved(int, QString);           //server에 제거된 고객 정보 연동
+    void productModified(int, int, QString);     //server에 수정된 고객 정보 연동
 
+    void sendProduct(int, QString, QString, QString);
     void stockSended(int);              // 찾은 stock 값을 보내줌
-    //void productAdded(QString);
 
 private:
     int makeId();                       // 아이디 자동 부여
-
-    QMap<int, ProductItem*> productList;
+    //QMap<int, ProductItem*> productList;
     Ui::ProductManagerForm *ui;
     QMenu* menu;
+    QSqlTableModel* productModel;
 };
 
 #endif // PRODUCTMANAGER_H

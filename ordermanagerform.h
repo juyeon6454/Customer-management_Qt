@@ -43,6 +43,7 @@ private slots:
       void o_showEmailClient(QString, ClientItem*);/* /*받아온 고객 정보를 보여주는 slots*/
 
       void showClient(int, QString, QString, QString, QString);
+      void showProduct(int, QString, QString, QString);
 
       void o_showIdProduct(int, ProductItem*);
       void o_showNameProduct(QString, ProductItem*);
@@ -78,6 +79,9 @@ signals:
 
       void searchClient(int, QString);
       void searchClient(int, int);
+
+      void searchProduct(int, QString);
+      void searchProduct(int, int);
 
       void o_searchIdProduct(int);
       void o_searchNameProduct(QString);

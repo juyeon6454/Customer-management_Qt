@@ -221,27 +221,10 @@
        </layout>
       </widget>
      </widget>
-     <widget class="QTreeWidget" name="treeWidget">
-      <column>
-       <property name="text">
-        <string>ID</string>
-       </property>
-      </column>
-      <column>
-       <property name="text">
-        <string>Name</string>
-       </property>
-      </column>
-      <column>
-       <property name="text">
-        <string>Price</string>
-       </property>
-      </column>
-      <column>
-       <property name="text">
-        <string>Stock</string>
-       </property>
-      </column>
+     <widget class="QTreeView" name="treeView">
+      <property name="alternatingRowColors">
+       <bool>true</bool>
+      </property>
      </widget>
     </widget>
    </item>

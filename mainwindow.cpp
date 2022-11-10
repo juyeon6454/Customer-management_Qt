@@ -51,30 +51,13 @@ MainWindow::MainWindow(QWidget *parent)
     connect(orderForm, SIGNAL(searchClient(int, QString)), clientForm, SLOT(findClient(int,QString)));
     connect(orderForm, SIGNAL(searchClient(int, int)), clientForm, SLOT(findClient(int, int)));
     connect(clientForm, SIGNAL(sendClient(int, QString, QString, QString,QString)),orderForm, SLOT(showClient(int,QString, QString, QString,QString)));
-//    connect(orderForm, SIGNAL(o_searchIdClient(int)), clientForm, SLOT(c_findIdClient(int)));
-//    connect(clientForm, SIGNAL(c_sendIdClient(int, ClientItem*)), orderForm, SLOT(o_showIdClient(int, ClientItem*)));
-//    connect(orderForm, SIGNAL(o_searchNameClient(QString)), clientForm, SLOT(c_findNameClient(QString)));
-//    connect(clientForm, SIGNAL(c_sendNameClient(QString, ClientItem*)), orderForm, SLOT(o_showNameClient(QString, ClientItem*)));
-//    connect(orderForm, SIGNAL(o_searchNumberClient(QString)), clientForm, SLOT(c_findNumberClient(QString)));
-//    connect(clientForm, SIGNAL(c_sendNumberClient(QString, ClientItem*)), orderForm, SLOT(o_showNumberClient(QString, ClientItem*)));
-//    connect(orderForm, SIGNAL(o_searchAddressClient(QString)), clientForm, SLOT(c_findAddressClient(QString)));
-//    connect(clientForm, SIGNAL(c_sendAddressClient(QString, ClientItem*)), orderForm, SLOT(o_showAddressClient(QString, ClientItem*)));
-//    connect(orderForm, SIGNAL(o_searchEmailClient(QString)), clientForm, SLOT(c_findEmailClient(QString)));
-//    connect(clientForm, SIGNAL(c_sendEmailClient(QString, ClientItem*)), orderForm, SLOT(o_showEmailClient(QString, ClientItem*)));
+
     /*order에서 client 정보를 요청하면 client 정보를 찾아서 order 고객정보조회 lienedit로 받아감*/
 
+    connect(orderForm, SIGNAL(searchProduct(int, QString)), productForm, SLOT(findProduct(int,QString)));
+    connect(orderForm, SIGNAL(searchProduct(int, int)), productForm, SLOT(findProduct(int, int)));
+    connect(productForm, SIGNAL(sendProduct(int, QString, QString, QString)),orderForm, SLOT(showProduct(int,QString, QString, QString)));
 
-//    connect(productForm, SIGNAL(sendProductInfo(QString, int, int)), orderForm, SLOT(getProductInfo(QString, int, int)));
-//    connect(orderForm, SIGNAL(getProductInfo(int)), productForm, SLOT(acceptProductInfo(int)));
-
-    connect(orderForm, SIGNAL(o_searchIdProduct(int)), productForm, SLOT(p_findIdProduct(int)));
-    connect(productForm, SIGNAL(p_sendIdProduct(int, ProductItem*)), orderForm, SLOT(o_showIdProduct(int, ProductItem*)));
-    connect(orderForm, SIGNAL(o_searchNameProduct(QString)), productForm, SLOT(p_findNameProduct(QString)));
-    connect(productForm, SIGNAL(p_sendNameProduct(QString, ProductItem*)), orderForm, SLOT(o_showNameProduct(QString, ProductItem*)));
-    connect(orderForm, SIGNAL(o_searchPriceProduct(QString)), productForm, SLOT(p_findPriceProduct(QString)));
-    connect(productForm, SIGNAL(p_sendPriceProduct(QString, ProductItem*)), orderForm, SLOT(o_showPriceProduct(QString, ProductItem*)));
-    connect(orderForm, SIGNAL(o_searchStockProduct(QString)), productForm, SLOT(p_findStockProduct(QString)));
-    connect(productForm, SIGNAL(p_sendStockProduct(QString, ProductItem*)), orderForm, SLOT(o_showStockProduct(QString, ProductItem*)));
     /*order에서 product 정보를 요청하면 product 정보를 찾아서 order 상품정보조회 lienedit로 받아감*/
 
     connect(clientForm, SIGNAL(clientAdded(int, QString)), serverForm, SLOT(addClient(int, QString)));
@@ -85,22 +68,6 @@ MainWindow::MainWindow(QWidget *parent)
     connect(orderForm, SIGNAL(stockSearched(int)), productForm, SLOT(stockFinded(int)));
     connect(productForm, SIGNAL(stockSended(int)), orderForm, SLOT(stockShowed(int)));
     /*재고량 spinbox 값 제한할 때 product에서 order로 재고량 전달*/
-
-
-//    if (!createConnection( )) return;
-
-//    QSqlQueryModel queryModel;
-//    queryModel.setQuery("select client_id, client_name, phonenumber, address, email from clientlist");
-//    queryModel.setHeaderData(0, Qt::Horizontal, QObject::tr("client_id"));
-//    queryModel.setHeaderData(1, Qt::Horizontal, QObject::tr("client_name"));
-//    queryModel.setHeaderData(2, Qt::Horizontal, QObject::tr("phonenumber"));
-//    queryModel.setHeaderData(3, Qt::Horizontal, QObject::tr("address"));
-//    queryModel.setHeaderData(4, Qt::Horizontal, QObject::tr("email"));
-
-//    QTableView *tableview = new QTableView;
-//    tableview->setModel(&queryModel);
-//    tableview->setWindowTitle(QObject::tr("clientlist"));
-//    //tableview->show( );
 
     clientForm->loadData();
     productForm->loadData();

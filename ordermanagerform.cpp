@@ -233,12 +233,33 @@ void OrderManagerForm::showClient(int c_id, QString clientName, QString phoneNum
     clientItem->setText(2, phoneNumber);
     clientItem->setText(3, address);
     clientItem->setText(4, email);
+
+    }
+//    if(QString::number(c_id).length()) {
+//        ClientItem* c = new ClientItem(c_id, clientName, phoneNumber, address, email); /*id로 해당 고객의 정보를 전부 가져와 보여줌*/
+//        ui->o_clientInfoTreeWidget->addTopLevelItem(c);
+//    }
+
+    ui->o_clientInfoTreeWidget->addTopLevelItem(clientItem);
+}
+
+void OrderManagerForm::showProduct(int p_id, QString productName, QString price, QString stock)
+{
+    ui->o_productInfoTreeWidget->clear();
+    QTreeWidgetItem *productItem = new QTreeWidgetItem(ui->o_productInfoTreeWidget);
+
+    if(QString::number(p_id).length()) {
+    productItem->setText(0, QString::number(p_id));
+    productItem->setText(1, productName);
+    productItem->setText(2, price);
+    productItem->setText(3, stock);
     }
 //    if(QString::number(c_id).length()) {
 //        ClientItem* c = new ClientItem(c_id, clientName, phoneNumber, address, email); /*id로 해당 고객의 정보를 전부 가져와 보여줌*/
 //        ui->o_clientInfoTreeWidget->addTopLevelItem(c);
 //    }
 }
+
 
 
 void OrderManagerForm::on_o_clientSearchPushButton_clicked() //고객정보 조회 버튼을 누를 때
@@ -322,26 +343,13 @@ void OrderManagerForm::on_o_productSearchPushButton_clicked()  //상품정보 �
     if(index == 0)
     {
      int p_id = ui->o_productSearchLineEdit->text().toInt();
-     emit o_searchIdProduct(p_id);                            //id로 검색 할 때 signal로 id값을 보내줌
+     emit searchProduct(index, p_id);                            //id로 검색 할 때 signal로 id값을 보내줌
     }
-    else if(index == 1)
+    else
     {
-       QString p_name = ui->o_productSearchLineEdit->text();
-       emit o_searchNameProduct(p_name);                       //상품명으로 검색 할 때 signal로 상품명 값을 보내줌
+       QString text = ui->o_productSearchLineEdit->text();
+       emit searchProduct(index, text);                      //이름으로 검색 할 때 signal로 이름 값을 보내줌
     }
-
-    else if(index == 2)
-    {
-       QString p_price = ui->o_productSearchLineEdit->text();
-       emit o_searchPriceProduct(p_price);                     //상품가격으로 검색 할 때 signal로 상품가격 값을 보내줌
-    }
-
-    else if(index == 3)
-    {
-       QString p_stock = ui->o_productSearchLineEdit->text();
-       emit o_searchStockProduct(p_stock);                     //상품재고량으로 검색 할 때 signal로 상품재고량 값을 보내줌
-    }
-
 }
 
 

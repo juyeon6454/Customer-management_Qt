@@ -1,12 +1,12 @@
 #ifndef CLIENTMANAGERFORM_H
 #define CLIENTMANAGERFORM_H
 
-#include "clientitem.h"
+//#include "clientitem.h"
 #include <QWidget>
 #include <QHash>
 #include <QSqlQueryModel>
 
-class ClientItem;
+//class ClientItem;
 class QMenu;
 class QTreeWidgetItem;
 class QSqlDatabase;
@@ -28,9 +28,9 @@ public:
 
 private slots:
     /* QTreeWidget을 위한 슬롯 */
-    void on_searchPushButton_clicked();                                 //조회 버튼 누를 때
-    void on_modifyPushButton_clicked();                                 //수정 버튼 누를 때
     void on_addPushButton_clicked();                                    //입력 버튼 누를 때
+    void on_modifyPushButton_clicked();                                 //수정 버튼 누를 때
+    void on_searchPushButton_clicked();                                 //조회 버튼 누를 때
     void on_clearPushButton_clicked();  //clear 버튼을 누를 때
     void on_treeView_clicked(const QModelIndex &index);
 
@@ -46,15 +46,13 @@ signals:
     void clientRemoved(int, QString);           //server에 제거된 고객 정보 연동
     void clientModified(int, int, QString);     //server에 수정된 고객 정보 연동
 
-    void sendClient(int, QString, QString, QString,QString);
+    void sendClient(int, QString, QString, QString, QString);
 
 private:
     int makeId();                               //아이디 자동부여
-
-    QMap<int, ClientItem*> clientList;
+   // QMap<int, ClientItem*> clientList;
     Ui::ClientManagerForm *ui;
     QMenu* menu;
-
     QSqlTableModel* clientModel;
 
 };

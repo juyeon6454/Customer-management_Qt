@@ -27,9 +27,9 @@ ClientManagerForm::ClientManagerForm(QWidget *parent) :
     menu = new QMenu;                                                    //메뉴 생성
     menu->addAction(removeAction);                                       //메뉴에 remove 액션 추가
     ui->treeView->setContextMenuPolicy(Qt::CustomContextMenu);           //(우클릭 메뉴)
+
     connect(ui->treeView, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(showContextMenu(QPoint)));
-    connect(ui->searchLineEdit, SIGNAL(returnPressed()),
-            this, SLOT(on_searchPushButton_clicked()));
+    connect(ui->searchLineEdit, SIGNAL(returnPressed()), this, SLOT(on_searchPushButton_clicked()));
 
 }
 
@@ -45,17 +45,16 @@ void ClientManagerForm::loadData()                              //저장된 파�
         clientModel->select();
         clientModel->setHeaderData(0, Qt::Horizontal, tr("ID"));
         clientModel->setHeaderData(1, Qt::Horizontal, tr("Name"));
-        clientModel->setHeaderData(2, Qt::Horizontal, tr("Phone Number"));
+        clientModel->setHeaderData(2, Qt::Horizontal, tr("PhoneNumber"));
         clientModel->setHeaderData(3, Qt::Horizontal, tr("Address"));
         clientModel->setHeaderData(4, Qt::Horizontal, tr("Email"));
-
         ui->treeView->setModel(clientModel);
     }
 
     for(int i = 0; i < clientModel->rowCount(); i++) {
         int clientId = clientModel->data(clientModel->index(i, 0)).toInt();
         QString clientName = clientModel->data(clientModel->index(i, 1)).toString();
-        //clientList.insert(id, clientModel->index(i, 0));
+
        emit clientAdded(clientId, clientName);
     }
 
@@ -72,7 +71,6 @@ ClientManagerForm::~ClientManagerForm()
         db.close();
     }
 }
-
 
 int ClientManagerForm::makeId( )                     //아이디 자동부여
 {
@@ -91,14 +89,12 @@ void ClientManagerForm::removeItem()
 
     int row = index.row();
     if(index.isValid()) {
-        //clientList.remove(clientModel->data(index.siblingAtColumn(0)).toInt());
         clientModel->removeRow(index.row());
         clientModel->select();
         //ui->treeView->resizeColumnsToContents();
     }
     emit clientRemoved (delid, QString::number(row));       //treewidget에서 빼줌
     c_clearLineEdit();                                                                //lineEdit에 남은 기록을 지움
-
 }
 
 void ClientManagerForm::showContextMenu(const QPoint &pos)      //마우스 우클릭 위치 알림
@@ -130,15 +126,7 @@ void ClientManagerForm::on_addPushButton_clicked()                              
         query.bindValue(3, address);
         query.bindValue(4, email);
         query.exec();
-
     }
-//        if(clientName.length()) {
-//            QSqlQuery query;
-
-//        query.exec(QString("CREATE TABLE CLIENT(%1, '%2', '%3', '%4', '%5')")\
-//                      .arg(clientId).arg(clientName).arg(phoneNumber).arg(address).arg(email));
-//        clientModel->select();
-//    }
     else
     {
         QMessageBox::critical(this, tr("Client Info"),                                   //메세지 박스로 다시 입력하게 함
@@ -154,12 +142,13 @@ void ClientManagerForm::on_modifyPushButton_clicked()                //수정 �
 {
     QModelIndex index = ui->treeView->currentIndex();
     int molid = index.sibling(index.row(), 0).data().toInt();
-    //QString moName = index.sibling(index.row(), 1).data().toString();
+
     QString clientName, phonenumber, address, email;
     clientName = ui->clientNameLineEdit->text();
     phonenumber = ui->phoneNumberLineEdit->text();
     address = ui->addressLineEdit->text();
     email = ui->emailLineEdit->text();
+
     int row = index.row();
     if(index.isValid()) {
 //        int id = clientModel->data(index.siblingAtColumn(0)).toInt();
@@ -184,8 +173,6 @@ void ClientManagerForm::on_modifyPushButton_clicked()                //수정 �
         //ui->treeView->resizeColumnsToContents();
     }
        emit clientModified (molid, row, clientName);               //고객 정보 수정시 sever client리스트도 같이 수정
-
-
 }
 
 void ClientManagerForm::on_searchPushButton_clicked()           //고객 조회 버튼 클릭했을 때
@@ -217,15 +204,6 @@ void ClientManagerForm::on_clearPushButton_clicked()
     c_clearLineEdit();              //clear 버튼을 눌렀을 때 lineEdit 기록이 지워지도록
 }
 
-void ClientManagerForm::c_clearLineEdit()
-{
-    ui->clientIdLineEdit->clear();
-    ui->clientNameLineEdit->clear();
-    ui->phoneNumberLineEdit->clear();
-    ui->addressLineEdit->clear();
-    ui->emailLineEdit->clear();     //clear 버튼을 눌렀을 때 lineEdit 기록이 지워지도록 하는 함수 구현
-}
-
 
 void ClientManagerForm::on_treeView_clicked(const QModelIndex &index)
 {
@@ -241,13 +219,12 @@ void ClientManagerForm::on_treeView_clicked(const QModelIndex &index)
     ui->addressLineEdit->setText(address);
     ui->emailLineEdit->setText(email);
     ui->toolBox->setCurrentIndex(0);
-
 }
 
 void ClientManagerForm::findClient(int index, int c_id)
 {
     auto flag = (index)? Qt::MatchCaseSensitive|Qt::MatchContains
-                        : Qt::MatchCaseSensitive;
+                        : Qt::MatchContains;
     QModelIndexList indexes = clientModel->match(clientModel->index(0, 0), Qt::EditRole, c_id, -1,  Qt::MatchFlags(flag));
 
     foreach(auto index, indexes) {
@@ -255,7 +232,7 @@ void ClientManagerForm::findClient(int index, int c_id)
         QString clientName = clientModel->data(index.siblingAtColumn(1)).toString();
         QString phoneNumber = clientModel->data(index.siblingAtColumn(2)).toString();
         QString address = clientModel->data(index.siblingAtColumn(3)).toString();
-        QString email = clientModel->data(index.siblingAtColumn(3)).toString();
+        QString email = clientModel->data(index.siblingAtColumn(4)).toString();
         emit sendClient(c_id, clientName, phoneNumber, address, email);
         }
 }
@@ -264,7 +241,7 @@ void ClientManagerForm::findClient(int index, QString text)
 {
     //int i = ui->treeView->currentIndex();
     auto flag = (index)? Qt::MatchCaseSensitive|Qt::MatchContains
-                       : Qt::MatchCaseSensitive;
+                       : Qt::MatchContains;
     if(index == 1)
     {
     QModelIndexList indexes = clientModel->match(clientModel->index(0, 1), Qt::EditRole, text, -1, Qt::MatchFlags(flag));
@@ -274,7 +251,7 @@ void ClientManagerForm::findClient(int index, QString text)
             QString clientName = clientModel->data(index.siblingAtColumn(1)).toString();
             QString phoneNumber = clientModel->data(index.siblingAtColumn(2)).toString();
             QString address = clientModel->data(index.siblingAtColumn(3)).toString();
-            QString email = clientModel->data(index.siblingAtColumn(3)).toString();
+            QString email = clientModel->data(index.siblingAtColumn(4)).toString();
             emit sendClient(c_id, clientName, phoneNumber, address, email);
             }
     }
@@ -289,7 +266,7 @@ void ClientManagerForm::findClient(int index, QString text)
             QString clientName = clientModel->data(index.siblingAtColumn(1)).toString();
             QString phoneNumber = clientModel->data(index.siblingAtColumn(2)).toString();
             QString address = clientModel->data(index.siblingAtColumn(3)).toString();
-            QString email = clientModel->data(index.siblingAtColumn(3)).toString();
+            QString email = clientModel->data(index.siblingAtColumn(4)).toString();
             emit sendClient(c_id, clientName, phoneNumber, address, email);
         }
     }
@@ -302,7 +279,7 @@ void ClientManagerForm::findClient(int index, QString text)
             QString clientName = clientModel->data(index.siblingAtColumn(1)).toString();
             QString phoneNumber = clientModel->data(index.siblingAtColumn(2)).toString();
             QString address = clientModel->data(index.siblingAtColumn(3)).toString();
-            QString email = clientModel->data(index.siblingAtColumn(3)).toString();
+            QString email = clientModel->data(index.siblingAtColumn(4)).toString();
             emit sendClient(c_id, clientName, phoneNumber, address, email);
         }
     }
@@ -316,8 +293,17 @@ void ClientManagerForm::findClient(int index, QString text)
             QString clientName = clientModel->data(index.siblingAtColumn(1)).toString();
             QString phoneNumber = clientModel->data(index.siblingAtColumn(2)).toString();
             QString address = clientModel->data(index.siblingAtColumn(3)).toString();
-            QString email = clientModel->data(index.siblingAtColumn(3)).toString();
+            QString email = clientModel->data(index.siblingAtColumn(4)).toString();
             emit sendClient(c_id, clientName, phoneNumber, address, email);
         }
     }
+}
+
+void ClientManagerForm::c_clearLineEdit()
+{
+    ui->clientIdLineEdit->clear();
+    ui->clientNameLineEdit->clear();
+    ui->phoneNumberLineEdit->clear();
+    ui->addressLineEdit->clear();
+    ui->emailLineEdit->clear();     //clear 버튼을 눌렀을 때 lineEdit 기록이 지워지도록 하는 함수 구현
 }
