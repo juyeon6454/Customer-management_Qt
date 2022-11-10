@@ -245,7 +245,6 @@ void OrderManagerForm::showClient(int c_id, QString clientName, QString phoneNum
 
 void OrderManagerForm::showProduct(int p_id, QString productName, QString price, QString stock)
 {
-    ui->o_productInfoTreeWidget->clear();
     QTreeWidgetItem *productItem = new QTreeWidgetItem(ui->o_productInfoTreeWidget);
 
     if(QString::number(p_id).length()) {
@@ -253,6 +252,7 @@ void OrderManagerForm::showProduct(int p_id, QString productName, QString price,
     productItem->setText(1, productName);
     productItem->setText(2, price);
     productItem->setText(3, stock);
+    ui->o_productInfoTreeWidget->addTopLevelItem(productItem);
     }
 //    if(QString::number(c_id).length()) {
 //        ClientItem* c = new ClientItem(c_id, clientName, phoneNumber, address, email); /*id로 해당 고객의 정보를 전부 가져와 보여줌*/

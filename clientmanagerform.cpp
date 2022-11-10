@@ -223,9 +223,9 @@ void ClientManagerForm::on_treeView_clicked(const QModelIndex &index)
 
 void ClientManagerForm::findClient(int index, int c_id)
 {
-    auto flag = (index)? Qt::MatchCaseSensitive|Qt::MatchContains
-                        : Qt::MatchContains;
-    QModelIndexList indexes = clientModel->match(clientModel->index(0, 0), Qt::EditRole, c_id, -1,  Qt::MatchFlags(flag));
+//    auto flag = (index)? Qt::MatchCaseSensitive|Qt::MatchContains
+//                        : Qt::MatchContains;
+    QModelIndexList indexes = clientModel->match(clientModel->index(0, 0), Qt::EditRole, c_id, -1, Qt::MatchContains);
 
     foreach(auto index, indexes) {
         int c_id = clientModel->data(index.siblingAtColumn(0)).toInt();
@@ -240,8 +240,8 @@ void ClientManagerForm::findClient(int index, int c_id)
 void ClientManagerForm::findClient(int index, QString text)
 {
     //int i = ui->treeView->currentIndex();
-    auto flag = (index)? Qt::MatchCaseSensitive|Qt::MatchContains
-                       : Qt::MatchContains;
+//    auto flag = (index)? Qt::MatchCaseSensitive|Qt::MatchContains
+//                       : Qt::MatchContains;
     if(index == 1)
     {
     QModelIndexList indexes = clientModel->match(clientModel->index(0, 1), Qt::EditRole, text, -1, Qt::MatchContains);
@@ -259,7 +259,7 @@ void ClientManagerForm::findClient(int index, QString text)
     else if(index == 2)
     {
 
-    QModelIndexList indexes = clientModel->match(clientModel->index(0, 2), Qt::EditRole, text, -1,Qt::MatchFlags(flag));
+    QModelIndexList indexes = clientModel->match(clientModel->index(0, 2), Qt::EditRole, text, -1, Qt::MatchContains);
 
         foreach(auto index, indexes) {
             int c_id = clientModel->data(index.siblingAtColumn(0)).toInt();
@@ -272,7 +272,7 @@ void ClientManagerForm::findClient(int index, QString text)
     }
     else if(index == 3)
     {
-    QModelIndexList indexes = clientModel->match(clientModel->index(0, 3), Qt::EditRole, text, -1, Qt::MatchFlags(flag));
+    QModelIndexList indexes = clientModel->match(clientModel->index(0, 3), Qt::EditRole, text, -1, Qt::MatchContains);
 
         foreach(auto index, indexes) {
             int c_id = clientModel->data(index.siblingAtColumn(0)).toInt();
@@ -286,7 +286,7 @@ void ClientManagerForm::findClient(int index, QString text)
 
     else if(index == 4)
     {
-    QModelIndexList indexes = clientModel->match(clientModel->index(0, 4), Qt::EditRole, text, -1, Qt::MatchFlags(flag));
+    QModelIndexList indexes = clientModel->match(clientModel->index(0, 4), Qt::EditRole, text, -1, Qt::MatchContains);
 
         foreach(auto index, indexes) {
             int c_id = clientModel->data(index.siblingAtColumn(0)).toInt();

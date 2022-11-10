@@ -211,9 +211,9 @@ void ProductManagerForm::stockFinded(int stock)
 //        emit stockSended(stock.toInt());            //order에서 spinbox 값을 제한 할 때 찾아서 siganl 보내줌
 //    }
 
-    auto flag = (stock)? Qt::MatchCaseSensitive|Qt::MatchContains
-                        : Qt::MatchCaseSensitive;
-    QModelIndexList indexes = productModel->match(productModel->index(0, 3), Qt::EditRole, stock, -1,  Qt::MatchFlags(flag));
+//    auto flag = (stock)? Qt::MatchCaseSensitive|Qt::MatchContains
+//                        : Qt::MatchCaseSensitive;
+    QModelIndexList indexes = productModel->match(productModel->index(0, 3), Qt::EditRole, stock, -1,  Qt::MatchContains);
 
     foreach(auto index, indexes) {
         int p_id = productModel->data(index.siblingAtColumn(0)).toInt();
@@ -242,9 +242,9 @@ void ProductManagerForm::on_treeView_clicked(const QModelIndex &index)
 
 void ProductManagerForm::findProduct(int index, int p_id)
 {
-    auto flag = (index)? Qt::MatchCaseSensitive|Qt::MatchContains
-                        : Qt::MatchContains;
-    QModelIndexList indexes = productModel->match(productModel->index(0, 0), Qt::EditRole, p_id, -1,  Qt::MatchFlags(flag));
+//    auto flag = (index)? Qt::MatchCaseSensitive|Qt::MatchContains
+//                        : Qt::MatchContains;//casecontains는 대소문자 구분
+    QModelIndexList indexes = productModel->match(productModel->index(0, 0), Qt::EditRole, p_id, -1,  Qt::MatchContains);
 
     foreach(auto index, indexes) {
         int p_id = productModel->data(index.siblingAtColumn(0)).toInt();
@@ -258,11 +258,11 @@ void ProductManagerForm::findProduct(int index, int p_id)
 void ProductManagerForm::findProduct(int index, QString text)
 {
     //int i = ui->treeView->currentIndex();
-    auto flag = (index)? Qt::MatchCaseSensitive|Qt::MatchContains
-                       : Qt::MatchContains;
+//    auto flag = (index)? Qt::MatchCaseSensitive|Qt::MatchContains
+//                       : Qt::MatchContains;
     if(index == 1)
     {
-    QModelIndexList indexes = productModel->match(productModel->index(0, 1), Qt::EditRole, text, -1, Qt::MatchFlags(flag));
+    QModelIndexList indexes = productModel->match(productModel->index(0, 1), Qt::EditRole, text, -1, Qt::MatchContains);
 
     foreach(auto index, indexes) {
         int p_id = productModel->data(index.siblingAtColumn(0)).toInt();
@@ -276,7 +276,7 @@ void ProductManagerForm::findProduct(int index, QString text)
     else if(index == 2)
     {
 
-    QModelIndexList indexes = productModel->match(productModel->index(0, 2), Qt::EditRole, text, -1,Qt::MatchFlags(flag));
+    QModelIndexList indexes = productModel->match(productModel->index(0, 2), Qt::EditRole, text, -1,Qt::MatchContains);
 
     foreach(auto index, indexes) {
         int p_id = productModel->data(index.siblingAtColumn(0)).toInt();
@@ -288,7 +288,7 @@ void ProductManagerForm::findProduct(int index, QString text)
     }
     else if(index == 3)
     {
-    QModelIndexList indexes = productModel->match(productModel->index(0, 3), Qt::EditRole, text, -1, Qt::MatchFlags(flag));
+    QModelIndexList indexes = productModel->match(productModel->index(0, 3), Qt::EditRole, text, -1, Qt::MatchContains);
 
     foreach(auto index, indexes) {
         int p_id = productModel->data(index.siblingAtColumn(0)).toInt();
