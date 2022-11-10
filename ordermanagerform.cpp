@@ -224,7 +224,6 @@ void OrderManagerForm::on_orderSearchTreeWidget_itemClicked(QTreeWidgetItem *ite
 
 void OrderManagerForm::showClient(int c_id, QString clientName, QString phoneNumber, QString address, QString email)
 {
-    ui->o_clientInfoTreeWidget->clear();
     QTreeWidgetItem *clientItem = new QTreeWidgetItem(ui->o_clientInfoTreeWidget);
 
     if(QString::number(c_id).length()) {
@@ -233,6 +232,7 @@ void OrderManagerForm::showClient(int c_id, QString clientName, QString phoneNum
     clientItem->setText(2, phoneNumber);
     clientItem->setText(3, address);
     clientItem->setText(4, email);
+    ui->o_clientInfoTreeWidget->addTopLevelItem(clientItem);
 
     }
 //    if(QString::number(c_id).length()) {
@@ -240,7 +240,7 @@ void OrderManagerForm::showClient(int c_id, QString clientName, QString phoneNum
 //        ui->o_clientInfoTreeWidget->addTopLevelItem(c);
 //    }
 
-    ui->o_clientInfoTreeWidget->addTopLevelItem(clientItem);
+   //ui->o_clientInfoTreeWidget->addTopLevelItem(clientItem);
 }
 
 void OrderManagerForm::showProduct(int p_id, QString productName, QString price, QString stock)

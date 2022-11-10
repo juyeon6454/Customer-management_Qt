@@ -244,7 +244,7 @@ void ClientManagerForm::findClient(int index, QString text)
                        : Qt::MatchContains;
     if(index == 1)
     {
-    QModelIndexList indexes = clientModel->match(clientModel->index(0, 1), Qt::EditRole, text, -1, Qt::MatchFlags(flag));
+    QModelIndexList indexes = clientModel->match(clientModel->index(0, 1), Qt::EditRole, text, -1, Qt::MatchContains);
 
         foreach(auto index, indexes) {
             int c_id = clientModel->data(index.siblingAtColumn(0)).toInt();
