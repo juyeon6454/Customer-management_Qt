@@ -143,7 +143,7 @@ void ProductManagerForm::on_modifyPushButton_clicked()                //수정 �
     stock = ui->stockLineEdit->text();
 
     int row = index.row();
-    if(index.isValid()) {
+    if(index.isValid()&& productName.length() && price.length() && stock.length()) {
 //        int id = clientModel->data(index.siblingAtColumn(0)).toInt();
 #if 1
 //        clientModel->setData(index.siblingAtColumn(0), id);
@@ -162,6 +162,11 @@ void ProductManagerForm::on_modifyPushButton_clicked()                //수정 �
 #endif
         productModel->select();
         //ui->treeView->resizeColumnsToContents();
+    } 
+    else
+    {
+        QMessageBox::critical(this, tr("Product Info"),                                   //메세지 박스로 다시 입력하게 함
+                              tr("There is information that has not been entered."));
     }
        emit productModified (molid, row, productName);
 }

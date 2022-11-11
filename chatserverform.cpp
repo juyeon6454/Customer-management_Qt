@@ -359,5 +359,6 @@ void ChatServerForm::modifyServerClient(int key, int row, QString clientname)   
 {
     ui->clientTreeWidget->topLevelItem(row)->setText(1,clientname);
     clientIDHash[clientname] = key;
+
 }
 

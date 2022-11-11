@@ -50,7 +50,8 @@ void ClientManagerForm::loadData()                              //저장된 파�
         clientModel->setHeaderData(4, Qt::Horizontal, tr("Email"));
         ui->treeView->setModel(clientModel);
     }
-
+    qDebug() << clientModel->rowCount();
+    qDebug() << "after";
     for(int i = 0; i < clientModel->rowCount(); i++) {
         int clientId = clientModel->data(clientModel->index(i, 0)).toInt();
         QString clientName = clientModel->data(clientModel->index(i, 1)).toString();
@@ -141,6 +142,7 @@ void ClientManagerForm::on_modifyPushButton_clicked()                //수정 �
 {
     QModelIndex index = ui->treeView->currentIndex();
     int molid = index.sibling(index.row(), 0).data().toInt();
+    int row = index.row();
 
     QString clientName, phoneNumber, address, email;
     clientName = ui->clientNameLineEdit->text();
@@ -148,35 +150,23 @@ void ClientManagerForm::on_modifyPushButton_clicked()                //수정 �
     address = ui->addressLineEdit->text();
     email = ui->emailLineEdit->text();
 
-    int row = index.row();
-    if(index.isValid()) {
-        //int id = clientModel->data(index.siblingAtColumn(0)).toInt();
-#if 1
-//        clientModel->setData(index.siblingAtColumn(0), id);
+    if(index.isValid() && clientName.length() && phoneNumber.length() && address.length() &&email.length()) {
         clientModel->setData(index.siblingAtColumn(1), clientName);
         clientModel->setData(index.siblingAtColumn(2), phoneNumber);
         clientModel->setData(index.siblingAtColumn(3), address);
         clientModel->setData(index.siblingAtColumn(4), email);
         clientModel->submit();
-#else
-        QSqlQuery query(clientModel->database());
-        query.prepare("UPDATE client SET clientName = ?, phoneNumber = ?, address = ?, email = ? WHERE id = ?");
-        query.bindValue(0, clientName);
-        query.bindValue(1, phoneNumber);
-        query.bindValue(2, address);
-        query.bindValue(3, email);
-        query.bindValue(4, id);
-        query.exec();
-
-        qDebug() << clientName;
-        qDebug() << id;
-#endif
         clientModel->select();
-
         //ui->treeView->resizeColumnsToContents();
+        emit clientModified (molid, row, clientName);               //고객 정보 수정시 sever client리스트도 같이 수정
+    }
+    else
+    {
+        QMessageBox::critical(this, tr("Client Info"),                                   //메세지 박스로 다시 입력하게 함
+                              tr("There is information that has not been entered."));
     }
 
-       emit clientModified (molid, row, clientName);               //고객 정보 수정시 sever client리스트도 같이 수정
+
 }
 
 void ClientManagerForm::on_searchPushButton_clicked()           //고객 조회 버튼 클릭했을 때
