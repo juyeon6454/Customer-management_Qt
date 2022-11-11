@@ -9,7 +9,7 @@
 #include <QTreeView>
 #include <QSqlDatabase>
 #include <QSqlRecord>
-
+#include <QStandardItemModel>
 
 ClientManagerForm::ClientManagerForm(QWidget *parent) :
     QWidget(parent),
@@ -50,14 +50,37 @@ void ClientManagerForm::loadData()                              //저장된 파�
         clientModel->setHeaderData(4, Qt::Horizontal, tr("Email"));
         ui->treeView->setModel(clientModel);
     }
-    qDebug() << clientModel->rowCount();
-    qDebug() << "after";
     for(int i = 0; i < clientModel->rowCount(); i++) {
         int clientId = clientModel->data(clientModel->index(i, 0)).toInt();
         QString clientName = clientModel->data(clientModel->index(i, 1)).toString();
 
        emit clientAdded(clientId, clientName);
     }
+
+
+//    s_clientModel = new QStandardItemModel(0,5);
+//    s_clientModel->setHeaderData(0, Qt::Horizontal, tr("ID"));
+//    s_clientModel->setHeaderData(1, Qt::Horizontal, tr("Name"));
+//    s_clientModel->setHeaderData(2, Qt::Horizontal, tr("PhoneNumber"));
+//    s_clientModel->setHeaderData(3, Qt::Horizontal, tr("Address"));
+//    s_clientModel->setHeaderData(4, Qt::Horizontal, tr("Email"));
+//    ui->searchTreeView->setModel(s_clientModel);
+
+//    s_clientModel = new QSqlTableModel(this,db);
+//    s_clientModel->setHeaderData(0, Qt::Horizontal, tr("ID"));
+//    s_clientModel->setHeaderData(1, Qt::Horizontal, tr("Name"));
+//    s_clientModel->setHeaderData(2, Qt::Horizontal, tr("PhoneNumber"));
+//    s_clientModel->setHeaderData(3, Qt::Horizontal, tr("Address"));
+//    s_clientModel->setHeaderData(4, Qt::Horizontal, tr("Email"));
+//    ui->searchTreeView->setModel(s_clientModel);
+
+//    for(int i = 0; i < s_clientModel->rowCount(); i++) {
+//        int clientId = s_clientModel->data(s_clientModel->index(i, 0)).toInt();
+//        QString clientName = s_clientModel->data(s_clientModel->index(i, 1)).toString();
+
+//       emit clientAdded(clientId, clientName);
+//    }
+
 
 }
 
@@ -94,6 +117,11 @@ void ClientManagerForm::removeItem()
         clientModel->select();
         //ui->treeView->resizeColumnsToContents();
     }
+    else
+    {
+        QMessageBox::critical(this, tr("Client Info"),                                   //메세지 박스로 다시 입력하게 함
+                              tr("There is information that has not been entered."));
+    }
     emit clientRemoved (delid, QString::number(row));       //treewidget에서 빼줌
     c_clearLineEdit();                                                                //lineEdit에 남은 기록을 지움
 }
@@ -126,14 +154,14 @@ void ClientManagerForm::on_addPushButton_clicked()                              
         query.bindValue(3, address);
         query.bindValue(4, email);
         query.exec();
+        clientModel->select();
+        emit clientAdded(clientId, clientName);                                              //server로 clientlist 보내기 위한 signal
     }
     else
     {
         QMessageBox::critical(this, tr("Client Info"),                                   //메세지 박스로 다시 입력하게 함
                               tr("There is information that has not been entered."));
     }
-    clientModel->select();
-    emit clientAdded(clientId, clientName);                                              //server로 clientlist 보내기 위한 signal
     c_clearLineEdit();                                                                   //사용한 lineEdit 기록을 지움
 
 }
@@ -171,8 +199,7 @@ void ClientManagerForm::on_modifyPushButton_clicked()                //수정 �
 
 void ClientManagerForm::on_searchPushButton_clicked()           //고객 조회 버튼 클릭했을 때
 {
-    ui->searchTreeWidget->clear();                              //lineEdit에 남아있을 정보를 지움
-
+    s_clientModel->clear();                              //lineEdit에 남아있을 정보를 지움
     int i = ui->searchComboBox->currentIndex();                 //콤보박스 아이템을 인덱스로 받음
     auto flag = (i)? Qt::MatchCaseSensitive|Qt::MatchContains
                    : Qt::MatchCaseSensitive;
@@ -186,11 +213,18 @@ void ClientManagerForm::on_searchPushButton_clicked()           //고객 조회 
         QString email = clientModel->data(ix.siblingAtColumn(4)).toString();
         QStringList strings;
         strings << QString::number(id) << name << number << address <<email;
-        new QTreeWidgetItem(ui->searchTreeWidget, strings);
-        for(int i = 0; i < ui->searchTreeWidget->columnCount(); i++)
-            ui->searchTreeWidget->resizeColumnToContents(i);
+
+//        new QTreeWidgetItem(ui->searchTreeWidget, strings);
+//        for(int i = 0; i < ui->searchTreeWidget->columnCount(); i++)
+//            ui->searchTreeWidget->resizeColumnToContents(i);
+        QList<QStandardItem *> items;
+        for (int i = 0; i < 5; ++i) {
+            items.append(new QStandardItem(strings.at(i)));
+        }
+
+        s_clientModel->appendRow(items);
     }
-    ui->searchTreeWidget->setFocus();
+
 }
 
 

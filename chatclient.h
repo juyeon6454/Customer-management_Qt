@@ -4,12 +4,14 @@
 #include <QWidget>
 #include <QDataStream>
 
+
 class QTextEdit;
 class QLineEdit;
 class QTcpSocket;
 class QPushButton;
 class QFile;
 class QProgressDialog;
+class ClientLogThread;
 
 namespace Ui {
 class ChatClient;
@@ -62,6 +64,7 @@ private:
     QByteArray outBlock;                      //데이터
     bool isSent;
     Ui::ChatClient *ui;
+    ClientLogThread* clientLogThread;
 
     int flag = 0;                             //강퇴된 멤버에게 메세지가 보이지 않도록
 };

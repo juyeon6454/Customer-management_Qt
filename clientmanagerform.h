@@ -11,6 +11,7 @@ class QMenu;
 class QTreeWidgetItem;
 class QSqlDatabase;
 class QSqlTableModel;
+class QStandardItemModel;
 
 namespace Ui {
 class ClientManagerForm;
@@ -54,6 +55,7 @@ private:
     Ui::ClientManagerForm *ui;
     QMenu* menu;
     QSqlTableModel* clientModel;
+    QStandardItemModel* s_clientModel;
 
 };
 
