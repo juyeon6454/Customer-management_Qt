@@ -71,7 +71,7 @@
            <item row="2" column="0">
             <widget class="QLabel" name="ClientNameLabel">
              <property name="text">
-              <string>Client Name</string>
+              <string>&amp;Client Name</string>
              </property>
              <property name="buddy">
               <cstring>clientNameLineEdit</cstring>
@@ -88,7 +88,7 @@
            <item row="3" column="0">
             <widget class="QLabel" name="phoneNumberLabel">
              <property name="text">
-              <string>Phone Number</string>
+              <string>&amp;Phone Number</string>
              </property>
              <property name="buddy">
               <cstring>phoneNumberLineEdit</cstring>
@@ -101,7 +101,7 @@
            <item row="4" column="0">
             <widget class="QLabel" name="addressLabel">
              <property name="text">
-              <string>Address</string>
+              <string>&amp;Address</string>
              </property>
              <property name="buddy">
               <cstring>addressLineEdit</cstring>
@@ -114,7 +114,7 @@
            <item row="5" column="0">
             <widget class="QLabel" name="productNameLabel">
              <property name="text">
-              <string>Product Name</string>
+              <string>&amp;Product Name</string>
              </property>
              <property name="buddy">
               <cstring>productNameLineEdit</cstring>
@@ -140,7 +140,7 @@
            <item row="7" column="0">
             <widget class="QLabel" name="totalPriceLabel">
              <property name="text">
-              <string>Total Price</string>
+              <string>&amp;Total Price</string>
              </property>
              <property name="buddy">
               <cstring>totalPriceLineEdit</cstring>
@@ -339,48 +339,7 @@
          <property name="orientation">
           <enum>Qt::Vertical</enum>
          </property>
-         <widget class="QTreeWidget" name="orderSearchTreeWidget">
-          <column>
-           <property name="text">
-            <string>ID</string>
-           </property>
-          </column>
-          <column>
-           <property name="text">
-            <string>Order Date</string>
-           </property>
-          </column>
-          <column>
-           <property name="text">
-            <string>Client Name</string>
-           </property>
-          </column>
-          <column>
-           <property name="text">
-            <string>Phone number</string>
-           </property>
-          </column>
-          <column>
-           <property name="text">
-            <string>Address</string>
-           </property>
-          </column>
-          <column>
-           <property name="text">
-            <string>Product Name</string>
-           </property>
-          </column>
-          <column>
-           <property name="text">
-            <string>Order Quantity</string>
-           </property>
-          </column>
-          <column>
-           <property name="text">
-            <string>Total Price</string>
-           </property>
-          </column>
-         </widget>
+         <widget class="QTreeView" name="orderSearchTreeView"/>
          <widget class="QWidget" name="layoutWidget">
           <layout class="QVBoxLayout" name="orderSearchVerticalLayout">
            <item>

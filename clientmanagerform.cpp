@@ -107,7 +107,6 @@ void ClientManagerForm::showContextMenu(const QPoint &pos)      //마우스 우�
 
 void ClientManagerForm::on_addPushButton_clicked()                                       //고객정보 입력 버튼을 누를 때
 {
-
     QString clientName, phoneNumber, address, email;
     int clientId = makeId( );
     ui->clientIdLineEdit->setText(QString::number(clientId));
@@ -143,35 +142,40 @@ void ClientManagerForm::on_modifyPushButton_clicked()                //수정 �
     QModelIndex index = ui->treeView->currentIndex();
     int molid = index.sibling(index.row(), 0).data().toInt();
 
-    QString clientName, phonenumber, address, email;
+    QString clientName, phoneNumber, address, email;
     clientName = ui->clientNameLineEdit->text();
-    phonenumber = ui->phoneNumberLineEdit->text();
+    phoneNumber = ui->phoneNumberLineEdit->text();
     address = ui->addressLineEdit->text();
     email = ui->emailLineEdit->text();
 
     int row = index.row();
     if(index.isValid()) {
-//        int id = clientModel->data(index.siblingAtColumn(0)).toInt();
+        //int id = clientModel->data(index.siblingAtColumn(0)).toInt();
 #if 1
 //        clientModel->setData(index.siblingAtColumn(0), id);
         clientModel->setData(index.siblingAtColumn(1), clientName);
-        clientModel->setData(index.siblingAtColumn(2), phonenumber);
+        clientModel->setData(index.siblingAtColumn(2), phoneNumber);
         clientModel->setData(index.siblingAtColumn(3), address);
         clientModel->setData(index.siblingAtColumn(4), email);
         clientModel->submit();
 #else
         QSqlQuery query(clientModel->database());
-        query.prepare("UPDATE client SET name = ?, phoneNumber = ?, address = ?, email = ?, WHERE id = ?");
-        query.bindValue(0, name);
-        query.bindValue(1, number);
+        query.prepare("UPDATE client SET clientName = ?, phoneNumber = ?, address = ?, email = ? WHERE id = ?");
+        query.bindValue(0, clientName);
+        query.bindValue(1, phoneNumber);
         query.bindValue(2, address);
         query.bindValue(3, email);
         query.bindValue(4, id);
         query.exec();
+
+        qDebug() << clientName;
+        qDebug() << id;
 #endif
         clientModel->select();
+
         //ui->treeView->resizeColumnsToContents();
     }
+
        emit clientModified (molid, row, clientName);               //고객 정보 수정시 sever client리스트도 같이 수정
 }
 
@@ -196,6 +200,7 @@ void ClientManagerForm::on_searchPushButton_clicked()           //고객 조회 
         for(int i = 0; i < ui->searchTreeWidget->columnCount(); i++)
             ui->searchTreeWidget->resizeColumnToContents(i);
     }
+    ui->searchTreeWidget->setFocus();
 }
 
 
