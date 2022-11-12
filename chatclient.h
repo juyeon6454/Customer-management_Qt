@@ -54,6 +54,7 @@ private slots:
 private:
     void closeEvent(QCloseEvent*) override;   //close 할 때 logout 타입과 name 데이터를 보냄
 
+    Ui::ChatClient *ui;
     QTcpSocket *clientSocket;                 // 클라이언트용 소켓
     QTcpSocket *fileClient;                   // 파일 전송 소켓
     QProgressDialog* progressDialog;          // 파일 진행 확인
@@ -63,7 +64,6 @@ private:
     qint64 totalSize;                         /*파일 사이즈*/
     QByteArray outBlock;                      //데이터
     bool isSent;
-    Ui::ChatClient *ui;
     ClientLogThread* clientLogThread;
 
     int flag = 0;                             //강퇴된 멤버에게 메세지가 보이지 않도록

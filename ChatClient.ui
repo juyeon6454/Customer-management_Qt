@@ -61,7 +61,7 @@
          <property name="orientation">
           <enum>Qt::Vertical</enum>
          </property>
-         <widget class="QWidget" name="">
+         <widget class="QWidget" name="layoutWidget">
           <layout class="QGridLayout" name="gridLayout">
            <item row="0" column="0">
             <layout class="QFormLayout" name="logformLayout">
@@ -126,11 +126,6 @@
           <column>
            <property name="text">
             <string>Port</string>
-           </property>
-          </column>
-          <column>
-           <property name="text">
-            <string>ID</string>
            </property>
           </column>
           <column>

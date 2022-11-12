@@ -38,8 +38,7 @@ void ClientLogThread::saveData()
             out << item->text(1) << ", ";
             out << item->text(2) << ", ";
             out << item->text(3) << ", ";
-            out << item->text(4) << ", ";
-            out << item->text(5) << "\n";                       //해당 형식으로 itemlist가 담긴 파일을 반환
+            out << item->text(4) << "\n";                       //해당 형식으로 itemlist가 담긴 파일을 반환
         }
         file.close();
     }
