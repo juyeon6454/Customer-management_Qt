@@ -187,32 +187,31 @@ void ClientManagerForm::on_searchPushButton_clicked()           //고객 조회 
     int i = ui->searchComboBox->currentIndex();                 //콤보박스 아이템을 인덱스로 받음
     auto flag = (i)? Qt::MatchCaseSensitive|Qt::MatchContains
                    : Qt::MatchCaseSensitive;
-    QModelIndexList indexes = clientModel->match(clientModel->index(0, i), Qt::EditRole, ui->searchLineEdit->text(), -1, Qt::MatchFlags(flag));
 
-    foreach(auto ix, indexes) {
-        int id = clientModel->data(ix.siblingAtColumn(0)).toInt(); //c->id();
-        QString name = clientModel->data(ix.siblingAtColumn(1)).toString();
-        QString number = clientModel->data(ix.siblingAtColumn(2)).toString();
-        QString address = clientModel->data(ix.siblingAtColumn(3)).toString();
-        QString email = clientModel->data(ix.siblingAtColumn(4)).toString();
-        QStringList strings;
-        strings << QString::number(id) << name << number << address <<email;
+        QModelIndexList indexes = clientModel->match(clientModel->index(0, i), Qt::EditRole, ui->searchLineEdit->text(), -1, flag);
+        foreach(auto ix, indexes) {
+            int id = clientModel->data(ix.siblingAtColumn(0)).toInt(); //c->id();
+            QString name = clientModel->data(ix.siblingAtColumn(1)).toString();
+            QString number = clientModel->data(ix.siblingAtColumn(2)).toString();
+            QString address = clientModel->data(ix.siblingAtColumn(3)).toString();
+            QString email = clientModel->data(ix.siblingAtColumn(4)).toString();
+            QStringList strings;
+            strings << QString::number(id) << name << number << address <<email;
 
-//        new QTreeWidgetItem(ui->searchTreeWidget, strings);
-//        for(int i = 0; i < ui->searchTreeWidget->columnCount(); i++)
-//            ui->searchTreeWidget->resizeColumnToContents(i);
-        QList<QStandardItem *> items;
-        for (int i = 0; i < 5; ++i) {
-            items.append(new QStandardItem(strings.at(i)));
+            QList<QStandardItem *> items;
+            for (int i = 0; i < 5; ++i) {
+                items.append(new QStandardItem(strings.at(i)));
+            }
+            s_clientModel->appendRow(items);
+
+            s_clientModel->setHeaderData(0, Qt::Horizontal, tr("ID"));
+            s_clientModel->setHeaderData(1, Qt::Horizontal, tr("Name"));
+            s_clientModel->setHeaderData(2, Qt::Horizontal, tr("PhoneNumber"));
+            s_clientModel->setHeaderData(3, Qt::Horizontal, tr("Address"));
+            s_clientModel->setHeaderData(4, Qt::Horizontal, tr("Email"));
+
         }
-        s_clientModel->appendRow(items);
 
-        s_clientModel->setHeaderData(0, Qt::Horizontal, tr("ID"));
-        s_clientModel->setHeaderData(1, Qt::Horizontal, tr("Name"));
-        s_clientModel->setHeaderData(2, Qt::Horizontal, tr("PhoneNumber"));
-        s_clientModel->setHeaderData(3, Qt::Horizontal, tr("Address"));
-        s_clientModel->setHeaderData(4, Qt::Horizontal, tr("Email"));
-    }
 }
 
 

@@ -401,48 +401,7 @@
             </layout>
            </item>
            <item>
-            <widget class="QTreeWidget" name="orderSearchTreeWidget_2">
-             <column>
-              <property name="text">
-               <string>Order ID</string>
-              </property>
-             </column>
-             <column>
-              <property name="text">
-               <string>Order Date</string>
-              </property>
-             </column>
-             <column>
-              <property name="text">
-               <string>Client Name</string>
-              </property>
-             </column>
-             <column>
-              <property name="text">
-               <string>Phone Number</string>
-              </property>
-             </column>
-             <column>
-              <property name="text">
-               <string>Address</string>
-              </property>
-             </column>
-             <column>
-              <property name="text">
-               <string>Product Name</string>
-              </property>
-             </column>
-             <column>
-              <property name="text">
-               <string>Order Quantity</string>
-              </property>
-             </column>
-             <column>
-              <property name="text">
-               <string>Total Price</string>
-              </property>
-             </column>
-            </widget>
+            <widget class="QTreeView" name="orderSearchTreeView_2"/>
            </item>
           </layout>
          </widget>

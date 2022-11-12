@@ -21,7 +21,7 @@
      </property>
      <widget class="QToolBox" name="toolBox">
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="inputPage">
        <property name="geometry">
@@ -195,28 +195,7 @@
          </widget>
         </item>
         <item>
-         <widget class="QTreeWidget" name="searchTreeWidget">
-          <column>
-           <property name="text">
-            <string>ID</string>
-           </property>
-          </column>
-          <column>
-           <property name="text">
-            <string>Name</string>
-           </property>
-          </column>
-          <column>
-           <property name="text">
-            <string>Price</string>
-           </property>
-          </column>
-          <column>
-           <property name="text">
-            <string>Stock</string>
-           </property>
-          </column>
-         </widget>
+         <widget class="QTreeView" name="searchTreeView"/>
         </item>
        </layout>
       </widget>

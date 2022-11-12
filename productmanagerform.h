@@ -12,6 +12,7 @@ class QMenu;
 class QTreeWidgetItem;
 class QSqlDatabase;
 class QSqlTableModel;
+class QStandardItemModel;
 
 namespace Ui {
 class ProductManagerForm;
@@ -60,6 +61,7 @@ private:
     Ui::ProductManagerForm *ui;
     QMenu* menu;
     QSqlTableModel* productModel;
+    QStandardItemModel* s_productModel;
 };
 
 #endif // PRODUCTMANAGER_H

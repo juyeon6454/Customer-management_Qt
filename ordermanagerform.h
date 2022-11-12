@@ -3,7 +3,7 @@
 
 #include <QWidget>
 #include <QHash>
-//#include <QSqlQueryModel>
+#include <QSqlQueryModel>
 
 //#include "orderitem.h"
 //#include "productitem.h"
@@ -14,6 +14,7 @@ class OrderItem;
 class QMenu;
 class QTreeWidgetItem;
 class QSqlTableModel;
+class QStandardItemModel;
 
 class ClientItem;
 class ProductItem;
@@ -84,6 +85,7 @@ private:
     Ui::OrderManagerForm *ui;
     QMenu* menu;
     QSqlTableModel* orderModel;
+    QStandardItemModel* s_orderModel;
 };
 
 #endif // ORDERMANAGERFORM_H

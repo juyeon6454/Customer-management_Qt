@@ -1,7 +1,5 @@
 #include "ordermanagerform.h"
-//#include "clientitem.h"
 #include "ui_ordermanagerform.h"
-//#include "orderitem.h"
 
 #include <QFile>
 #include <QMenu>
@@ -14,7 +12,7 @@
 #include <QSqlDatabase>
 #include <QSqlRecord>
 #include <QSqlError>
-
+#include <QStandardItemModel>
 
 OrderManagerForm::OrderManagerForm(QWidget *parent) :
     QWidget(parent),
@@ -35,6 +33,18 @@ OrderManagerForm::OrderManagerForm(QWidget *parent) :
     connect(ui->orderSearchTreeView, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(showContextMenu(QPoint)));
 
     ui->o_clientInfoTreeWidget->setContextMenuPolicy(Qt::CustomContextMenu);    //삭제 우클릭 메뉴
+
+    s_orderModel = new QStandardItemModel(0,8);
+    s_orderModel->setHeaderData(0, Qt::Horizontal, tr("OrderID"));
+    s_orderModel->setHeaderData(1, Qt::Horizontal, tr("OrderDate"));
+    s_orderModel->setHeaderData(2, Qt::Horizontal, tr("Client Name"));
+    s_orderModel->setHeaderData(3, Qt::Horizontal, tr("PhoneNumber"));
+    s_orderModel->setHeaderData(4, Qt::Horizontal, tr("Address"));
+    s_orderModel->setHeaderData(5, Qt::Horizontal, tr("Product Name"));
+    s_orderModel->setHeaderData(6, Qt::Horizontal, tr("Order Quantity"));
+    s_orderModel->setHeaderData(7, Qt::Horizontal, tr("Total Price"));
+    ui->orderSearchTreeView_2->setModel(s_orderModel);
+
 }
 
 void OrderManagerForm::loadData()                           //저장된 파일 로드
@@ -44,27 +54,25 @@ void OrderManagerForm::loadData()                           //저장된 파일 �
     if (db.open( )) {
         QSqlQuery query(db);
         query.exec("CREATE TABLE IF NOT EXISTS ordertable(\
-                   orderId INTEGER Primary Key,\
-                   orderDate VARCHAR(50),\
-                   clientName VARCHAR(30),\
-                   phoneNumber VARCHAR(20),\
-                   address VARCHAR(50),\
-                   productName VARCHAR(50),\
-                   orderQuantity VARCHAR(50),\
-                   totalPrice VARCHAR(50));");
-       qDebug() << query.lastError().text();
-       qDebug() << "1";
+                   OrderID INTEGER Primary Key,\
+                   OrderDate VARCHAR(50),\
+                   Client Name VARCHAR(30),\
+                   PhoneNumber VARCHAR(20),\
+                   Address VARCHAR(50),\
+                   Product Name VARCHAR(50),\
+                   Order Quantity VARCHAR(50),\
+                   Total Price VARCHAR(50));");
         orderModel = new QSqlTableModel(this, db);
         orderModel->setTable("ordertable");
         orderModel->select();
-        orderModel->setHeaderData(0, Qt::Horizontal, tr("orderId"));
-        orderModel->setHeaderData(1, Qt::Horizontal, tr("orderDate"));
-        orderModel->setHeaderData(2, Qt::Horizontal, tr("clientName"));
+        orderModel->setHeaderData(0, Qt::Horizontal, tr("OrderID"));
+        orderModel->setHeaderData(1, Qt::Horizontal, tr("OrderDate"));
+        orderModel->setHeaderData(2, Qt::Horizontal, tr("Client Name"));
         orderModel->setHeaderData(3, Qt::Horizontal, tr("PhoneNumber"));
-        orderModel->setHeaderData(4, Qt::Horizontal, tr("address"));
-        orderModel->setHeaderData(5, Qt::Horizontal, tr("productName"));
-        orderModel->setHeaderData(6, Qt::Horizontal, tr("orderQuantity"));
-        orderModel->setHeaderData(7, Qt::Horizontal, tr("totalPrice"));
+        orderModel->setHeaderData(4, Qt::Horizontal, tr("Address"));
+        orderModel->setHeaderData(5, Qt::Horizontal, tr("Product Name"));
+        orderModel->setHeaderData(6, Qt::Horizontal, tr("Order Quantity"));
+        orderModel->setHeaderData(7, Qt::Horizontal, tr("Total Price"));
         ui->orderSearchTreeView->setModel(orderModel);
     }
                                       //파일 열었으니 닫음
@@ -193,12 +201,12 @@ void OrderManagerForm::on_orderInputModifyPushButton_clicked()              //�
 
 void OrderManagerForm::on_orderSearchPushButton_clicked()       //주문 조회 버튼 클릭했을 때
 {
-    ui->orderSearchTreeWidget_2->clear();                       //lineEdit에 남아있을 정보를 지움
-
+    s_orderModel->clear();
+    //ui->orderSearchTreeView_2->reset();                       //lineEdit에 남아있을 정보를 지움
     int i = ui->orderSearchComboBox->currentIndex();            //콤보박스 아이템을 인덱스로 받음
     auto flag = (i)? Qt::MatchCaseSensitive|Qt::MatchContains
                    : Qt::MatchCaseSensitive;
-    QModelIndexList indexes = orderModel->match(orderModel->index(0, i), Qt::EditRole, ui->orderSearchLineEdit->text(), -1, Qt::MatchFlags(flag));
+    QModelIndexList indexes = orderModel->match(orderModel->index(0, i), Qt::EditRole, ui->orderSearchLineEdit->text(), -1, flag);
       //주문조회입력칸에 있는 텍스트를 뽑아 treewidget에서 아이템을 찾음
 
     foreach(auto ix, indexes) {                            //해당 인덱스에 있는 item으로 foreact 돌아서
@@ -212,12 +220,25 @@ void OrderManagerForm::on_orderSearchPushButton_clicked()       //주문 조회 
             QString totalPrice = orderModel->data(ix.siblingAtColumn(7)).toString();
             QStringList strings;
             strings << QString::number(orderId) << orderDate << clientName << phoneNumber <<address << productName <<orderQuantity <<totalPrice;
-            new QTreeWidgetItem(ui->orderSearchTreeWidget_2, strings);
-            for(int i = 0; i < ui->orderSearchTreeWidget_2->columnCount(); i++)
-                ui->orderSearchTreeWidget_2->resizeColumnToContents(i);
-        }
+//            new QTreeWidgetItem(ui->orderSearchTreeWidget_2, strings);
+//            for(int i = 0; i < ui->orderSearchTreeWidget_2->columnCount(); i++)
+//                ui->orderSearchTreeWidget_2->resizeColumnToContents(i);
+            QList<QStandardItem *> items;
+            for (int i = 0; i < 8; ++i) {
+                items.append(new QStandardItem(strings.at(i)));
+            }
+            s_orderModel->appendRow(items);
+            s_orderModel->setHeaderData(0, Qt::Horizontal, tr("OrderID"));
+            s_orderModel->setHeaderData(1, Qt::Horizontal, tr("OrderDate"));
+            s_orderModel->setHeaderData(2, Qt::Horizontal, tr("Client Name"));
+            s_orderModel->setHeaderData(3, Qt::Horizontal, tr("PhoneNumber"));
+            s_orderModel->setHeaderData(4, Qt::Horizontal, tr("Address"));
+            s_orderModel->setHeaderData(5, Qt::Horizontal, tr("Product Name"));
+            s_orderModel->setHeaderData(6, Qt::Horizontal, tr("Order Quantity"));
+            s_orderModel->setHeaderData(7, Qt::Horizontal, tr("Total Price"));
+    }
 
-    ui->orderSearchTreeWidget_2->setFocus();
+    ui->orderSearchTreeView_2->setFocus();
 }
 
 
@@ -367,12 +388,12 @@ void OrderManagerForm::on_o_productSearchLineEdit_returnPressed()   //enter를 �
 
 void OrderManagerForm::on_orderSearchLineEdit_returnPressed()   //enter 눌렀을 때 주문조회 되도록
 {
-    ui->orderSearchTreeWidget_2->clear();                       //lineEdit에 남아있을 정보를 지움
-
+    s_orderModel->clear();
+    //ui->orderSearchTreeView_2->reset();                       //lineEdit에 남아있을 정보를 지움
     int i = ui->orderSearchComboBox->currentIndex();            //콤보박스 아이템을 인덱스로 받음
     auto flag = (i)? Qt::MatchCaseSensitive|Qt::MatchContains
                    : Qt::MatchCaseSensitive;
-    QModelIndexList indexes = orderModel->match(orderModel->index(0, i), Qt::EditRole, ui->orderSearchLineEdit->text(), -1, Qt::MatchFlags(flag));
+    QModelIndexList indexes = orderModel->match(orderModel->index(0, i), Qt::EditRole, ui->orderSearchLineEdit->text(), -1, flag);
       //주문조회입력칸에 있는 텍스트를 뽑아 treewidget에서 아이템을 찾음
 
     foreach(auto ix, indexes) {                            //해당 인덱스에 있는 item으로 foreact 돌아서
@@ -386,12 +407,25 @@ void OrderManagerForm::on_orderSearchLineEdit_returnPressed()   //enter 눌렀�
             QString totalPrice = orderModel->data(ix.siblingAtColumn(7)).toString();
             QStringList strings;
             strings << QString::number(orderId) << orderDate << clientName << phoneNumber <<address << productName <<orderQuantity <<totalPrice;
-            new QTreeWidgetItem(ui->orderSearchTreeWidget_2, strings);
-            for(int i = 0; i < ui->orderSearchTreeWidget_2->columnCount(); i++)
-                ui->orderSearchTreeWidget_2->resizeColumnToContents(i);
-        }
+//            new QTreeWidgetItem(ui->orderSearchTreeWidget_2, strings);
+//            for(int i = 0; i < ui->orderSearchTreeWidget_2->columnCount(); i++)
+//                ui->orderSearchTreeWidget_2->resizeColumnToContents(i);
+            QList<QStandardItem *> items;
+            for (int i = 0; i < 8; ++i) {
+                items.append(new QStandardItem(strings.at(i)));
+            }
+            s_orderModel->appendRow(items);
+            s_orderModel->setHeaderData(0, Qt::Horizontal, tr("OrderID"));
+            s_orderModel->setHeaderData(1, Qt::Horizontal, tr("OrderDate"));
+            s_orderModel->setHeaderData(2, Qt::Horizontal, tr("Client Name"));
+            s_orderModel->setHeaderData(3, Qt::Horizontal, tr("PhoneNumber"));
+            s_orderModel->setHeaderData(4, Qt::Horizontal, tr("Address"));
+            s_orderModel->setHeaderData(5, Qt::Horizontal, tr("Product Name"));
+            s_orderModel->setHeaderData(6, Qt::Horizontal, tr("Order Quantity"));
+            s_orderModel->setHeaderData(7, Qt::Horizontal, tr("Total Price"));
+    }
 
-    ui->orderSearchTreeWidget_2->setFocus();
+    ui->orderSearchTreeView_2->setFocus();
 }
 
 

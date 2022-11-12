@@ -1,6 +1,5 @@
 #include "productmanagerform.h"
 #include "ui_productmanagerform.h"
-//#include "productitem.h"
 
 #include <QFile>
 #include <QMenu>
@@ -10,6 +9,7 @@
 #include <QTreeView>
 #include <QSqlDatabase>
 #include <QSqlRecord>
+#include <QStandardItemModel>
 
 ProductManagerForm::ProductManagerForm(QWidget *parent) :
     QWidget(parent),
@@ -30,6 +30,13 @@ ProductManagerForm::ProductManagerForm(QWidget *parent) :
 
     connect(ui->treeView, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(showContextMenu(QPoint)));
     connect(ui->searchLineEdit, SIGNAL(returnPressed()), this, SLOT(on_searchPushButton_clicked()));
+
+    s_productModel = new QStandardItemModel(0,4);
+    s_productModel->setHeaderData(0, Qt::Horizontal, tr("ID"));
+    s_productModel->setHeaderData(1, Qt::Horizontal, tr("Name"));
+    s_productModel->setHeaderData(2, Qt::Horizontal, tr("Price"));
+    s_productModel->setHeaderData(3, Qt::Horizontal, tr("Stock"));
+    ui->searchTreeView->setModel(s_productModel);
 }
 
 void ProductManagerForm::loadData()                                             //저장된 파일 로드
@@ -174,12 +181,13 @@ void ProductManagerForm::on_modifyPushButton_clicked()                //수정 �
 
 void ProductManagerForm::on_searchPushButton_clicked()           //상품 조회 버튼 클릭했을 때
 {
-    ui->searchTreeWidget->clear();                              //lineEdit에 남아있을 정보를 지움
+
+    s_productModel->clear();                          //lineEdit에 남아있을 정보를 지움
 
     int i = ui->searchComboBox->currentIndex();                 //콤보박스 아이템을 인덱스로 받음
     auto flag = (i)? Qt::MatchCaseSensitive|Qt::MatchContains
                    : Qt::MatchCaseSensitive;
-    QModelIndexList indexes = productModel->match(productModel->index(0, i), Qt::EditRole, ui->searchLineEdit->text(), -1, Qt::MatchFlags(flag));
+    QModelIndexList indexes = productModel->match(productModel->index(0, i), Qt::EditRole, ui->searchLineEdit->text(), -1, flag);
 
     foreach(auto ix, indexes) {
         int productId = productModel->data(ix.siblingAtColumn(0)).toInt(); //c->id();
@@ -188,9 +196,21 @@ void ProductManagerForm::on_searchPushButton_clicked()           //상품 조회
         QString stock = productModel->data(ix.siblingAtColumn(3)).toString();
         QStringList strings;
         strings << QString::number(productId) << productName << price << stock ;
-        new QTreeWidgetItem(ui->searchTreeWidget, strings);
-        for(int i = 0; i < ui->searchTreeWidget->columnCount(); i++)
-            ui->searchTreeWidget->resizeColumnToContents(i);
+//        new QTreeWidgetItem(ui->searchTreeWidget, strings);
+//        for(int i = 0; i < ui->searchTreeWidget->columnCount(); i++)
+//            ui->searchTreeWidget->resizeColumnToContents(i);
+
+    QList<QStandardItem *> items;
+    for (int i = 0; i < 4; ++i) {
+        items.append(new QStandardItem(strings.at(i)));
+    }
+
+    s_productModel->appendRow(items);
+    s_productModel->setHeaderData(0, Qt::Horizontal, tr("ID"));
+    s_productModel->setHeaderData(1, Qt::Horizontal, tr("Name"));
+    s_productModel->setHeaderData(2, Qt::Horizontal, tr("Price"));
+    s_productModel->setHeaderData(3, Qt::Horizontal, tr("Stock"));
+
     }
 }
 

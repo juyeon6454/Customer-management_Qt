@@ -1,12 +1,10 @@
 #ifndef CLIENTMANAGERFORM_H
 #define CLIENTMANAGERFORM_H
 
-//#include "clientitem.h"
 #include <QWidget>
 #include <QHash>
 #include <QSqlQueryModel>
 
-//class ClientItem;
 class QMenu;
 class QTreeWidgetItem;
 class QSqlDatabase;
@@ -55,8 +53,7 @@ private:
     Ui::ClientManagerForm *ui;
     QMenu* menu;
     QSqlTableModel* clientModel;
-    //QSqlTableModel* s_clientModel;
-     QStandardItemModel* s_clientModel;
+    QStandardItemModel* s_clientModel;
 
 };
 
