@@ -27,6 +27,13 @@ ChatClient::ChatClient(QWidget *parent) :
 {
     ui->setupUi(this);      //ui 파일이 만들어짐
 
+   // ui->widget->resize(800, 600);
+
+    QList<int> sizes;
+    sizes << 300 << 400;
+    ui->splitter->setSizes(sizes);
+
+
     QPixmap pix(":/images/a.png");                                          //ui에 보여지는 이미지 지정
     ui->label_pic->setPixmap(pix);
     int w = ui->label_pic->width();                                         //이미지의 폭
@@ -125,6 +132,8 @@ ChatClient::ChatClient(QWidget *parent) :
     clientLogThread = new ClientLogThread;
 
     clientLogThread->start();
+
+    resize (800, 500);
 }
 
 ChatClient::~ChatClient()           //소멸자
