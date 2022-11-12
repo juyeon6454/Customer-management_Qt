@@ -31,6 +31,14 @@ ClientManagerForm::ClientManagerForm(QWidget *parent) :
     connect(ui->treeView, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(showContextMenu(QPoint)));
     connect(ui->searchLineEdit, SIGNAL(returnPressed()), this, SLOT(on_searchPushButton_clicked()));
 
+    s_clientModel = new QStandardItemModel(0,5);
+    s_clientModel->setHeaderData(0, Qt::Horizontal, tr("ID"));
+    s_clientModel->setHeaderData(1, Qt::Horizontal, tr("Name"));
+    s_clientModel->setHeaderData(2, Qt::Horizontal, tr("PhoneNumber"));
+    s_clientModel->setHeaderData(3, Qt::Horizontal, tr("Address"));
+    s_clientModel->setHeaderData(4, Qt::Horizontal, tr("Email"));
+    ui->searchTreeView->setModel(s_clientModel);
+
 }
 
 void ClientManagerForm::loadData()                              //저장된 파일 로드
@@ -56,31 +64,6 @@ void ClientManagerForm::loadData()                              //저장된 파�
 
        emit clientAdded(clientId, clientName);
     }
-
-
-//    s_clientModel = new QStandardItemModel(0,5);
-//    s_clientModel->setHeaderData(0, Qt::Horizontal, tr("ID"));
-//    s_clientModel->setHeaderData(1, Qt::Horizontal, tr("Name"));
-//    s_clientModel->setHeaderData(2, Qt::Horizontal, tr("PhoneNumber"));
-//    s_clientModel->setHeaderData(3, Qt::Horizontal, tr("Address"));
-//    s_clientModel->setHeaderData(4, Qt::Horizontal, tr("Email"));
-//    ui->searchTreeView->setModel(s_clientModel);
-
-//    s_clientModel = new QSqlTableModel(this,db);
-//    s_clientModel->setHeaderData(0, Qt::Horizontal, tr("ID"));
-//    s_clientModel->setHeaderData(1, Qt::Horizontal, tr("Name"));
-//    s_clientModel->setHeaderData(2, Qt::Horizontal, tr("PhoneNumber"));
-//    s_clientModel->setHeaderData(3, Qt::Horizontal, tr("Address"));
-//    s_clientModel->setHeaderData(4, Qt::Horizontal, tr("Email"));
-//    ui->searchTreeView->setModel(s_clientModel);
-
-//    for(int i = 0; i < s_clientModel->rowCount(); i++) {
-//        int clientId = s_clientModel->data(s_clientModel->index(i, 0)).toInt();
-//        QString clientName = s_clientModel->data(s_clientModel->index(i, 1)).toString();
-
-//       emit clientAdded(clientId, clientName);
-//    }
-
 
 }
 
@@ -162,6 +145,7 @@ void ClientManagerForm::on_addPushButton_clicked()                              
         QMessageBox::critical(this, tr("Client Info"),                                   //메세지 박스로 다시 입력하게 함
                               tr("There is information that has not been entered."));
     }
+
     c_clearLineEdit();                                                                   //사용한 lineEdit 기록을 지움
 
 }
@@ -221,10 +205,14 @@ void ClientManagerForm::on_searchPushButton_clicked()           //고객 조회 
         for (int i = 0; i < 5; ++i) {
             items.append(new QStandardItem(strings.at(i)));
         }
-
         s_clientModel->appendRow(items);
-    }
 
+        s_clientModel->setHeaderData(0, Qt::Horizontal, tr("ID"));
+        s_clientModel->setHeaderData(1, Qt::Horizontal, tr("Name"));
+        s_clientModel->setHeaderData(2, Qt::Horizontal, tr("PhoneNumber"));
+        s_clientModel->setHeaderData(3, Qt::Horizontal, tr("Address"));
+        s_clientModel->setHeaderData(4, Qt::Horizontal, tr("Email"));
+    }
 }
 
 

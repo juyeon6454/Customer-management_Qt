@@ -55,7 +55,8 @@ private:
     Ui::ClientManagerForm *ui;
     QMenu* menu;
     QSqlTableModel* clientModel;
-    QStandardItemModel* s_clientModel;
+    //QSqlTableModel* s_clientModel;
+     QStandardItemModel* s_clientModel;
 
 };
 
