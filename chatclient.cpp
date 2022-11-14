@@ -198,15 +198,15 @@ void ChatClient::receiveData( )                                       // 서버�
 //        QTreeWidgetItem* item = new QTreeWidgetItem(ui->treeWidget);
 
 
-        item->setText(0, ip);                                                       //ip
-        item->setText(1, port);                                    //port
-        item->setText(2, "client");                                     //고객이름
-        item->setText(3, QString(data));                                            //보낸 메세지 내용
-        item->setText(4, QDateTime::currentDateTime().toString());                  //보낸 시간                                       //메세지가 길어질 경우 tooltip으로 메세지 내용 보여줌
+//        item->setText(0, ip);                                                       //ip
+//        item->setText(1, port);                                    //port
+//        item->setText(2, "client");                                     //고객이름
+//        item->setText(3, QString(data));                                            //보낸 메세지 내용
+//        item->setText(4, QDateTime::currentDateTime().toString());                  //보낸 시간                                       //메세지가 길어질 경우 tooltip으로 메세지 내용 보여줌
 
-        ui->treeWidget->addTopLevelItem(item);                               //로그를 위부터 순서대로 보여줌
+//        ui->treeWidget->addTopLevelItem(item);                               //로그를 위부터 순서대로 보여줌
 
-        clientLogThread->appendData(item);
+//        clientLogThread->appendData(item);
 
         }
         else{                                               // 대화가 아니라면
@@ -319,7 +319,7 @@ void ChatClient::sendData(  )                                                   
         char data[1020];        // 전송되는 메시지/데이터
         memset(data, 0, 1020);  // 크기가 아닌 쓰레기값을 0자체로 초기화
 
-        QString ip = ui->ipAddressLineEdit->text();
+/*        QString ip = ui->ipAddressLineEdit->text();
         QString port = ui->portNumLineEdit->text();
         QString clientName = ui->nameLineEdit->text();
         QString message = ui->messageLineEdit->text();
@@ -330,11 +330,11 @@ void ChatClient::sendData(  )                                                   
         item->setText(1, port);                                    //port
         item->setText(2, clientName);                                     //고객이름
         item->setText(3, message);                                            //보낸 메세지 내용
-        item->setText(4, QDateTime::currentDateTime().toString());                  //보낸 시간                                       //메세지가 길어질 경우 tooltip으로 메세지 내용 보여줌
+        item->setText(4, QDateTime::currentDateTime().toString());    */              //보낸 시간                                       //메세지가 길어질 경우 tooltip으로 메세지 내용 보여줌
 
-        ui->treeWidget->addTopLevelItem(item);                               //로그를 위부터 순서대로 보여줌
+//        ui->treeWidget->addTopLevelItem(item);                               //로그를 위부터 순서대로 보여줌
 
-        clientLogThread->appendData(item);
+//        clientLogThread->appendData(item);
     }
 }
 

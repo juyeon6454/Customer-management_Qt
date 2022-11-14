@@ -155,7 +155,7 @@ void ChatServerForm::receiveData( )                                             
                 sock->write(sendArray);                                                     //문자열을 write 함수를 통해 client로 전달
             }
         }
-
+/*
         QTreeWidgetItem* item = new QTreeWidgetItem(ui->messageTreeWidget);         //서버에 찍히는 로그 treewidget으로 아이템 관리
         item->setText(0, ip);                                                       //ip
         item->setText(1, QString::number(port));                                    //port
@@ -167,7 +167,7 @@ void ChatServerForm::receiveData( )                                             
 
         ui->messageTreeWidget->addTopLevelItem(item);                               //로그를 위부터 순서대로 보여줌
 
-        logThread->appendData(item);                                                //log 스레드로 item을 append (뒤에 문자열 추가)
+        logThread->appendData(item);      */                                          //log 스레드로 item을 append (뒤에 문자열 추가)
     }
         break;
     case Chat_Out:                                                                              /*채팅에서 나가는 프로토콜*/

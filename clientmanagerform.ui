@@ -20,8 +20,11 @@
       <enum>Qt::Horizontal</enum>
      </property>
      <widget class="QToolBox" name="toolBox">
+      <property name="focusPolicy">
+       <enum>Qt::TabFocus</enum>
+      </property>
       <property name="currentIndex">
-       <number>1</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="inputPage">
        <property name="geometry">
@@ -29,7 +32,7 @@
          <x>0</x>
          <y>0</y>
          <width>262</width>
-         <height>260</height>
+         <height>270</height>
         </rect>
        </property>
        <attribute name="label">
@@ -161,7 +164,7 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>259</width>
+         <width>262</width>
          <height>270</height>
         </rect>
        </property>
