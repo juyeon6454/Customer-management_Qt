@@ -20,8 +20,6 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
-//    bool createConnection();
-
 private slots:
     void on_actionClientInfo_triggered();
     void on_actionProductInfo_triggered();
