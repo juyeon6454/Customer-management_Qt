@@ -39,6 +39,7 @@ ClientManagerForm::ClientManagerForm(QWidget *parent) :
     s_clientModel->setHeaderData(4, Qt::Horizontal, tr("Email"));
     ui->searchTreeView->setModel(s_clientModel);
 
+
 }
 
 void ClientManagerForm::loadData()                              //저장된 파일 로드

@@ -1,13 +1,10 @@
 #ifndef PRODUCTMANAGERFORMH_H
 #define PRODUCTMANAGERFORM_H
 
-//#include "productitem.h"
 #include <QWidget>
 #include <QHash>
 #include <QSqlQueryModel>
 
-
-//class ProductItem;
 class QMenu;
 class QTreeWidgetItem;
 class QSqlDatabase;
@@ -35,15 +32,15 @@ private slots:
     void on_addPushButton_clicked();                                    //입력 버튼 누를 때
     void on_modifyPushButton_clicked();                                 //수정 버튼 누를 때
     void on_searchPushButton_clicked();                                 //조회 버튼 누를 때
-    void on_clearPushButton_clicked();  //clear 버튼 눌렀을 때
+    void on_clearPushButton_clicked();                                  //clear 버튼 눌렀을 때
     void on_treeView_clicked(const QModelIndex &index);
 
     void showContextMenu(const QPoint &);
-    void removeItem();                      //action을 위한 slots
+    void removeItem();                                                  //action을 위한 slots
 
     void findProduct(int, QString);
     void findProduct(int, int);
-    void stockFinded(int);       //order에서 signal이 오면 stock 값을 찾음
+    void stockFinded(int);                                              //order에서 signal이 오면 stock 값을 찾음
 
 
 signals:
@@ -53,11 +50,10 @@ signals:
     void productModified(int, int, QString);     //server에 수정된 고객 정보 연동
 
     void sendProduct(int, QString, QString, QString);
-    void stockSended(int);              // 찾은 stock 값을 보내줌
+    void stockSended(int);                               // 찾은 stock 값을 보내줌
 
 private:
     int makeId();                       // 아이디 자동 부여
-    //QMap<int, ProductItem*> productList;
     Ui::ProductManagerForm *ui;
     QMenu* menu;
     QSqlTableModel* productModel;

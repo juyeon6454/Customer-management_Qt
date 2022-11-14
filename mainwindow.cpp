@@ -51,13 +51,11 @@ MainWindow::MainWindow(QWidget *parent)
     connect(orderForm, SIGNAL(searchClient(int, QString)), clientForm, SLOT(findClient(int,QString)));
     connect(orderForm, SIGNAL(searchClient(int, int)), clientForm, SLOT(findClient(int, int)));
     connect(clientForm, SIGNAL(sendClient(int, QString, QString, QString,QString)),orderForm, SLOT(showClient(int,QString, QString, QString,QString)));
-
     /*order에서 client 정보를 요청하면 client 정보를 찾아서 order 고객정보조회 lienedit로 받아감*/
 
     connect(orderForm, SIGNAL(searchProduct(int, QString)), productForm, SLOT(findProduct(int,QString)));
     connect(orderForm, SIGNAL(searchProduct(int, int)), productForm, SLOT(findProduct(int, int)));
     connect(productForm, SIGNAL(sendProduct(int, QString, QString, QString)),orderForm, SLOT(showProduct(int,QString, QString, QString)));
-
     /*order에서 product 정보를 요청하면 product 정보를 찾아서 order 상품정보조회 lienedit로 받아감*/
 
     connect(clientForm, SIGNAL(clientAdded(int, QString)), serverForm, SLOT(addClient(int, QString)));

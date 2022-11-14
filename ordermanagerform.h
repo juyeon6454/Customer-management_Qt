@@ -5,11 +5,6 @@
 #include <QHash>
 #include <QSqlQueryModel>
 
-//#include "orderitem.h"
-//#include "productitem.h"
-//#include "clientmanagerform.h"
-//#include "productmanagerform.h"
-
 class OrderItem;
 class QMenu;
 class QTreeWidgetItem;
@@ -67,7 +62,6 @@ private slots:
 
 signals:
       /*콤보박스를 통해 검색한 내용으로 고객 정보를 찾아달라는 signal*/
-
       void searchClient(int, QString);
       void searchClient(int, int);
 
@@ -76,12 +70,11 @@ signals:
      /*콤보박스를 통해 검색한 내용으로 상품 정보를 찾아달라는 signal*/
 
       void stockSearched(int);                  //재고량 검색 signal
-      //void getClientInfo(int);
-private:
-    int makeId();                       //id 자동부여
-    QString currentDateTime();          //날짜 시간 자동부여
 
-    //QMap<int, OrderItem*> orderList;    //map으로 orderlist관리
+private:
+    int makeId();                              //id 자동부여
+    QString currentDateTime();                 //날짜 시간 자동부여
+
     Ui::OrderManagerForm *ui;
     QMenu* menu;
     QSqlTableModel* orderModel;

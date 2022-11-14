@@ -135,9 +135,13 @@ void OrderManagerForm::on_oderInputAddPushButton_clicked()                      
         productName = ui->productNameLineEdit->text();                                                  /*lineEdit에 입력된 텍스트*/
         orderQuantity = ui->orderQuantitySpinBox->text();                                               //주문수량 spinbox로 뽑아옴
 
+        if(ui->o_productInfoTreeWidget->currentItem() != nullptr) {
+
         int s = ui->o_productInfoTreeWidget->currentItem()->text(3).toInt();                            //상품 조회 treewidget에서 stock값을 뽑아서 spinbox 제한값 범위 지
         ui->orderQuantitySpinBox->setRange(1,s);                                                        //최소값 1 최대값 s (물품 재고량에 따라 달라짐)
-        totalPrice = ui->totalPriceLineEdit->text();                                                    //totalPrice spinbox 변화에 따른 값이 나타남
+        totalPrice = ui->totalPriceLineEdit->text();
+        }
+        //totalPrice spinbox 변화에 따른 값이 나타남
 
         QSqlDatabase db = QSqlDatabase::database("orderConnection");
         if(db.isOpen()&&clientName.length()&&phoneNumber.length()&&address.length()&& productName.length() ) {                //비어있는 값이 있으면
@@ -152,13 +156,13 @@ void OrderManagerForm::on_oderInputAddPushButton_clicked()                      
             query.bindValue(6, orderQuantity);
             query.bindValue(7, totalPrice);
             query.exec();
+            orderModel->select();
         }
         else
        {
             QMessageBox::critical(this, tr("Order Info"), \
                                   tr("There is information that has not been entered."));                                               //메세지 박스로 다시 입력하게 함
         }
-        orderModel->select();
         o_clearLineEdit();                                                                                                               //사용한 lineEdit 기록을 지움
 }
 
@@ -171,10 +175,13 @@ void OrderManagerForm::on_orderInputModifyPushButton_clicked()              //�
     address = ui->addressLineEdit->text();
     productName = ui->productNameLineEdit->text();
     orderQuantity = ui->orderQuantitySpinBox->text();                   /*key 값을 통해 아이템의 정보들을 해당칸에 나타냄*/                                 //수정할 때 다시 계산한 값이 들어가도록 원래 값 비워줌
-    int x = ui->orderQuantitySpinBox->text().toInt();                   //spinbox 값 x
+    int x = ui->orderQuantitySpinBox->text().toInt();
+     if(ui->o_productInfoTreeWidget->currentItem() != nullptr)
+         {//spinbox 값 x
     int y = ui->o_productInfoTreeWidget->currentItem()->text(2).toInt();//상품 가격 y
     totalPrice = QString::number(x*y);                                  //totalPrice x*y
-    ui->totalPriceLineEdit->setText(totalPrice);                        //계산한 값을 해당 lineEdit에 나타냄
+    ui->totalPriceLineEdit->setText(totalPrice);
+    }//계산한 값을 해당 lineEdit에 나타냄
     if(index.isValid()) {
 #if 1
         orderModel->setData(index.siblingAtColumn(2), clientName);
@@ -196,6 +203,12 @@ void OrderManagerForm::on_orderInputModifyPushButton_clicked()              //�
 #endif
         orderModel->select();
         //ui->treeView->resizeColumnsToContents();
+    }
+
+    else
+   {
+        QMessageBox::critical(this, tr("Order Info"), \
+                              tr("There is information that has not been entered."));                                               //메세지 박스로 다시 입력하게 함
     }
 }
 

@@ -19,6 +19,7 @@
 #include <QFileInfo>
 #include <QProgressDialog>
 #include <QPixmap>
+#include <QTreeWidgetItem>
 
 #define BLOCK_SIZE      1024
 
@@ -31,7 +32,7 @@ ChatClient::ChatClient(QWidget *parent) :
     sizes << 300 << 400;
     ui->splitter->setSizes(sizes);
 
-    QPixmap pix(":/images/a.png");                                          //ui에 보여지는 이미지 지정
+    QPixmap pix(":/images/a.png");                                          //ui에 보여지는 이미지 경로 설정
     ui->label_pic->setPixmap(pix);
     int w = ui->label_pic->width();                                         //이미지의 폭
     int h = ui->label_pic->height();                                        //이미지의 높이
@@ -92,17 +93,17 @@ ChatClient::ChatClient(QWidget *parent) :
             ui->ipAddressLineEdit->setDisabled(true);                               // ip, 포트번호 입력칸 비활성화
             ui->portNumLineEdit->setDisabled(true);
 
-            QTreeWidgetItem* item = new QTreeWidgetItem(ui->treeWidget);
+            QTreeWidgetItem* item = new QTreeWidgetItem;
             QString ip = ui->ipAddressLineEdit->text();
             QString port = ui->portNumLineEdit->text();
             QString clientName = ui->nameLineEdit->text();
-            item->setText(0, ip);                                                       //ip
-            item->setText(1, port);                                    //port
+            item->setText(0, ip);                                             //ip
+            item->setText(1, port);                                           //port
             item->setText(2, clientName);                                     //고객이름
-            item->setText(3, "chat in");                                            //보낸 메세지 내용
-            item->setText(4, QDateTime::currentDateTime().toString());                  //보낸 시간
+            item->setText(3, "chat in");                                      //보낸 메세지 내용
+            item->setText(4, QDateTime::currentDateTime().toString());        //보낸 시간
 
-            ui->treeWidget->addTopLevelItem(item);                               //로그를 위부터 순서대로 보여줌
+            //ui->treeWidget->addTopLevelItem(item);                            //로그를 위부터 순서대로 보여줌
 
             clientLogThread->appendData(item);
 
@@ -116,17 +117,17 @@ ChatClient::ChatClient(QWidget *parent) :
             ui->ipAddressLineEdit->setEnabled(true);                                // ip, 포트번호 입력칸 활성화
             ui->portNumLineEdit->setEnabled(true);
 
-            QTreeWidgetItem* itemm = new QTreeWidgetItem(ui->treeWidget);         //서버에 찍히는 로그 treewidget으로 아이템 관리
+            QTreeWidgetItem* itemm = new QTreeWidgetItem;         //서버에 찍히는 로그 treewidget으로 아이템 관리
             QString ipp = ui->ipAddressLineEdit->text();
             QString portt = ui->portNumLineEdit->text();
             QString clientNamee = ui->nameLineEdit->text();
-            itemm->setText(0, ipp);                                                       //ip
-            itemm->setText(1, portt);                                    //port
-            itemm->setText(2, clientNamee);                                     //고객이름
-            itemm->setText(3, "chat out");                                            //보낸 메세지 내용
-            itemm->setText(4, QDateTime::currentDateTime().toString());                  //보낸 시간
+            itemm->setText(0, ipp);                                              //ip
+            itemm->setText(1, portt);                                            //port
+            itemm->setText(2, clientNamee);                                      //고객이름
+            itemm->setText(3, "chat out");                                       //보낸 메세지 내용
+            itemm->setText(4, QDateTime::currentDateTime().toString());          //보낸 시간
 
-            ui->treeWidget->addTopLevelItem(itemm);                               //로그를 위부터 순서대로 보여줌
+            //ui->treeWidget->addTopLevelItem(itemm);                              //로그를 위부터 순서대로 보여줌
 
             clientLogThread->appendData(itemm);
 
@@ -138,6 +139,7 @@ ChatClient::ChatClient(QWidget *parent) :
 
     clientLogThread = new ClientLogThread;
 
+   // ui->treeWidget->hide();
     clientLogThread->start();
 
     resize (800, 500);
@@ -177,7 +179,7 @@ void ChatClient::receiveData( )                                       // 서버�
     QString port = ui->portNumLineEdit->text();
     QString clientName = ui->nameLineEdit->text();
     QString message = ui->messageLineEdit->text();
-    QTreeWidgetItem* item = new QTreeWidgetItem(ui->treeWidget);         //서버에 찍히는 로그 treewidget으로 아이템 관리
+    QTreeWidgetItem* item = new QTreeWidgetItem;         //서버에 찍히는 로그 treewidget으로 아이템 관리
     switch(type) {
     case Chat_Talk:                                     // 온 패킷의 타입이 대화 시작 이면
         qDebug() << "here";
@@ -233,7 +235,7 @@ void ChatClient::receiveData( )                                       // 서버�
         //item->setText(4, QString(data));                                            //보낸 메세지 내용
         item->setText(4, QDateTime::currentDateTime().toString());                  //보낸 시간
 
-        ui->treeWidget->addTopLevelItem(item);                               //로그를 위부터 순서대로 보여줌
+       // ui->treeWidget->addTopLevelItem(item);                               //로그를 위부터 순서대로 보여줌
 
         clientLogThread->appendData(item);
         break;
@@ -252,7 +254,7 @@ void ChatClient::receiveData( )                                       // 서버�
         item->setText(3, "invite");                                       //보낸 메세지 내용
         item->setText(4, QDateTime::currentDateTime().toString());                  //보낸 시간
 
-        ui->treeWidget->addTopLevelItem(item);                               //로그를 위부터 순서대로 보여줌
+        //ui->treeWidget->addTopLevelItem(item);                               //로그를 위부터 순서대로 보여줌
 
         clientLogThread->appendData(item);
 
@@ -273,7 +275,7 @@ void ChatClient::receiveData( )                                       // 서버�
         //item->setText(4, QString(data));                                            //보낸 메세지 내용
         item->setText(4, QDateTime::currentDateTime().toString());                  //보낸 시간
 
-        ui->treeWidget->addTopLevelItem(item);                               //로그를 위부터 순서대로 보여줌
+        //ui->treeWidget->addTopLevelItem(item);                               //로그를 위부터 순서대로 보여줌
 
         clientLogThread->appendData(item);
 
@@ -319,22 +321,21 @@ void ChatClient::sendData(  )                                                   
         char data[1020];        // 전송되는 메시지/데이터
         memset(data, 0, 1020);  // 크기가 아닌 쓰레기값을 0자체로 초기화
 
-/*        QString ip = ui->ipAddressLineEdit->text();
+        QString ip = ui->ipAddressLineEdit->text();
         QString port = ui->portNumLineEdit->text();
         QString clientName = ui->nameLineEdit->text();
         QString message = ui->messageLineEdit->text();
-        QTreeWidgetItem* item = new QTreeWidgetItem(ui->treeWidget);
+        QTreeWidgetItem* item = new QTreeWidgetItem;
 
 
         item->setText(0, ip);                                                       //ip
         item->setText(1, port);                                    //port
         item->setText(2, clientName);                                     //고객이름
         item->setText(3, message);                                            //보낸 메세지 내용
-        item->setText(4, QDateTime::currentDateTime().toString());    */              //보낸 시간                                       //메세지가 길어질 경우 tooltip으로 메세지 내용 보여줌
+        item->setText(4, QDateTime::currentDateTime().toString());                 //보낸 시간                                       //메세지가 길어질 경우 tooltip으로 메세지 내용 보여줌
 
 //        ui->treeWidget->addTopLevelItem(item);                               //로그를 위부터 순서대로 보여줌
-
-//        clientLogThread->appendData(item);
+        clientLogThread->appendData(item);
     }
 }
 
@@ -411,14 +412,14 @@ void ChatClient::on_logInPushButton_clicked()                                   
     QString port = ui->portNumLineEdit->text();
     QString clientName = ui->nameLineEdit->text();
 
-    QTreeWidgetItem* item = new QTreeWidgetItem(ui->treeWidget);         //서버에 찍히는 로그 treewidget으로 아이템 관리
+    QTreeWidgetItem* item = new QTreeWidgetItem;         //서버에 찍히는 로그 treewidget으로 아이템 관리
     item->setText(0, ip);                                                       //ip
     item->setText(1, port);                                    //port
     item->setText(2, clientName);                                     //고객이름
     item->setText(3, "Log in");                                            //보낸 메세지 내용
     item->setText(4, QDateTime::currentDateTime().toString());                  //보낸 시간
 
-    ui->treeWidget->addTopLevelItem(item);                               //로그를 위부터 순서대로 보여줌
+/*    ui->treeWidget->addTopLevelItem(item);    */                           //로그를 위부터 순서대로 보여줌
 
     clientLogThread->appendData(item);
 
@@ -433,14 +434,14 @@ void ChatClient::on_logOutPushButton_clicked()                                  
     QString port = ui->portNumLineEdit->text();
     QString clientName = ui->nameLineEdit->text();
 
-    QTreeWidgetItem* item = new QTreeWidgetItem(ui->treeWidget);         //서버에 찍히는 로그 treewidget으로 아이템 관리
+    QTreeWidgetItem* item = new QTreeWidgetItem;         //서버에 찍히는 로그 treewidget으로 아이템 관리
     item->setText(0, ip);                                                       //ip
     item->setText(1, port);                                    //port
     item->setText(2, clientName);                                     //고객이름
     item->setText(3, "Log out");                                            //보낸 메세지 내용
     item->setText(4, QDateTime::currentDateTime().toString());                  //보낸 시간
-
-    ui->treeWidget->addTopLevelItem(item);                               //로그를 위부터 순서대로 보여줌
+/*
+    ui->treeWidget->addTopLevelItem(item);       */                        //로그를 위부터 순서대로 보여줌
 
     clientLogThread->appendData(item);
 }

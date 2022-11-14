@@ -32,7 +32,7 @@
          <x>0</x>
          <y>0</y>
          <width>262</width>
-         <height>270</height>
+         <height>260</height>
         </rect>
        </property>
        <attribute name="label">
@@ -164,7 +164,7 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>262</width>
+         <width>259</width>
          <height>270</height>
         </rect>
        </property>
@@ -251,6 +251,9 @@
          </property>
          <attribute name="headerCascadingSectionResizes">
           <bool>false</bool>
+         </attribute>
+         <attribute name="headerDefaultSectionSize">
+          <number>75</number>
          </attribute>
          <attribute name="headerHighlightSections">
           <bool>false</bool>
