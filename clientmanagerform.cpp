@@ -42,7 +42,7 @@ ClientManagerForm::ClientManagerForm(QWidget *parent) :
 
 }
 
-void ClientManagerForm::loadData()                              //저장된 파일 로드
+void ClientManagerForm::loadData()                                                  //저장된 파일 로드
 {
     QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE", "clientConnection");     //SQLITE를 이용한 database 생성
     db.setDatabaseName("clientlist.db");                                            //database 이름 clientList.db
@@ -50,7 +50,7 @@ void ClientManagerForm::loadData()                              //저장된 파�
         QSqlQuery query(db);
         query.exec("CREATE TABLE IF NOT EXISTS client(id INTEGER Primary Key, name VARCHAR(30) NOT NULL, phoneNumber VARCHAR(20) NOT NULL, address VARCHAR(50), email VARCHAR(50));");
         clientModel = new QSqlTableModel(this, db);
-        clientModel->setTable("client");                                    //query문을 이용해 table 생성
+        clientModel->setTable("client");                                            //query문을 이용해 table 생성
         clientModel->select();
         clientModel->setHeaderData(0, Qt::Horizontal, tr("ID"));
         clientModel->setHeaderData(1, Qt::Horizontal, tr("Name"));
@@ -95,14 +95,10 @@ void ClientManagerForm::removeItem()                            //clinet remove
     QModelIndex index = ui->treeView->currentIndex();
     int delid = index.sibling(index.row(), 0).data().toInt();   //treewidget에서 현재  item을 인덱스와 row로 뽑아냄
     int row = index.row();                                      //sever clientlist에 보내기 위한 signal 인자
+
     if(index.isValid()) {
         clientModel->removeRow(index.row());                    //model에서 열을 지움
         clientModel->select();
-    }
-    else
-    {
-        QMessageBox::critical(this, tr("Client Info"),                                   //메세지 박스로 client가 선택되지 않음을 알림
-                              tr("There is information that has not been entered."));
     }
     emit clientRemoved (delid, QString::number(row));            //sever clientlist로 signal 보냄
     c_clearLineEdit();                                           //lineEdit에 남은 기록을 지움
@@ -124,7 +120,7 @@ void ClientManagerForm::on_addPushButton_clicked()                              
     clientName = ui->clientNameLineEdit->text();
     phoneNumber = ui->phoneNumberLineEdit->text();
     address = ui->addressLineEdit->text();
-    email = ui->emailLineEdit->text();                                                  //lineEdit에 존재하는 text들이
+    email = ui->emailLineEdit->text();                                                  //lineEdit에 입력된 text들
 
     QSqlDatabase db = QSqlDatabase::database("clientConnection");
     if(db.isOpen() && clientName.length() && phoneNumber.length() && address.length()) {//lineEdit이 비어있을 경우를 위한 예외처리
@@ -152,20 +148,20 @@ void ClientManagerForm::on_addPushButton_clicked()                              
 void ClientManagerForm::on_modifyPushButton_clicked()                //수정 버튼 눌렀을 때
 {
     QModelIndex index = ui->treeView->currentIndex();
-    int molid = index.sibling(index.row(), 0).data().toInt();       //수정되었을 때 server의 clientList가 같이 수정되도록
+    int molid = index.sibling(index.row(), 0).data().toInt();       //수정되었을 때 server의 clientList가 같이 수정되도록 변수 설정
     int row = index.row();
 
     QString clientName, phoneNumber, address, email;
     clientName = ui->clientNameLineEdit->text();
     phoneNumber = ui->phoneNumberLineEdit->text();
     address = ui->addressLineEdit->text();
-    email = ui->emailLineEdit->text();                             //lineEdit에 있는text들을
+    email = ui->emailLineEdit->text();                              //lineEdit에 있는 text
 
     if(index.isValid() && clientName.length() && phoneNumber.length() && address.length() &&email.length()) {
         clientModel->setData(index.siblingAtColumn(1), clientName);
         clientModel->setData(index.siblingAtColumn(2), phoneNumber);
         clientModel->setData(index.siblingAtColumn(3), address);
-        clientModel->setData(index.siblingAtColumn(4), email);       //clientModel에 데이터가 입력되도록
+        clientModel->setData(index.siblingAtColumn(4), email);      //clientModel에 데이터가 입력되도록
         clientModel->submit();
         clientModel->select();
         emit clientModified (molid, row, clientName);               //고객 정보 수정시 sever client리스트도 같이 수정
@@ -201,15 +197,12 @@ void ClientManagerForm::on_searchPushButton_clicked()           //고객 조회 
                 items.append(new QStandardItem(strings.at(i)));
             }                                                                               //for문을 돌면서 standardItem에 item을 append 해줌
             s_clientModel->appendRow(items);
-
             s_clientModel->setHeaderData(0, Qt::Horizontal, tr("ID"));
             s_clientModel->setHeaderData(1, Qt::Horizontal, tr("Name"));
             s_clientModel->setHeaderData(2, Qt::Horizontal, tr("PhoneNumber"));
             s_clientModel->setHeaderData(3, Qt::Horizontal, tr("Address"));
             s_clientModel->setHeaderData(4, Qt::Horizontal, tr("Email"));                   //생성된 모델에 대한 header 명을 입력
-
         }
-
 }
 
 
