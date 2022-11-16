@@ -177,18 +177,20 @@ void ClientManagerForm::on_modifyPushButton_clicked()                //수정 �
 
 void ClientManagerForm::on_searchPushButton_clicked()           //고객 조회 버튼 클릭했을 때
 {
+
     s_clientModel->clear();                                     //lineEdit에 남아있을 정보를 지움
+
     int i = ui->searchComboBox->currentIndex();                 //콤보박스 아이템을 인덱스로 받음
     auto flag = (i)? Qt::MatchCaseSensitive|Qt::MatchContains
                    : Qt::MatchCaseSensitive;                    //데이터를 찾을 때 해당 단어가 있으면 찾아주도록 하는 속성
-
         QModelIndexList indexes = clientModel->match(clientModel->index(0, i), Qt::EditRole, ui->searchLineEdit->text(), -1, flag);
         foreach(auto ix, indexes) {
             int id = clientModel->data(ix.siblingAtColumn(0)).toInt(); //c->id();
             QString name = clientModel->data(ix.siblingAtColumn(1)).toString();
             QString number = clientModel->data(ix.siblingAtColumn(2)).toString();
             QString address = clientModel->data(ix.siblingAtColumn(3)).toString();
-            QString email = clientModel->data(ix.siblingAtColumn(4)).toString();            //model에 있는 data에서 해당 칼럼의 있는 값들을 가져옴
+            QString email = clientModel->data(ix.siblingAtColumn(4)).toString();
+            //model에 있는 data에서 해당 칼럼의 있는 값들을 가져옴
             QStringList strings;
             strings << QString::number(id) << name << number << address <<email;            //string에 해당 값들을 넣어줌
 
