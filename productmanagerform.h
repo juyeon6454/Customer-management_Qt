@@ -28,7 +28,6 @@ public:
 
 private slots:
     /* QTreeWidget을 위한 슬롯 */
-
     void on_addPushButton_clicked();                                    //입력 버튼 누를 때
     void on_modifyPushButton_clicked();                                 //수정 버튼 누를 때
     void on_searchPushButton_clicked();                                 //조회 버튼 누를 때
