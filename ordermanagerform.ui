@@ -339,7 +339,14 @@
          <property name="orientation">
           <enum>Qt::Vertical</enum>
          </property>
-         <widget class="QTreeView" name="orderSearchTreeView"/>
+         <widget class="QTreeView" name="orderSearchTreeView">
+          <property name="alternatingRowColors">
+           <bool>true</bool>
+          </property>
+          <property name="sortingEnabled">
+           <bool>false</bool>
+          </property>
+         </widget>
          <widget class="QWidget" name="layoutWidget">
           <layout class="QVBoxLayout" name="orderSearchVerticalLayout">
            <item>
@@ -401,7 +408,11 @@
             </layout>
            </item>
            <item>
-            <widget class="QTreeView" name="orderSearchTreeView_2"/>
+            <widget class="QTreeView" name="orderSearchTreeView_2">
+             <property name="alternatingRowColors">
+              <bool>true</bool>
+             </property>
+            </widget>
            </item>
           </layout>
          </widget>
