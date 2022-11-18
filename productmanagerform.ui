@@ -24,14 +24,14 @@
        <enum>Qt::NoFocus</enum>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="inputPage">
        <property name="geometry">
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>470</width>
+         <width>464</width>
          <height>306</height>
         </rect>
        </property>
@@ -151,7 +151,7 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>470</width>
+         <width>464</width>
          <height>306</height>
         </rect>
        </property>
