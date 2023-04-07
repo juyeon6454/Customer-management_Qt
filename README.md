@@ -4,4 +4,4 @@
 
 Qt gui framework
 
-DataBase(SQL) 사용하여 data 관리
+DataBase(SQLite) 사용하여 data 관리
